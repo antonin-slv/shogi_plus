@@ -1,5 +1,5 @@
 EXEC = bin/shogi
-CC = g++	
+CC = g++
 FLAGS = -Wall -g
 
 all: $(EXEC)

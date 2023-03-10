@@ -2,7 +2,7 @@
 #define _PIECE_H_
 
 
-enum typePiece {PION, TOUR, CAVALIER, FOU, REINE, ROI};
+enum typePiece {PION, TOUR, CAVALIER, FOU, REINE, ROI,NONDEF};
 
 class Piece
 {   private :
@@ -11,9 +11,11 @@ class Piece
     public :
         Piece();
         Piece(typePiece t, bool c);
-        
-        typePiece getType();
-        bool getCouleur();
+        Piece(const Piece & p);
+        Piece(const Piece * p);
+
+        typePiece getType() const;
+        bool getCouleur() const;
 };
 
 #endif
