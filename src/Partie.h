@@ -4,18 +4,18 @@
 #include "Plateau.h"
 #include "Piece.h"
 
-class Parties
+class Partie
 {   private : 
         Plateau * plat;
         Joueur j1;
         Joueur j2;
 
     public :
-        /*
-        Parties();
-        Parties(Plateau * p, Joueur j1, Joueur j2);
-        Parties(const Parties & p);
-        Parties(const Parties * p);
+        
+        Partie();
+        Partie(Plateau * p, Joueur j1, Joueur j2);
+        Partie(const Parties & p);
+        Partie(const Parties * p);
 
         Plateau * getPlateau();
         Joueur getJoueur1();

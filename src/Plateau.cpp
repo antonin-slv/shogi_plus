@@ -26,6 +26,6 @@ unsigned int Plateau::getNbPieces() { return nb_pieces; }
 
 Piece * Plateau::getPiece(unsigned int x, unsigned int y) const
 {   assert((x < dimx) && (y < dimy));
-    return tab_piece[x][y]; 
+    return tab_piece[x][y];
 }
 
