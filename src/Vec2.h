@@ -7,9 +7,9 @@ class Vec2			// un struct suffit ici (mais une classe irait aussi)
 		
 		Vec2(int _x=0, int _y=0);
 		
-
-		Vec2 operator+=(Vec2);
-
+		void operator=(Vec2);
+		void operator+=(Vec2);
+		void operator-=(Vec2);
 };
 
 Vec2 operator+(Vec2, Vec2);

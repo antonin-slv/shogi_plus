@@ -42,7 +42,10 @@ private:
 
 
 int main()
-{
+{	Vec2 v1(1,2);
+	Vec2 v2(3,4);
+	v1 += v2;
+	cout << v1.x << " " << v1.y << endl;
 	
 	return 0;
 }
@@ -63,5 +66,4 @@ private:
 	void affichage() const;
 };
 */
-
 

@@ -26,9 +26,22 @@ bool operator!=(Vec2 v1, Vec2 v2)
     return !(v1 == v2);
 }
 
-Vec2 Vec2::operator+=(Vec2 v)
+void Vec2::operator+=(Vec2 v)
 {
     x += v.x;
     y += v.y;
-    return *this;
+
+}
+
+void Vec2::operator-=(Vec2 v)
+{
+    x -= v.x;
+    y -= v.y;
+
+}
+
+void Vec2::operator=(Vec2 v)
+{
+    x = v.x;
+    y = v.y;
 }
