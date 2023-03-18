@@ -1,21 +1,74 @@
 #ifndef _PIECE_H_
 #define _PIECE_H_
 
+enum TypePiece 
+{ 
+	VIDE=-1, 
+	PION1=0, PION2=1, PION3=2, PION4=3, PION5=4, PION6=5, PION7=6, PION8=7, PION9=8,
+	FOU=10, TOUR=11, 
+    GENARALOR1=12,GENERALOR2=13,  
+	CAVALIER1=14, CAVALIER=15,
+    GENRALARGENT1=16,GENRALARGENT2=17,
+	LANCE1=18,LANCE2=19,
+    ROI=20, REINE=21 
+};
 
-enum typePiece {PION, TOUR, CAVALIER, FOU, REINE, ROI,NONDEF};
+enum Couleur { BLANC, NOIR };
+
+struct Vec2			// un struct suffit ici (mais une classe irait aussi)
+{
+	int x,y;
+	
+	Vec2(int _x, int _y);
+	
+	static void testRegression() const;
+}
+
+Vec2 operator+(Vec2, vec2);
+Vec2 operator-(Vec2, vec2);
+bool operator==(Vec2 , Vec2 );
+
 
 class Piece
-{   private :
-        typePiece type;
-        bool couleur;//0 = noir, 1 = blanc
-    public :
-        Piece();
-        Piece(typePiece t, bool c);
-        Piece(const Piece & p);
-        Piece(const Piece * p);
+{
+    private:
+        TypePiece m_type;							// type de la piÃ¨ce(un enum=un int, qui sert Ã©galement pour accÃ¨der Ã  la case du tableau de piÃ¨ces blanche 
+                                                    // ou noir de ConfigurationJeu
+        Couleur m_couleur;							// BLANC ou NOIR 
+        Vec2 m_pos;									// Position sur le damier, valide uniquement si le bool m_enJeu est vrai
+        bool m_enJeu;								// Prise ou en jeu
+        float m_importance;							// une estimation empirique de la valeur d'une piÃ¨ce, indÃ©pendament de sa position dans une partie
 
-        typePiece getType() const;
-        bool getCouleur() const;
+        bool coupValidePion(const ConfigrationJeu&, Vec2 depl);
+        bool coupValideRoi(const ConfigrationJeu&, Vec2 depl);		
+        bool coupValideReine(const ConfigrationJeu&, Vec2 depl);		
+        bool coupValideFou(const ConfigrationJeu&, Vec2 depl);		
+        bool coupValideCavalier(const ConfigrationJeu&, Vec2 depl);		
+        bool coupValideTour(const ConfigrationJeu&, Vec2 depl);	
+
+    public:
+        Piece( TypePiece typ, Couleur coul, const Vec2& pos);	// Normalement ici, il n'y aura jamis VIDE dans le type
+        void deplacement(Vec2 dep);								// dÃ©place la piÃ¨ce du vecteur 'dep' : ne fait aucun comtrÃ´le du damier
+        void prise();											// change la piÃ¨ce Ã  prise
+        
+        bool coupValide(const ConfigrationJeu&, Vec2 depl);		// un switch qui appelle une des fonctions coupValideXXX oÃ¹ XXX dÃ©pend du type de piÃ¨ce, voir en private
+
+
+        void ecriture(ofstream& f);								// operator<< serait surement mieux
+        void lecture(ofstream& f);								// operator>> serait surement mieux
+        ostream& operator<<(ostream& , const Piece& p) 
+        istream& operator<<(istream& , const Piece& p) 
+        
+        static void testRegression() const;
+    
+    };
+
+    struct IdPiece		
+    {
+        TypePiece type;
+        Couleur coul;
+        IdPiece(int t=-1, Couleur c=BLANC);
 };
+
 
 #endif
