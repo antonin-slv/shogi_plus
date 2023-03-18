@@ -1,17 +1,21 @@
 #ifndef _VEC2_H_
 #define _VEC2_H_
 
-struct Vec2			// un struct suffit ici (mais une classe irait aussi)
-{
-	int x,y;
-	
-	Vec2(int _x, int _y);
-	
-	static void testRegression() const;
-}
+class Vec2			// un struct suffit ici (mais une classe irait aussi)
+{	public : 
+		int x,y;
+		
+		Vec2(int _x=0, int _y=0);
+		
 
-Vec2 operator+(Vec2, vec2);
-Vec2 operator-(Vec2, vec2);
+		Vec2 operator+=(Vec2);
+
+};
+
+Vec2 operator+(Vec2, Vec2);
+Vec2 operator-(Vec2, Vec2);
 bool operator==(Vec2 , Vec2 );
+bool operator!=(Vec2 , Vec2 );
+
 
 #endif
