@@ -3,6 +3,7 @@
 
 #include "Plateau.h"
 #include "Piece.h"
+#include "Joueur.h"
 
 class Partie
 {   private : 
@@ -12,15 +13,14 @@ class Partie
 
     public :
         
-        Partie();
-        Partie(Plateau * p, Joueur j1, Joueur j2);
-        Partie(const Parties & p);
-        Partie(const Parties * p);
+        Partie ();
+        Partie (Plateau * p, Joueur j1, Joueur j2);
+        Partie (const Partie & p);
+        Partie (const Partie * p);
 
         Plateau * getPlateau();
         Joueur getJoueur1();
         Joueur getJoueur2();
-*/
 
 };
 
