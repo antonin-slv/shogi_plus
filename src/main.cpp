@@ -7,7 +7,6 @@
 
 using namespace std; 
 
-
 class JeuTxt
 {
 public:
@@ -42,7 +41,11 @@ private:
 
 
 
-//
+int main()
+{
+	
+	return 0;
+}
 
 /* --> Vec, TypePiece, Couleur, IdPiece,  Piece, ConfigrationJeu, Partie, DictionnaireParties
 class GestionDictionnairePartiesSDL
@@ -60,3 +63,5 @@ private:
 	void affichage() const;
 };
 */
+
+
