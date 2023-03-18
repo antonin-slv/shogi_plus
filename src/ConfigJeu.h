@@ -1,5 +1,5 @@
-#ifndef _PLATEAU_H_
-#define _PLATEAU_H_
+#ifndef _CONFIGJEU_H_
+#define _CONFIGJEU_H_
 
 #include "Piece.h"
 #include <vector>

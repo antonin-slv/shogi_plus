@@ -1,4 +1,4 @@
-#include "Plateau.h"
+#include "ConfigJeu.h"
 #include <cassert>
 
 Plateau::Plateau()
