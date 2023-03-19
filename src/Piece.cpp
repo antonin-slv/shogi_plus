@@ -46,18 +46,43 @@ void Piece::lecture(ifstream& f)
     m_couleur = (Couleur) col;
 }
 
-//private
-bool DansJeu(const Vec2& pos)
-{   return (pos.x >= 0 && pos.x < 9 && pos.y >= 0 && pos.y < 9);
+
+
+
+
+bool Piece::coupValide(const ConfigurationJeu& conf, Vec2 depl)
+{   if (!coupValidePerm(conf,depl)) return false;
+    if (m_type >= PION1 && m_type <= PION9) return coupValidePion(conf,depl);
+    if (m_type >= GENERALOR1 && m_type <= GENERALOR2) return coupValideGeneralOr(conf,depl);
+    if (m_type >= GENERALARGENT1 && m_type <= GENERALARGENT2) return coupValideGeneralArgent(conf,depl);
+    switch (m_type)
+    {   case ROI: return coupValideRoi(conf,depl);
+        case FOU: return coupValideFou(conf,depl);
+        case CAVALIER1: return coupValideCavalier(conf,depl);
+        case CAVALIER2: return coupValideCavalier(conf,depl);
+        case TOUR: return coupValideTour(conf,depl);
+        case LANCE1: return coupValideLance(conf,depl);
+        case LANCE2: return coupValideLance(conf,depl);
+        default: return false;
+    }
 }
 
-bool Piece::coupValidePion(const ConfigurationJeu& conf,Vec2 depl)
-{   IdPiece idarrive = conf.getIdPiece(depl+m_pos);
+
+
+
+
+//private
+bool Piece::coupValidePerm(const ConfigurationJeu& conf,const Vec2& depl)
+{   if (m_pos.x+depl.x < 0 || m_pos.x+depl.x >= 9 || m_pos.y+depl.y <0 || m_pos.y+depl.y >= 9) return false;
+    IdPiece idarrive = conf.getIdPiece(depl+m_pos);
     if (idarrive.coul == m_couleur)
     {   if(idarrive.type != -1) return false;
     }
+    return true;
+}
 
-    if (m_couleur == BLANC)
+bool Piece::coupValidePion(const ConfigurationJeu& conf,Vec2 depl)
+{   if (m_couleur == BLANC)
     {   return (depl.y == -1 && depl.x == 0);
     }
     else
@@ -66,20 +91,11 @@ bool Piece::coupValidePion(const ConfigurationJeu& conf,Vec2 depl)
 }
 
 bool Piece::coupValideTour(const ConfigurationJeu& conf,Vec2 depl)
-{   IdPiece idarrive = conf.getIdPiece(depl+m_pos);
-    if (idarrive.coul == m_couleur)
-    {   if(idarrive.type != -1) return false;
-    }
-    return (depl.x == 0 || depl.y == 0);
+{   return (depl.x == 0 || depl.y == 0);
 }
 
 bool Piece::coupValideCavalier(const ConfigurationJeu& conf,Vec2 depl)
-{   IdPiece idarrive = conf.getIdPiece(depl+m_pos);
-    if (idarrive.coul == m_couleur)
-    {   if(idarrive.type != -1) return false;
-    }
-
-    if (depl.x == 1 || depl.x == -1)
+{   if (depl.x == 1 || depl.x == -1)
     {   if (m_couleur == BLANC)
         { return depl.y == -2;
         }
@@ -91,11 +107,7 @@ bool Piece::coupValideCavalier(const ConfigurationJeu& conf,Vec2 depl)
 }
 
 bool Piece::coupValideFou(const ConfigurationJeu& conf,Vec2 depl)
-{   IdPiece idarrive = conf.getIdPiece(depl+m_pos);
-    if (idarrive.coul == m_couleur)
-    {   if(idarrive.type != -1) return false;
-    }
-    return (depl.x == depl.y || depl.x == -depl.y);
+{  return (depl.x == depl.y || depl.x == -depl.y);
 }
 /*
 bool ConfigurationJeu::coupValideReine(const ConfigurationJeu& conf,Vec2 depl)
@@ -107,25 +119,34 @@ bool ConfigurationJeu::coupValideReine(const ConfigurationJeu& conf,Vec2 depl)
 }*/
 
 bool Piece::coupValideRoi(const ConfigurationJeu& conf,Vec2 depl)
-{   IdPiece idarrive = conf.getIdPiece(depl+m_pos);
-    if (idarrive.coul == m_couleur)
-    {   if(idarrive.type != -1) return false;
-    }
-    
+{  
     return ( abs(depl.x) <= 1 && abs(depl.y) <= 1);
 }
 
 bool Piece::coupValideLance(const ConfigurationJeu& conf,Vec2 depl)
-{   IdPiece idarrive = conf.getIdPiece(depl+m_pos);
-    if (idarrive.coul == m_couleur)
-    {   if(idarrive.type != -1) return false;
-    }
-    
-    if (m_couleur == BLANC)
-    {   return (depl.y >= 0 && depl.x == 0);
-    }
-    else
+{   if (m_couleur == BLANC)
     {   return (depl.y <= 0 && depl.x == 0);
     }
+    else
+    {   return (depl.y >= 0 && depl.x == 0);
+    }
 
+}
+
+bool Piece::coupValideGeneralOr(const ConfigurationJeu& conf,Vec2 depl)
+{   if (m_couleur == BLANC)
+    {   return ((depl.y==0 || depl.y == -1) && abs(depl.x) <= 1)|| (depl.y == 1 && depl.x == 0);
+    }
+    else
+    {   return ((depl.y==0 || depl.y == 1) && abs(depl.x) <= 1)|| (depl.y == -1 && depl.x == 0);
+    }
+}
+
+bool Piece::coupValideGeneralArgent(const ConfigurationJeu& conf,Vec2 depl)
+{   if (m_couleur == BLANC)
+    {   return (depl.y == -1 && abs(depl.x) <= 1) || (depl.y == 1 && abs(depl.x) == 1);
+    }
+    else 
+    {   return (depl.y == 1 && abs(depl.x) <= 1) || (depl.y == -1 && abs(depl.x) == 1);
+    }
 }

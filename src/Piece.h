@@ -16,9 +16,9 @@ enum TypePiece
 	VIDE=-1, 
 	PION1=0, PION2=1, PION3=2, PION4=3, PION5=4, PION6=5, PION7=6, PION8=7, PION9=8,
 	FOU=9, TOUR=10, 
-    GENARALOR1=11,GENERALOR2=12,  
-    GENRALARGENT1=13,GENRALARGENT2=14,
-    CAVALIER1=15, CAVALIER=16,
+    GENERALOR1=11,GENERALOR2=12,  
+    GENERALARGENT1=13,GENERALARGENT2=14,
+    CAVALIER1=15, CAVALIER2=16,
 	LANCE1=17,LANCE2=18,
     ROI=19,
 };
@@ -37,10 +37,11 @@ class Piece
         float m_importance;							// une estimation empirique de la valeur d'une piÃ¨ce, indÃ©pendament de sa position dans une partie
 
 
-        //a faire
+        //fait jet 1
+        bool coupValidePerm(const ConfigurationJeu& conf,const Vec2& depl);	// contrÃ´le si le dÃ©placement est possible, de manière générale
+        
         bool coupValidePion(const ConfigurationJeu&, Vec2 depl);
         bool coupValideRoi(const ConfigurationJeu&, Vec2 depl);		
-        bool coupValideReine(const ConfigurationJeu&, Vec2 depl);		
         bool coupValideFou(const ConfigurationJeu&, Vec2 depl);		
         bool coupValideCavalier(const ConfigurationJeu&, Vec2 depl);		
         bool coupValideTour(const ConfigurationJeu&, Vec2 depl);	
@@ -55,7 +56,7 @@ class Piece
         void prise();											// change la piÃ¨ce Ã  prise
         
 
-        //a faire
+        //fait jet 1
         bool coupValide(const ConfigurationJeu&, Vec2 depl);		// un switch qui appelle une des fonctions coupValideXXX oÃ¹ XXX dÃ©pend du type de piÃ¨ce, voir en private
 
         //fait
