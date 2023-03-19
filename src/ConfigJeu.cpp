@@ -4,22 +4,22 @@
 #include "Piece.h"
 
 
-Coup::Coup(const Vec2& p=Vec2(0,0), const Vec2& d=Vec2(0,0))
-{   m_pos=p;
-    m_depl=d;
+Coup::Coup(const Vec2& p, const Vec2& d)
+{   pos=p;
+    deplacement=d;
 }
 
-const Piece& ConfigurationJeu::getPiece(IdPiece idp, Couleur col)
+const Piece& ConfigurationJeu::getPiece(TypePiece type, Couleur col)
 {   if (col==BLANC)
     {   for (int i=0; i<16; i++)
-        {   if (m_piecesBlanc[i].m_idp==idp)
+        {   if (m_piecesB[i].m_type==type)
             {   return m_piecesB[i];
             }
         }
     }
     else
     {   for (int i=0; i<16; i++)
-        {   if (m_piecesNoir[i].m_idp==idp)
+        {   if (m_piecesN[i].m_type==type)
             {   return m_piecesN[i];
             }
         }

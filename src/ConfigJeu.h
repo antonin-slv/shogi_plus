@@ -26,7 +26,6 @@ class ConfigurationJeu
 		Piece m_piecesB[20];						// toutes les piÃ¨ces blanches
 		Piece m_piecesN[20];						// toutes les piÃ¨ces noires
 		Piece m_vide;								// un piÃ¨ce vide (correspond Ã  une case vide)
-
 		// IMPORTANT : il faut ajouter un tableau comme ceci, qui fait double emploi avec les 2 tableaux de 2x16 pieces,
 		// mais selon l'algo parfois on a besoin d'avoir la piÃ¨ce et parfois on a besoin du damier !
 		IdPiece m_damier[9][9];					// le damier, chaque case sera soit un TypePiece associÃ© Ã  une couleur
@@ -35,7 +34,7 @@ class ConfigurationJeu
 		
 		Couleur m_joueurSuivant;				// La couleur du joueur qui doit jouer
 
-		const Piece& getPiece(IdPiece idp, Couleur col); 		// trouve la piÃ¨ce Ã  partir de son "nom", par exemple getPiece(FOU1, BLANC);
+		const Piece& getPiece(TypePiece type, Couleur col); 		// trouve la piÃ¨ce Ã  partir de son "nom", par exemple getPiece(FOU1, BLANC);
 
 
 	public :

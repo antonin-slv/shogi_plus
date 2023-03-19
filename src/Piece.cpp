@@ -10,11 +10,10 @@ Piece::Piece( TypePiece typ, Couleur coul, const Vec2& pos)
     m_enJeu = true;
     m_importance = 0;
 }
-
-IdPiece::IdPiece(TypePiece typ, Couleur coul)
+IdPiece::IdPiece(int t, Couleur c)
 {
-    m_type = typ;
-    m_couleur = coul;
+    type = (TypePiece) t;
+    coul = c;
 }
 
 
