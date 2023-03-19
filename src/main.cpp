@@ -49,7 +49,7 @@ int main()
 	
 
 	Piece P1(ROI, BLANC, Vec2(1,2));
-	Piece P2(REINE, NOIR, Vec2(3,4));
+	Piece P2(LANCE1, NOIR, Vec2(3,4));
 	
 	ofstream f("data/test.txt");
 	cout<<P1.m_couleur<<endl;

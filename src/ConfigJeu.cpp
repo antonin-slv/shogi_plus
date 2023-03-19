@@ -12,7 +12,7 @@ Coup::Coup(const Vec2& p, const Vec2& d)
 const Piece& ConfigurationJeu::getPiece(TypePiece type, Couleur col) const
 {   if (col==BLANC)
     {   
-        for (int i=0; i<20; i++)
+        for (int i=0; i<=20; i++)
         {   
             if (m_piecesB[i].m_type==type)
             {   return m_piecesB[i];
@@ -20,7 +20,7 @@ const Piece& ConfigurationJeu::getPiece(TypePiece type, Couleur col) const
         }
     }
     else {   
-        for (int i=0; i<16; i++)
+        for (int i=0; i<=20; i++)
         {   
             if (m_piecesN[i].m_type==type)
             {   
@@ -34,12 +34,12 @@ const Piece& ConfigurationJeu::getPiece(TypePiece type, Couleur col) const
 
 //publique
 const Piece& ConfigurationJeu::getPiece(const Vec2& pos) const
-{   for (int i=0; i<20; i++)
+{   for (int i=0; i<=20; i++)
     {   if (m_piecesB[i].m_pos==pos)
         {   return m_piecesB[i];
         }
     }
-    for (int i=0; i<20; i++)
+    for (int i=0; i<=20; i++)
     {   if (m_piecesN[i].m_pos==pos)
         {   return m_piecesN[i];
         }
@@ -66,7 +66,7 @@ ConfigurationJeu::ConfigurationJeu()
         }
     }
 
-    for (int i=0; i<20; i++)
+    for (int i=0; i<=20; i++)
     {   
         m_piecesB[i]=Piece(TypePiece(i), BLANC, Vec2(0,0));
         m_piecesN[i]=Piece(TypePiece(i), NOIR, Vec2(0,0));
@@ -77,4 +77,84 @@ ConfigurationJeu::ConfigurationJeu()
     m_joueurSuivant=BLANC;
 }
 
+void ConfigurationJeu::init()
+{   
+    ConfigurationJeu();
+    
+    for (int i=0; i<9; i++)
+    {   //init Pion NOIR
+        m_piecesN[i]=Piece(TypePiece(i), NOIR, Vec2(i,2));
+        m_damier[i][2]=IdPiece(TypePiece(i), NOIR);
+
+        //init Pion BLANC
+        m_piecesB[i]=Piece(TypePiece(i), BLANC, Vec2(i,9-1-2));
+        m_damier[i][9-1-2]=IdPiece(TypePiece(i), BLANC);
+    }
+
+    //init TOUR et FOU
+    m_piecesN[9]=Piece(TypePiece(9), NOIR, Vec2(7,1));
+    m_damier[7][1]=IdPiece(TypePiece(9), NOIR);
+
+    m_piecesN[10]=Piece(TypePiece(10), NOIR, Vec2(1,1));
+    m_damier[1][1]=IdPiece(TypePiece(10), NOIR);
+
+    m_piecesB[9]=Piece(TypePiece(9), BLANC, Vec2(1,7));
+    m_damier[1][7]=IdPiece(TypePiece(9), BLANC);
+
+    m_piecesB[10]=Piece(TypePiece(10), BLANC, Vec2(7,7));
+    m_damier[7][7]=IdPiece(TypePiece(10), BLANC);
+
+    //init General OR
+    m_piecesN[11]=Piece(TypePiece(11), NOIR, Vec2(3,0));
+    m_piecesN[12]=Piece(TypePiece(12), NOIR, Vec2(5,0));
+    m_damier[3][0]=IdPiece(TypePiece(11), NOIR);
+    m_damier[5][0]=IdPiece(TypePiece(12), NOIR);
+
+    m_piecesB[11]=Piece(TypePiece(11), BLANC, Vec2(3,9-1));
+    m_piecesB[12]=Piece(TypePiece(12), BLANC, Vec2(5,9-1));
+    m_damier[3][9-1]=IdPiece(TypePiece(11), BLANC);
+    m_damier[5][9-1]=IdPiece(TypePiece(12), BLANC);
+
+    //init General ARGENT
+    m_piecesN[13]=Piece(TypePiece(13), NOIR, Vec2(2,0));
+    m_piecesN[14]=Piece(TypePiece(14), NOIR, Vec2(6,0));
+    m_damier[2][0]=IdPiece(TypePiece(13), NOIR);
+    m_damier[6][0]=IdPiece(TypePiece(14), NOIR);
+
+    m_piecesB[13]=Piece(TypePiece(13), BLANC, Vec2(2,9-1));
+    m_piecesB[14]=Piece(TypePiece(14), BLANC, Vec2(6,9-1));
+    m_damier[2][9-1]=IdPiece(TypePiece(13), BLANC);
+    m_damier[6][9-1]=IdPiece(TypePiece(14), BLANC);
+
+    //init Cavalier
+    m_piecesN[15]=Piece(TypePiece(15), NOIR, Vec2(1,0));
+    m_piecesN[16]=Piece(TypePiece(16), NOIR, Vec2(7,0));
+    m_damier[1][0]=IdPiece(TypePiece(15), NOIR);
+    m_damier[7][0]=IdPiece(TypePiece(16), NOIR);
+
+    m_piecesB[15]=Piece(TypePiece(15), BLANC, Vec2(1,9-1));
+    m_piecesB[16]=Piece(TypePiece(16), BLANC, Vec2(7,9-1));
+    m_damier[1][9-1]=IdPiece(TypePiece(15), BLANC);
+    m_damier[7][9-1]=IdPiece(TypePiece(16), BLANC);
+
+    //init LANCE
+    m_piecesN[17]=Piece(TypePiece(17), NOIR, Vec2(0,0));
+    m_piecesN[18]=Piece(TypePiece(18), NOIR, Vec2(8,0));
+    m_damier[0][0]=IdPiece(TypePiece(17), NOIR);
+    m_damier[8][0]=IdPiece(TypePiece(18), NOIR);
+
+    m_piecesB[17]=Piece(TypePiece(17), BLANC, Vec2(0,9-1));
+    m_piecesB[18]=Piece(TypePiece(18), BLANC, Vec2(8,9-1));
+    m_damier[0][9-1]=IdPiece(TypePiece(17), BLANC);
+    m_damier[8][9-1]=IdPiece(TypePiece(18), BLANC);
+
+    //init ROI
+    m_piecesN[19]=Piece(TypePiece(19), NOIR, Vec2(4,0));
+    m_damier[4][0]=IdPiece(TypePiece(19), NOIR);
+
+    m_piecesB[19]=Piece(TypePiece(19), BLANC, Vec2(4,9-1));
+    m_damier[4][9-1]=IdPiece(TypePiece(19), BLANC);
+
+
+}
 
