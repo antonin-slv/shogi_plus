@@ -36,18 +36,25 @@ class Piece
         bool m_enJeu;								// Prise ou en jeu
         float m_importance;							// une estimation empirique de la valeur d'une piÃ¨ce, indÃ©pendament de sa position dans une partie
 
+
+        //a faire
         bool coupValidePion(const ConfigurationJeu&, Vec2 depl);
         bool coupValideRoi(const ConfigurationJeu&, Vec2 depl);		
         bool coupValideReine(const ConfigurationJeu&, Vec2 depl);		
         bool coupValideFou(const ConfigurationJeu&, Vec2 depl);		
         bool coupValideCavalier(const ConfigurationJeu&, Vec2 depl);		
         bool coupValideTour(const ConfigurationJeu&, Vec2 depl);	
+        bool coupValideGeneralArgent(const ConfigurationJeu&, Vec2 depl);
+        bool coupValideGeneralOr(const ConfigurationJeu&, Vec2 depl);
+        bool coupValideLance(const ConfigurationJeu&, Vec2 depl);
 
     public:
         Piece( TypePiece typ, Couleur coul, const Vec2& pos);	// Normalement ici, il n'y aura jamis VIDE dans le type
         void deplacement(Vec2 dep);								// dÃ©place la piÃ¨ce du vecteur 'dep' : ne fait aucun comtrÃ´le du damier
         void prise();											// change la piÃ¨ce Ã  prise
         
+
+        //a faire
         bool coupValide(const ConfigurationJeu&, Vec2 depl);		// un switch qui appelle une des fonctions coupValideXXX oÃ¹ XXX dÃ©pend du type de piÃ¨ce, voir en private
 
 
@@ -57,9 +64,9 @@ class Piece
         ostream& operator<<(ostream& , const Piece& p) ;
         istream& operator<<(istream& , const Piece& p) ;
         
-        
-        static void testRegression() const;
-    */
+        */
+        void testRegression() const;
+    
 };
 
 struct IdPiece		

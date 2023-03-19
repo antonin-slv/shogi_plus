@@ -11,15 +11,20 @@ Piece::Piece( TypePiece typ, Couleur coul, const Vec2& pos)
     m_importance = 0;
 }
 
-void Piece::deplacement(Vec2 dep)
+IdPiece::IdPiece(TypePiece typ, Couleur coul)
 {
-    m_pos += dep;
+    m_type = typ;
+    m_couleur = coul;
 }
 
-void Piece::prise()
-{
-    m_enJeu = false;
-}
+
+void Piece::deplacement(Vec2 dep) { m_pos += dep;}
+
+void Piece::prise() { m_enJeu = false; }
+
+
+
+
 
 void Piece::ecriture(ofstream& f)
 {   
@@ -32,3 +37,4 @@ void Piece::lecture(ifstream& f)
     m_type = (TypePiece)a;
     m_couleur = (Couleur) col;
 }
+
