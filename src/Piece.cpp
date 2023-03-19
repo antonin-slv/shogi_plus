@@ -46,3 +46,86 @@ void Piece::lecture(ifstream& f)
     m_couleur = (Couleur) col;
 }
 
+//private
+bool DansJeu(const Vec2& pos)
+{   return (pos.x >= 0 && pos.x < 9 && pos.y >= 0 && pos.y < 9);
+}
+
+bool Piece::coupValidePion(const ConfigurationJeu& conf,Vec2 depl)
+{   IdPiece idarrive = conf.getIdPiece(depl+m_pos);
+    if (idarrive.coul == m_couleur)
+    {   if(idarrive.type != -1) return false;
+    }
+
+    if (m_couleur == BLANC)
+    {   return (depl.y == -1 && depl.x == 0);
+    }
+    else
+    {   return (depl.y == 1 && depl.x == 0);
+    }   
+}
+
+bool Piece::coupValideTour(const ConfigurationJeu& conf,Vec2 depl)
+{   IdPiece idarrive = conf.getIdPiece(depl+m_pos);
+    if (idarrive.coul == m_couleur)
+    {   if(idarrive.type != -1) return false;
+    }
+    return (depl.x == 0 || depl.y == 0);
+}
+
+bool Piece::coupValideCavalier(const ConfigurationJeu& conf,Vec2 depl)
+{   IdPiece idarrive = conf.getIdPiece(depl+m_pos);
+    if (idarrive.coul == m_couleur)
+    {   if(idarrive.type != -1) return false;
+    }
+
+    if (depl.x == 1 || depl.x == -1)
+    {   if (m_couleur == BLANC)
+        { return depl.y == -2;
+        }
+        else
+        { return depl.y == 2;
+        }
+    }
+    return false;
+}
+
+bool Piece::coupValideFou(const ConfigurationJeu& conf,Vec2 depl)
+{   IdPiece idarrive = conf.getIdPiece(depl+m_pos);
+    if (idarrive.coul == m_couleur)
+    {   if(idarrive.type != -1) return false;
+    }
+    return (depl.x == depl.y || depl.x == -depl.y);
+}
+/*
+bool ConfigurationJeu::coupValideReine(const ConfigurationJeu& conf,Vec2 depl)
+{   IdPiece idarrive = conf.getIdPiece(depl);
+    if (idarrive.coul == Couleur)
+    {   if(idarrive.type != -1) return false;
+    }
+    return (depl.x == depl.y || depl.x == -depl.y || depl.x == 0 || depl.y == 0)
+}*/
+
+bool Piece::coupValideRoi(const ConfigurationJeu& conf,Vec2 depl)
+{   IdPiece idarrive = conf.getIdPiece(depl+m_pos);
+    if (idarrive.coul == m_couleur)
+    {   if(idarrive.type != -1) return false;
+    }
+    
+    return ( abs(depl.x) <= 1 && abs(depl.y) <= 1);
+}
+
+bool Piece::coupValideLance(const ConfigurationJeu& conf,Vec2 depl)
+{   IdPiece idarrive = conf.getIdPiece(depl+m_pos);
+    if (idarrive.coul == m_couleur)
+    {   if(idarrive.type != -1) return false;
+    }
+    
+    if (m_couleur == BLANC)
+    {   return (depl.y >= 0 && depl.x == 0);
+    }
+    else
+    {   return (depl.y <= 0 && depl.x == 0);
+    }
+
+}

@@ -51,14 +51,14 @@ class Piece
     public:
         Piece();
         Piece( TypePiece typ, Couleur coul, const Vec2& pos);	// Normalement ici, il n'y aura jamis VIDE dans le type
-        void deplacement(Vec2 dep);								// dÃ©place la piÃ¨ce du vecteur 'dep' : ne fait aucun comtrÃ´le du damier
+        void deplacement(Vec2 dep);								// dÃ©place la piÃ¨ce du vecteur 'dep' : ne fait aucun contrôle du damier
         void prise();											// change la piÃ¨ce Ã  prise
         
 
         //a faire
         bool coupValide(const ConfigurationJeu&, Vec2 depl);		// un switch qui appelle une des fonctions coupValideXXX oÃ¹ XXX dÃ©pend du type de piÃ¨ce, voir en private
 
-
+        //fait
         void ecriture(ofstream& f);								// operator<< serait surement mieux
         void lecture(ifstream& f);	
         /*							// operator>> serait surement mieux

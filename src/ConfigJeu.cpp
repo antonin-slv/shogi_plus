@@ -77,6 +77,24 @@ ConfigurationJeu::ConfigurationJeu()
     m_joueurSuivant=BLANC;
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 void ConfigurationJeu::init()
 {   
     ConfigurationJeu();
@@ -154,7 +172,5 @@ void ConfigurationJeu::init()
 
     m_piecesB[19]=Piece(TypePiece(19), BLANC, Vec2(4,9-1));
     m_damier[4][9-1]=IdPiece(TypePiece(19), BLANC);
-
-
 }
 
