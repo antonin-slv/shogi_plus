@@ -27,7 +27,8 @@ enum Couleur { BLANC, NOIR };
 
 class Piece
 {
-    private:
+    //private:
+    public :
         TypePiece m_type;							// type de la piÃ¨ce(un enum=un int, qui sert Ã©galement pour accÃ¨der Ã  la case du tableau de piÃ¨ces blanche 
                                                     // ou noir de ConfigurationJeu
         Couleur m_couleur;							// BLANC ou NOIR 
@@ -51,7 +52,7 @@ class Piece
 
 
         void ecriture(ofstream& f);								// operator<< serait surement mieux
-        void lecture(ofstream& f);	
+        void lecture(ifstream& f);	
         /*							// operator>> serait surement mieux
         ostream& operator<<(ostream& , const Piece& p) ;
         istream& operator<<(istream& , const Piece& p) ;

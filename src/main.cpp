@@ -1,9 +1,9 @@
 #include "Partie.h"
 #include "ConfigJeu.h"
 #include "Piece.h"
-#include "Joueur.h"
 
 #include <iostream>
+#include <fstream>
 
 using namespace std; 
 
@@ -47,6 +47,19 @@ int main()
 	v1 += v2;
 	cout << v1.x << " " << v1.y << endl;
 	
+
+	Piece P1(ROI, BLANC, Vec2(1,2));
+	Piece P2(REINE, NOIR, Vec2(3,4));
+	
+	ofstream f("data/test.txt");
+	cout<<P1.m_couleur<<endl;
+	P1.ecriture(f);
+	f.close();
+
+	ifstream g("data/test.txt");
+	P2.lecture(g);
+	cout<<P2.m_couleur<<endl;
+	g.close();
 	return 0;
 }
 

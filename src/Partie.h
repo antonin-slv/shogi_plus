@@ -3,7 +3,6 @@
 
 #include "Vec2.h"
 #include "Piece.h"
-#include "Joueur.h"
 #include "ConfigJeu.h"
 
 #include <vector>
