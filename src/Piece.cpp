@@ -18,6 +18,7 @@ Piece::Piece()
     m_importance = 0;
 }
 
+
 IdPiece::IdPiece(int t, Couleur c)
 {
     type = (TypePiece) t;

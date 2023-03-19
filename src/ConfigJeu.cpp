@@ -4,7 +4,8 @@
 #include "Piece.h"
 
 Coup::Coup(const Vec2& p, const Vec2& d)
-{   pos=p;
+{   
+    pos=p;
     deplacement=d;
 }
 //privée
@@ -17,9 +18,12 @@ const Piece& ConfigurationJeu::getPiece(TypePiece type, Couleur col) const
         }
     }
     else
-    {   for (int i=0; i<16; i++)
-        {   if (m_piecesN[i].m_type==type)
-            {   return m_piecesN[i];
+    {   
+        for (int i=0; i<16; i++)
+        {   
+            if (m_piecesN[i].m_type==type)
+            {   
+                return m_piecesN[i];
             }
         }
     }
