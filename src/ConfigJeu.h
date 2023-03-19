@@ -34,7 +34,7 @@ class ConfigurationJeu
 		
 		Couleur m_joueurSuivant;				// La couleur du joueur qui doit jouer
 
-		const Piece& getPiece(TypePiece type, Couleur col); 		// trouve la piÃ¨ce Ã  partir de son "nom", par exemple getPiece(FOU1, BLANC);
+		const Piece& getPiece(TypePiece type, Couleur col) const; 		// trouve la piÃ¨ce Ã  partir de son "nom", par exemple getPiece(FOU1, BLANC);
 
 
 	public :
@@ -47,14 +47,18 @@ class ConfigurationJeu
 		std::vector<Coup> calculTousLesCoupsPossibles(const Vec2& pos) const;	// construit un tableau de tous les dÃ©placement possible pour une piÃ¨ce
 		bool jouerCoup(const Coup& c);											// joue un coup=dÃ©place la piÃ¨ce de la case 'pos" vers 'pos+depl' si le coup est possible. Renvoie faux si le coup n'est pas valide
 		
+		//normalement ok
 		const Piece& getPiece(const Vec2& pos) const;							// trouve la pièce à  partir de sa position.
-		const Piece& getPiece(const IdPiece& pos) const;						// trouve la pièce à  partir d'identifiant
+		const Piece& getPiece(const IdPiece& id) const;						// trouve la pièce à  partir d'identifiant
 		const IdPiece& getIdPiece(const Vec2& pos) const;							// trouve l'ID de la piÃ¨ce Ã  partir de sa position.
 		
+
+
 		bool partieTerminee() const;										// renvoie vrai si un joueur a gagné
-		Couleur vainqueur() const;												// renvoie NOIR, BLANC. ATTENTION : valide seulement si la partie est terminÃ©e, 
-																				// sinon renvoie la couleur qui a le score le plus Ã©levÃ© (voir f ci-dessus et ci-dessous)
-		float score(Couleur col) const;			// renvoie une estimation d'un score d'un joueur, calculÃ© en fonction des pièces prises
+		Couleur vainqueur() const;											// renvoie NOIR, BLANC. ATTENTION : valide seulement si la partie est terminÃ©e, 
+																			// sinon renvoie la couleur qui a le score le plus Ã©levÃ© (voir f ci-dessus et ci-dessous)
+		
+		float score(Couleur col) const;				// renvoie une estimation d'un score d'un joueur, calculÃ© en fonction des pièces prises
 
 		float distance(ConfigurationJeu cj);		// renvoie un rÃ©el indiquant si les deux configurations sont proches : 0 indique indentique, un grand nombre=trÃ¨s diffÃ©rentes
 		

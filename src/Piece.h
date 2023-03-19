@@ -49,6 +49,7 @@ class Piece
         bool coupValideLance(const ConfigurationJeu&, Vec2 depl);
 
     public:
+        Piece();
         Piece( TypePiece typ, Couleur coul, const Vec2& pos);	// Normalement ici, il n'y aura jamis VIDE dans le type
         void deplacement(Vec2 dep);								// dÃ©place la piÃ¨ce du vecteur 'dep' : ne fait aucun comtrÃ´le du damier
         void prise();											// change la piÃ¨ce Ã  prise
