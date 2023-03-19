@@ -11,14 +11,15 @@ Coup::Coup(const Vec2& p, const Vec2& d)
 //privée
 const Piece& ConfigurationJeu::getPiece(TypePiece type, Couleur col) const
 {   if (col==BLANC)
-    {   for (int i=0; i<20; i++)
-        {   if (m_piecesB[i].m_type==type)
+    {   
+        for (int i=0; i<20; i++)
+        {   
+            if (m_piecesB[i].m_type==type)
             {   return m_piecesB[i];
             }
         }
     }
-    else
-    {   
+    else {   
         for (int i=0; i<16; i++)
         {   
             if (m_piecesN[i].m_type==type)
@@ -59,7 +60,8 @@ const IdPiece& ConfigurationJeu::getIdPiece(const Vec2& pos) const
 
 ConfigurationJeu::ConfigurationJeu()
 {   for (int x=0;x<9;x++)
-    {   for (int y=0;y<9;y++)
+    {   
+        for (int y=0;y<9;y++)
         {   m_damier[x][y]=IdPiece();
         }
     }
