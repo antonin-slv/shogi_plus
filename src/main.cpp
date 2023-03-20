@@ -60,6 +60,56 @@ int main()
 	P2.lecture(g);
 	cout<<P2.m_couleur<<endl;
 	g.close();
+
+	//test jeu base
+	bool continu = true;
+	ConfigurationJeu GAME;
+	std::vector<Coup> listeCoups;
+	Couleur joueur=BLANC;
+
+	Coup coup;
+
+
+	GAME.init();
+	do {
+		for (int i = 0; i < 9; i++)
+		{
+			for (int j = 0; j < 9; j++)
+			{
+				cout<<GAME.getPiece(Vec2(j,i)).m_type<<" ";
+			}
+			cout<<endl;
+		}
+
+		cout<<endl<<"Joueur "<<joueur<<endl;
+		cout<< "selectionner une piece : (x, y) (haut gauche)"<<endl;
+		cin>> coup.pos.x >> coup.pos.y;
+		cout<<"selectionner une destination : (x, y) (haut gauche)"<<endl;
+		cin>> coup.deplacement.x >> coup.deplacement.y;
+		coup.deplacement -= coup.pos;
+		listeCoups=GAME.calculTousLesCoupsPossibles(coup.pos);
+		if (GAME.coupValide(coup))
+		{
+			GAME.jouerCoup(coup);
+			
+			joueur = (joueur == BLANC) ? NOIR : BLANC;
+		}
+		else {
+			cout<<"Coup invalide, liste des coups possibles pour cette pièce:"<<endl;
+			for (auto it = listeCoups.begin(); it != listeCoups.end(); ++it)
+			{
+				cout<<it->pos.x<<" "<<it->pos.y<<" "<<it->deplacement.x<<" "<<it->deplacement.y<<endl;
+			}
+			cout<<endl;
+		}
+		cout<<"0 pour s'arrêter, 1 pour continuer : "<<endl;
+		cin>>continu;
+		cout<<endl;
+
+
+
+	} while (continu);
+
 	return 0;
 }
 
