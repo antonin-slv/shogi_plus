@@ -65,9 +65,11 @@ bool ConfigurationJeu::jouerCoup(const Coup& coup)
         }
         piece.deplacement(coup.deplacement);
 
-        m_damier[coup.pos.x+coup.deplacement.x][coup.pos.y+coup.deplacement.y]=dest;
-        m_damier[coup.pos.x][coup.pos.y]=IdPiece();
-        
+
+        m_damier[coup.pos.x+coup.deplacement.x][coup.pos.y+coup.deplacement.y]=IdPiece(piece.m_type,piece.m_couleur);
+        m_damier[coup.pos.x][coup.pos.y]=IdPiece(VIDE, BLANC);
+
+        m_joueurSuivant = (m_joueurSuivant==BLANC) ? NOIR : BLANC;
         return true;
     }
     return false;
