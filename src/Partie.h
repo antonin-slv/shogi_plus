@@ -10,6 +10,7 @@
 #include <iostream>
 
 using namespace std;
+
 class Partie
 {	private:
 		std::vector<ConfigurationJeu> m_etapes;	

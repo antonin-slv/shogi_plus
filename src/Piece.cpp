@@ -31,9 +31,6 @@ void Piece::deplacement(Vec2 dep) { m_pos += dep;}
 void Piece::prise() { m_enJeu = false; }
 
 
-
-
-
 void Piece::ecriture(ofstream& f)
 {   
     f << (int)m_type << " " << m_couleur << " " << m_pos.x << " "<< m_pos.y << " " << m_enJeu << " " << m_importance << endl;
@@ -45,10 +42,6 @@ void Piece::lecture(ifstream& f)
     m_type = (TypePiece)a;
     m_couleur = (Couleur) col;
 }
-
-
-
-
 
 bool Piece::coupValide(const ConfigurationJeu& conf, Vec2 depl)
 {   if (!coupValidePerm(conf,depl)) return false;
@@ -66,10 +59,6 @@ bool Piece::coupValide(const ConfigurationJeu& conf, Vec2 depl)
         default: return false;
     }
 }
-
-
-
-
 
 //private
 bool Piece::coupValidePerm(const ConfigurationJeu& conf,const Vec2& depl)

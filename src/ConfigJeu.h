@@ -21,8 +21,8 @@ class ConfigurationJeu
 	private:
 
 		// Avec juste ces 2 tableaux, on peut tout faire mais pour trouver une piÃ¨ces Ã  partir d'une position 
-		// il faut parcourir les 2 tableaux de piÃ¨ces. Pas optimal mais ca marche.	
-		// Surement qu'un tableau de 32 piÃ¨ces serait un peu plus optimal, ici
+		// il faut parcourir les 2 tableaux de pièces. Pas optimal mais ca marche.	
+		// Surement qu'un tableau de 40 pièces serait un peu plus optimal, ici
 		Piece m_piecesB[20];						// toutes les piÃ¨ces blanches
 		Piece m_piecesN[20];						// toutes les piÃ¨ces noires
 		Piece m_vide;								// un piÃ¨ce vide (correspond Ã  une case vide)
@@ -46,7 +46,7 @@ class ConfigurationJeu
 		// LES TROIS FONCTIONS IMPORTANTES DE CETTE CLASSE
 		bool coupValide(const Coup& c) const;									// indique si un dÃ©placement 'depl' d'une piÃ¨ce (repÃ©rÃ© avec sa position 'pos') est possible
 		std::vector<Coup> calculTousLesCoupsPossibles(const Vec2& pos) const;	// construit un tableau de tous les dÃ©placement possible pour une piÃ¨ce
-		bool jouerCoup(const Coup& c);											// joue un coup=dÃ©place la piÃ¨ce de la case 'pos" vers 'pos+depl' si le coup est possible. Renvoie faux si le coup n'est pas valide
+		bool jouerCoup(const Coup& c);											// joue un coup=déplace la piÃ¨ce de la case 'pos" vers 'pos+depl' si le coup est possible. Renvoie faux si le coup n'est pas valide
 		
 		//normalement ok
 		const Piece& getPiece(const Vec2& pos) const;							// trouve la pièce à  partir de sa position.
