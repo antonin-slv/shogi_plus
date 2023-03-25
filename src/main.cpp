@@ -77,7 +77,6 @@ int main()
 		{
 			for (int j = 0; j < 9; j++)
 			{
-				cout<<GAME.getPiece(Vec2(j,i)).m_type;
 				cout<<GAME.getIdPiece(Vec2(j,i)).type<<" ";
 			}
 			cout<<endl;

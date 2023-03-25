@@ -36,19 +36,19 @@ const Piece& ConfigurationJeu::getPiece(TypePiece type, Couleur col) const
 
 bool ConfigurationJeu::coupValide(const Coup& coup) const
 {   
-   cout<<"on teste le coup : "<<coup.pos.x<<","<<coup.pos.y<<" vers "<<coup.pos.x+coup.deplacement.x<<","<<coup.pos.y+coup.deplacement.y<<endl;
+    //cout<<"on teste le coup : "<<coup.pos.x<<","<<coup.pos.y<<" vers "<<coup.pos.x+coup.deplacement.x<<","<<coup.pos.y+coup.deplacement.y<<endl;
 
     //vérification de sélection de la pièce
     if (coup.pos.x<0 || coup.pos.x>8 || coup.pos.y<0 || coup.pos.y>8) return false;
 
     IdPiece Id=getIdPiece(coup.pos);
-    cout<<"id de la piece : "<<Id.type<<" "<<Id.coul<<" et j suivant :"<<m_joueurSuivant<<endl;
+    //cout<<"id de la piece : "<<Id.type<<" "<<Id.coul<<" et j suivant :"<<m_joueurSuivant<<endl;
     if (Id.coul == m_joueurSuivant) return false;
     if (Id.type == VIDE) return false;
 
     //validation du déplacement
     Piece piece = getPiece(Id);
-    cout<<"la pièce est ; type :"<<piece.m_type<<" ,col :"<<piece.m_couleur<<" ,en ("<<piece.m_pos.x<<','<<piece.m_pos.y<<")"<<endl;
+    //cout<<"la pièce est ; type :"<<piece.m_type<<" ,col :"<<piece.m_couleur<<" ,en ("<<piece.m_pos.x<<','<<piece.m_pos.y<<")"<<endl;
     return piece.coupValide(*this, coup.deplacement);
 }
 

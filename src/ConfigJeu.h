@@ -42,8 +42,7 @@ class ConfigurationJeu
 		ConfigurationJeu();						// Appel init : 
 		void init();							// Place toutes les piÃ¨ces et range toutes les infos dont identifiant. Appeler au dÃ©but ou Ã  chaque nouvelle partie
 
-		//a faire
-		// LES TROIS FONCTIONS IMPORTANTES DE CETTE CLASSE
+		//ok
 		bool coupValide(const Coup& c) const;									// indique si un dÃ©placement 'depl' d'une piÃ¨ce (repÃ©rÃ© avec sa position 'pos') est possible
 		std::vector<Coup> calculTousLesCoupsPossibles(const Vec2& pos) const;	// construit un tableau de tous les dÃ©placement possible pour une piÃ¨ce
 		bool jouerCoup(const Coup& c);											// joue un coup=déplace la piÃ¨ce de la case 'pos" vers 'pos+depl' si le coup est possible. Renvoie faux si le coup n'est pas valide
