@@ -36,37 +36,48 @@ const Piece& ConfigurationJeu::getPiece(TypePiece type, Couleur col) const
 
 bool ConfigurationJeu::coupValide(const Coup& coup) const
 {   
-    IdPiece Id=getIdPiece(coup.pos);
+   cout<<"on teste le coup : "<<coup.pos.x<<","<<coup.pos.y<<" vers "<<coup.pos.x+coup.deplacement.x<<","<<coup.pos.y+coup.deplacement.y<<endl;
+
     //vérification de sélection de la pièce
     if (coup.pos.x<0 || coup.pos.x>8 || coup.pos.y<0 || coup.pos.y>8) return false;
+
+    IdPiece Id=getIdPiece(coup.pos);
+    cout<<"id de la piece : "<<Id.type<<" "<<Id.coul<<" et j suivant :"<<m_joueurSuivant<<endl;
     if (Id.coul == m_joueurSuivant) return false;
+    if (Id.type == VIDE) return false;
 
     //validation du déplacement
     Piece piece = getPiece(Id);
-
+    cout<<"la pièce est ; type :"<<piece.m_type<<" ,col :"<<piece.m_couleur<<" ,en ("<<piece.m_pos.x<<','<<piece.m_pos.y<<")"<<endl;
     return piece.coupValide(*this, coup.deplacement);
 }
 
 std::vector<Coup> ConfigurationJeu::calculTousLesCoupsPossibles(const Vec2& pos) const
 {  std::vector<Coup> coups;
-    Piece piece=getPiece(getIdPiece(pos));
-    Vec2 depl;
+    Coup coup= Coup(pos, Vec2(0,0));
+    
+    if (getIdPiece(pos).coul == m_joueurSuivant)
+    {   cout<<"mauvaise couleur"<<endl;
+           return coups;
+    }
     for (int x=0; x<9; x++)
     {   for (int y=0; y<9; y++)
-        {   depl = Vec2(x,y) - pos;
-            if (piece.coupValide(*this, depl))
-            {   coups.push_back(Coup(pos, depl));
+        {   coup.deplacement=Vec2(x,y)-coup.pos;
+            if (coupValide(coup))
+            {   coups.push_back(coup);
             }
         }
     }
+    cout<<"coups testéq"<<endl;
     return coups;
 }
 
 bool ConfigurationJeu::jouerCoup(const Coup& coup)
-{   if (coupValide(coup.deplacement))
+{   if (coupValide(coup))
     {   int i=0,j=0;
         if (m_joueurSuivant==BLANC)//donc joueur noir
         {   // on cherche les numeros des pièces dans les tableaux de pièces
+            cout<<"joueur noir joue";
             for (i=0; i<=20; i++)
             {   if (m_piecesN[i].m_pos==coup.pos) break;
             }
@@ -86,7 +97,8 @@ bool ConfigurationJeu::jouerCoup(const Coup& coup)
             m_damier[coup.pos.x][coup.pos.y]=IdPiece(VIDE, BLANC);
         }
         else //joueur blanc
-        {   for (i=0; i<=20; i++)
+        {   cout<<"joueur blanc joue";
+            for (i=0; i<=20; i++)
             {   if (m_piecesB[i].m_pos==coup.pos) break;
             }
             for (j=0; j<=20; j++)
@@ -134,6 +146,7 @@ const Piece& ConfigurationJeu::getPiece(const IdPiece& id) const
 const IdPiece& ConfigurationJeu::getIdPiece(const Vec2& pos) const
 {   return m_damier[pos.x][pos.y];
 }
+
 ConfigurationJeu::ConfigurationJeu()
 {   for (int x=0;x<9;x++)
     {   
@@ -150,7 +163,7 @@ ConfigurationJeu::ConfigurationJeu()
 
     m_vide=Piece(VIDE, BLANC, Vec2(-1,-1));
 
-    m_joueurSuivant=BLANC;
+    m_joueurSuivant=NOIR;
 }
 
 void ConfigurationJeu::init()

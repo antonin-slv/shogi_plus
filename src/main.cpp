@@ -77,7 +77,8 @@ int main()
 		{
 			for (int j = 0; j < 9; j++)
 			{
-				cout<<GAME.getPiece(Vec2(j,i)).m_type<<" ";
+				cout<<GAME.getPiece(Vec2(j,i)).m_type;
+				cout<<GAME.getIdPiece(Vec2(j,i)).type<<" ";
 			}
 			cout<<endl;
 		}
@@ -100,9 +101,9 @@ int main()
 		cin>> coup.deplacement.x >> coup.deplacement.y;
 
 		//test du coup 
-		if (GAME.coupValide(coup))
-		{	cout<<GAME.getPiece(coup.pos).m_type<<" "<<GAME.getPiece(coup.pos).m_type<<endl;
-			GAME.jouerCoup(coup);
+		cout<<GAME.getPiece(coup.pos).m_type<<" "<<GAME.getPiece(coup.pos).m_type<<endl;
+		if (GAME.jouerCoup(coup))
+		{	
 			cout<<GAME.getPiece(coup.pos).m_type<<" "<<GAME.getPiece(coup.pos).m_type<<endl;
 			
 			joueur = (joueur == BLANC) ? NOIR : BLANC;
