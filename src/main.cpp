@@ -83,8 +83,9 @@ int main()
 		}
 
 		//selection de la pièce
-		cout<<endl<<"Joueur "<<joueur<<endl;
-		cout<< "selectionner une piece : (x, y) (haut gauche)"<<endl;
+		if (joueur == BLANC) cout<<endl<<"Joueur Blanc (bas)"<<endl;
+		else cout<<endl<<"Joueur Noir (haut)"<<endl;
+		cout<< "selectionner une piece : (x, y)"<<endl;
 		cin>> coup.pos.x >> coup.pos.y;
 
 		//cacul et affichage des déplacements possibles

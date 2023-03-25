@@ -1,6 +1,6 @@
 #include "Piece.h"
 #include "ConfigJeu.h"
-
+#include <math.h>
 #include <iostream>
 Piece::Piece( TypePiece typ, Couleur coul, const Vec2& pos)
 {
@@ -89,7 +89,27 @@ bool Piece::coupValidePion(const ConfigurationJeu& conf,Vec2 depl)
 }
 
 bool Piece::coupValideTour(const ConfigurationJeu& conf,Vec2 depl)
-{   return (depl.x == 0 || depl.y == 0);
+{   if (depl.x == 0 && depl.y == 0) return false;
+    //vérifie pas de pièce sur chemin en foncition de la direction
+    if (depl.y == 0) 
+    {   if (depl.x > 0) for (int i = 1; i < depl.x; i++)
+        {   if (conf.getIdPiece(m_pos+Vec2(i,0)).type != -1) return false;
+        }
+        else for (int i = 1; i < -depl.x; i++)
+        {   if (conf.getIdPiece(m_pos+Vec2(-i,0)).type != -1) return false;
+        }
+        return true;    
+    }
+    else if (depl.x == 0) 
+    {   if (depl.y > 0) for (int i = 1; i < depl.y; i++)
+            {   if (conf.getIdPiece(m_pos+Vec2(0,i)).type != -1) return false;
+            }
+        else for (int i = 1; i < -depl.y; i++)
+            {   if (conf.getIdPiece(m_pos+Vec2(0,-i)).type != -1) return false;
+            }
+        return true;
+    }
+    return false;
 }
 
 bool Piece::coupValideCavalier(const ConfigurationJeu& conf,Vec2 depl)
@@ -105,7 +125,22 @@ bool Piece::coupValideCavalier(const ConfigurationJeu& conf,Vec2 depl)
 }
 
 bool Piece::coupValideFou(const ConfigurationJeu& conf,Vec2 depl)
-{  return (depl.x == depl.y || depl.x == -depl.y);
+{  
+
+    if ((depl.x == depl.y || depl.x == -depl.y)&& depl.x != 0)
+    {   //vérifie pas de pièce sur chemin
+        //PREND SIGNES DES D2PLACMEENT
+        int sx, sy;
+        if (depl.x > 0) sx = 1;
+        else sx = -1;
+        if (depl.y > 0) sy = 1;
+        else sy = -1;
+        for (int i = 1; i < abs(depl.x); i++)
+        {   if (conf.getIdPiece(m_pos+Vec2(sx*i,sy*i)).type != -1) return false;
+        }
+        return true;
+    }
+    return false;
 }
 /*
 bool ConfigurationJeu::coupValideReine(const ConfigurationJeu& conf,Vec2 depl)
@@ -118,21 +153,36 @@ bool ConfigurationJeu::coupValideReine(const ConfigurationJeu& conf,Vec2 depl)
 
 bool Piece::coupValideRoi(const ConfigurationJeu& conf,Vec2 depl)
 {  
-    return ( abs(depl.x) <= 1 && abs(depl.y) <= 1);
+    return ( abs(depl.x) <= 1 && abs(depl.y) <= 1 && (depl.x != 0 || depl.y != 0));
 }
 
 bool Piece::coupValideLance(const ConfigurationJeu& conf,Vec2 depl)
-{   if (m_couleur == BLANC)
-    {   return (depl.y <= 0 && depl.x == 0);
+{   
+    if (m_couleur == BLANC)
+    {   
+        if (depl.y < 0 && depl.x == 0)
+        {   for (int i = -1; i > depl.y; i--)
+            {   if (conf.getIdPiece(m_pos+Vec2(0,i)).type != -1) return false;
+            }
+            return true;
+        }
+        else return false;
+        
     }
     else
-    {   return (depl.y >= 0 && depl.x == 0);
+    {   if (depl.y > 0 && depl.x == 0)
+        {   for(int i = 1; i < depl.y; i++)
+            {   if (conf.getIdPiece(m_pos+Vec2(0,i)).type != -1) return false; }
+            return true;
+        }
+        return false;
     }
-
 }
 
 bool Piece::coupValideGeneralOr(const ConfigurationJeu& conf,Vec2 depl)
-{   if (m_couleur == BLANC)
+{   
+    if (depl == Vec2(0,0)) return false;
+    if (m_couleur == BLANC)
     {   return ((depl.y==0 || depl.y == -1) && abs(depl.x) <= 1)|| (depl.y == 1 && depl.x == 0);
     }
     else
