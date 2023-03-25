@@ -35,7 +35,15 @@ const Piece& ConfigurationJeu::getPiece(TypePiece type, Couleur col) const
 //publique
 
 bool ConfigurationJeu::coupValide(const Coup& coup) const
-{   Piece piece=getPiece(getIdPiece(coup.pos));
+{   
+    IdPiece Id=getIdPiece(coup.pos);
+    //vérification de sélection de la pièce
+    if (coup.pos.x<0 || coup.pos.x>8 || coup.pos.y<0 || coup.pos.y>8) return false;
+    if (Id.coul == m_joueurSuivant) return false;
+
+    //validation du déplacement
+    Piece piece = getPiece(Id);
+
     return piece.coupValide(*this, coup.deplacement);
 }
 
@@ -55,20 +63,49 @@ std::vector<Coup> ConfigurationJeu::calculTousLesCoupsPossibles(const Vec2& pos)
 }
 
 bool ConfigurationJeu::jouerCoup(const Coup& coup)
-{   Piece piece=getPiece(getIdPiece(coup.pos));
-    if (piece.coupValide(*this, coup.deplacement))
-    {   IdPiece dest=getIdPiece(coup.pos+coup.deplacement);
-        Piece pieceDest=getPiece(dest);
+{   if (coupValide(coup.deplacement))
+    {   int i=0,j=0;
+        if (m_joueurSuivant==BLANC)//donc joueur noir
+        {   // on cherche les numeros des pièces dans les tableaux de pièces
+            for (i=0; i<=20; i++)
+            {   if (m_piecesN[i].m_pos==coup.pos) break;
+            }
+            for (j=0; j<=20; j++)
+            {   if (m_piecesB[j].m_pos==coup.pos+coup.deplacement) break;
+            }
 
-        if (dest.type!=VIDE)
-        {   pieceDest.prise();
+            // on supprime la pièce prise si il y en a une
+            if (m_damier[coup.pos.x+coup.deplacement.x][coup.pos.y+coup.deplacement.y].type!=VIDE)
+            {   m_piecesB[j].prise();
+            }
+            // on déplace la pièce
+            m_piecesN[i].deplacement(coup.deplacement);
+
+            // on met à jour le damier
+            m_damier[coup.pos.x+coup.deplacement.x][coup.pos.y+coup.deplacement.y]=IdPiece(m_piecesN[i].m_type,m_piecesN[i].m_couleur);
+            m_damier[coup.pos.x][coup.pos.y]=IdPiece(VIDE, BLANC);
         }
-        piece.deplacement(coup.deplacement);
+        else //joueur blanc
+        {   for (i=0; i<=20; i++)
+            {   if (m_piecesB[i].m_pos==coup.pos) break;
+            }
+            for (j=0; j<=20; j++)
+            {   if (m_piecesN[j].m_pos==coup.pos+coup.deplacement) break;
+            }
 
+            // on supprime la pièce prise si il y en a une
+            if (m_damier[coup.pos.x+coup.deplacement.x][coup.pos.y+coup.deplacement.y].type!=VIDE)
+            {   m_piecesN[j].prise();
+            }
 
-        m_damier[coup.pos.x+coup.deplacement.x][coup.pos.y+coup.deplacement.y]=IdPiece(piece.m_type,piece.m_couleur);
-        m_damier[coup.pos.x][coup.pos.y]=IdPiece(VIDE, BLANC);
+            // on déplace la pièce
+            m_piecesB[i].deplacement(coup.deplacement);
 
+            // on met à jour le damier
+            m_damier[coup.pos.x+coup.deplacement.x][coup.pos.y+coup.deplacement.y]=IdPiece(m_piecesB[i].m_type,m_piecesB[i].m_couleur);
+            m_damier[coup.pos.x][coup.pos.y]=IdPiece(VIDE, BLANC);
+        }
+        // on change de joueur
         m_joueurSuivant = (m_joueurSuivant==BLANC) ? NOIR : BLANC;
         return true;
     }
@@ -97,10 +134,6 @@ const Piece& ConfigurationJeu::getPiece(const IdPiece& id) const
 const IdPiece& ConfigurationJeu::getIdPiece(const Vec2& pos) const
 {   return m_damier[pos.x][pos.y];
 }
-
-
-
-
 ConfigurationJeu::ConfigurationJeu()
 {   for (int x=0;x<9;x++)
     {   

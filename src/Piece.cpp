@@ -26,9 +26,16 @@ IdPiece::IdPiece(int t, Couleur c)
 }
 
 
-void Piece::deplacement(Vec2 dep) { m_pos += dep;}
+void Piece::deplacement(Vec2 dep) {
 
-void Piece::prise() { m_enJeu = false; }
+    m_pos += dep;
+
+}
+
+void Piece::prise() {
+    m_enJeu = false;
+    m_pos = Vec2(-1,-1);
+    }
 
 
 void Piece::ecriture(ofstream& f)
@@ -60,6 +67,7 @@ bool Piece::coupValide(const ConfigurationJeu& conf, Vec2 depl)
     }
 }
 
+
 //private
 bool Piece::coupValidePerm(const ConfigurationJeu& conf,const Vec2& depl)
 {   if (m_pos.x+depl.x < 0 || m_pos.x+depl.x >= 9 || m_pos.y+depl.y <0 || m_pos.y+depl.y >= 9) return false;
@@ -67,6 +75,7 @@ bool Piece::coupValidePerm(const ConfigurationJeu& conf,const Vec2& depl)
     if (idarrive.coul == m_couleur)
     {   if(idarrive.type != -1) return false;
     }
+
     return true;
 }
 

@@ -72,6 +72,7 @@ int main()
 
 	GAME.init();
 	do {
+		//affichage des pièces
 		for (int i = 0; i < 9; i++)
 		{
 			for (int j = 0; j < 9; j++)
@@ -81,16 +82,28 @@ int main()
 			cout<<endl;
 		}
 
+		//selection de la pièce
 		cout<<endl<<"Joueur "<<joueur<<endl;
 		cout<< "selectionner une piece : (x, y) (haut gauche)"<<endl;
 		cin>> coup.pos.x >> coup.pos.y;
-		cout<<"selectionner une destination : (x, y) (haut gauche)"<<endl;
-		cin>> coup.deplacement.x >> coup.deplacement.y;
-		coup.deplacement -= coup.pos;
+
+		//cacul et affichage des déplacements possibles
 		listeCoups=GAME.calculTousLesCoupsPossibles(coup.pos);
-		if (GAME.coupValide(coup))
+		cout<<"deplacment possibles :"<<endl;
+		for (auto it = listeCoups.begin(); it != listeCoups.end(); ++it)
 		{
+			cout<<it->deplacement.x<<" "<<it->deplacement.y<<endl;
+		}
+
+		//selection du déplacement
+		cout<<"selectionner un déplacement : (x, y)"<<endl;
+		cin>> coup.deplacement.x >> coup.deplacement.y;
+
+		//test du coup 
+		if (GAME.coupValide(coup))
+		{	cout<<GAME.getPiece(coup.pos).m_type<<" "<<GAME.getPiece(coup.pos).m_type<<endl;
 			GAME.jouerCoup(coup);
+			cout<<GAME.getPiece(coup.pos).m_type<<" "<<GAME.getPiece(coup.pos).m_type<<endl;
 			
 			joueur = (joueur == BLANC) ? NOIR : BLANC;
 		}
@@ -102,12 +115,11 @@ int main()
 			}
 			cout<<endl;
 		}
+
+		//propose de quitter
 		cout<<"0 pour s'arrêter, 1 pour continuer : "<<endl;
 		cin>>continu;
 		cout<<endl;
-
-
-
 	} while (continu);
 
 	return 0;
