@@ -24,7 +24,7 @@ void Afficheur::init_sprites()
     TypePiece i=ROI;
     Sprite s_temp;
     Texture * t_temp;
-    bool error=false;
+
     for(int j=0; j < 20; j++)
     {   i=(TypePiece) j;
         

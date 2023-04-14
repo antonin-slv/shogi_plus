@@ -36,28 +36,29 @@ const Piece& ConfigurationJeu::getPiece(TypePiece type, Couleur col) const
 
 bool ConfigurationJeu::coupValide(const Coup& coup) const
 {   
-    //cout<<"on teste le coup : "<<coup.pos.x<<","<<coup.pos.y<<" vers "<<coup.pos.x+coup.deplacement.x<<","<<coup.pos.y+coup.deplacement.y<<endl;
-
+    ////cout<<"on teste le coup : "<<coup.pos.x<<","<<coup.pos.y<<" vers "<<coup.pos.x+coup.deplacement.x<<","<<coup.pos.y+coup.deplacement.y<<endl;
+    
     //vérification de sélection de la pièce
     if (coup.pos.x<0 || coup.pos.x>8 || coup.pos.y<0 || coup.pos.y>8) return false;
-
+    
     IdPiece Id=getIdPiece(coup.pos);
-    //cout<<"id de la piece : "<<Id.type<<" "<<Id.coul<<" et j suivant :"<<m_joueurSuivant<<endl;
+    ////cout<<"id de la piece : "<<Id.type<<" "<<Id.coul<<" et j suivant :"<<m_joueurSuivant<<endl;
     if (Id.coul == m_joueurSuivant) return false;
     if (Id.type == VIDE) return false;
 
     //validation du déplacement
     Piece piece = getPiece(Id);
-    //cout<<"la pièce est ; type :"<<piece.m_type<<" ,col :"<<piece.m_couleur<<" ,en ("<<piece.m_pos.x<<','<<piece.m_pos.y<<")"<<endl;
+    ////cout<<"la pièce est ; type :"<<piece.m_type<<" ,col :"<<piece.m_couleur<<" ,en ("<<piece.m_pos.x<<','<<piece.m_pos.y<<")"<<endl;
     return piece.coupValide(*this, coup.deplacement);
 }
 
-std::vector<Coup> ConfigurationJeu::calculTousLesCoupsPossibles(const Vec2& pos) const
+std::vector<Coup> ConfigurationJeu::calculCoupsPossibles(const Vec2& pos) const
 {  std::vector<Coup> coups;
     Coup coup= Coup(pos, Vec2(0,0));
     
-    if (getIdPiece(pos).coul == m_joueurSuivant)
-    {   cout<<"mauvaise couleur"<<endl;
+    if (getIdPiece(pos).coul == m_joueurSuivant ||getIdPiece(pos).type == VIDE)
+    {   //cout<<"mauvaise couleur"<<endl;
+           cout<<"taille :"<<coups.size()<<endl;
            return coups;
     }
     for (int x=0; x<9; x++)
@@ -68,7 +69,7 @@ std::vector<Coup> ConfigurationJeu::calculTousLesCoupsPossibles(const Vec2& pos)
             }
         }
     }
-    cout<<"coups testéq"<<endl;
+    //cout<<"c_test";
     return coups;
 }
 
@@ -77,7 +78,7 @@ bool ConfigurationJeu::jouerCoup(const Coup& coup)
     {   int i=0,j=0;
         if (m_joueurSuivant==BLANC)//donc joueur noir
         {   // on cherche les numeros des pièces dans les tableaux de pièces
-            cout<<"joueur noir joue";
+            //cout<<"NOIR  ";
             for (i=0; i<=20; i++)
             {   if (m_piecesN[i].m_pos==coup.pos) break;
             }
@@ -94,10 +95,10 @@ bool ConfigurationJeu::jouerCoup(const Coup& coup)
 
             // on met à jour le damier
             m_damier[coup.pos.x+coup.deplacement.x][coup.pos.y+coup.deplacement.y]=IdPiece(m_piecesN[i].m_type,m_piecesN[i].m_couleur);
-            m_damier[coup.pos.x][coup.pos.y]=IdPiece(VIDE, BLANC);
+            m_damier[coup.pos.x][coup.pos.y]=IdPiece(VIDE, UNDEFINED);
         }
         else //joueur blanc
-        {   cout<<"joueur blanc joue";
+        {   //cout<<"joueur blanc joue";
             for (i=0; i<=20; i++)
             {   if (m_piecesB[i].m_pos==coup.pos) break;
             }
@@ -115,7 +116,7 @@ bool ConfigurationJeu::jouerCoup(const Coup& coup)
 
             // on met à jour le damier
             m_damier[coup.pos.x+coup.deplacement.x][coup.pos.y+coup.deplacement.y]=IdPiece(m_piecesB[i].m_type,m_piecesB[i].m_couleur);
-            m_damier[coup.pos.x][coup.pos.y]=IdPiece(VIDE, BLANC);
+            m_damier[coup.pos.x][coup.pos.y]=IdPiece(VIDE, UNDEFINED);
         }
         // on change de joueur
         m_joueurSuivant = (m_joueurSuivant==BLANC) ? NOIR : BLANC;
@@ -170,11 +171,11 @@ ConfigurationJeu::ConfigurationJeu()
 bool ConfigurationJeu::partieTerminee() const
 {
     if (getPiece(ROI, BLANC).enJeu()==false)
-    {   cout<<"no roi blanc"<<endl;
+    {   //cout<<"no roi blanc"<<endl;
         return true;
     }
     else if(getPiece(ROI, NOIR).enJeu()==false)
-    {   cout<<"no roi noir"<<endl;
+    {   //cout<<"no roi noir"<<endl;
         return true;
     }
     return false;
@@ -183,18 +184,18 @@ bool ConfigurationJeu::partieTerminee() const
 //renvoie la couleur du joueur gagnant
 Couleur ConfigurationJeu::vainqueur() const
 {   if (getPiece(ROI, BLANC).enJeu())
-    {   cout<<"Roi blanc."<<endl;
+    {   //cout<<"Roi blanc."<<endl;
         return BLANC;
     }
     else if (getPiece(ROI, NOIR).enJeu())
-    {   cout <<"Roi noir."<<endl;
+    {   //cout <<"Roi noir."<<endl;
         return NOIR;
     }
-    cout<<"Partie nulle."<<endl;
+    //cout<<"Partie nulle."<<endl;
     return UNDEFINED;
 }
 
-float ConfigurationJeu::points() const
+float ConfigurationJeu::evaluer() const
 {   float points=0;
     for (int i=0; i<=20; i++)
     {   if (m_piecesB[i].enJeu())
@@ -206,6 +207,11 @@ float ConfigurationJeu::points() const
     }
     return points;
 }
+
+Couleur ConfigurationJeu::joueurSuivant() const
+{   return m_joueurSuivant;
+}
+
 void ConfigurationJeu::init()
 {   
     ConfigurationJeu();
@@ -289,20 +295,20 @@ bool ConfigurationJeu::testRegression()
 {   Vec2 v1(1,2);
 	Vec2 v2(3,4);
 	v1 += v2;
-	cout << v1.x << " " << v1.y << endl;
+	//cout << v1.x << " " << v1.y << endl;
 	
 
 	Piece P1(ROI, BLANC, Vec2(1,2));
 	Piece P2(LANCE1, NOIR, Vec2(3,4));
 	
 	ofstream f("data/test.txt");
-	cout<<P1.m_couleur<<endl;
+	//cout<<P1.m_couleur<<endl;
 	P1.ecriture(f);
 	f.close();
 
 	ifstream g("data/test.txt");
 	P2.lecture(g);
-	cout<<P2.m_couleur<<endl;
+	//cout<<P2.m_couleur<<endl;
 	g.close();
     return true;
 }

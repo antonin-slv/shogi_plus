@@ -16,6 +16,11 @@ Vec2 operator-(Vec2 v1, Vec2 v2)
     return Vec2(v1.x - v2.x, v1.y - v2.y);
 }
 
+float Vec2::val() const
+{
+    return x/2 + y;
+}
+
 bool operator==(Vec2 v1, Vec2 v2)
 {
     return (v1.x == v2.x && v1.y == v2.y);

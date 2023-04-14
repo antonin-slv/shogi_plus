@@ -174,8 +174,8 @@ bool ConfigurationJeu::coupValideReine(const ConfigurationJeu& conf,Vec2 depl)
 }*/
 
 bool Piece::coupValideRoi(const ConfigurationJeu& conf,Vec2 depl)
-{  
-    return ( abs(depl.x) <= 1 && abs(depl.y) <= 1 && (depl.x != 0 || depl.y != 0));
+{   if (depl.x==0&&depl.y==0) return true;
+    return (abs(depl.x) <= 1 && abs(depl.y) <= 1 && (depl.x != 0 || depl.y != 0));
 }
 
 bool Piece::coupValideLance(const ConfigurationJeu& conf,Vec2 depl)

@@ -10,6 +10,7 @@ class Vec2			// un struct suffit ici (mais une classe irait aussi)
 		void operator=(Vec2);
 		void operator+=(Vec2);
 		void operator-=(Vec2);
+		float val() const;
 };
 
 Vec2 operator+(Vec2, Vec2);
