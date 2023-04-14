@@ -55,6 +55,7 @@ class Piece
         void deplacement(Vec2 dep);								// dÃ©place la piÃ¨ce du vecteur 'dep' : ne fait aucun contrôle du damier
         void prise();											// change la piÃ¨ce Ã  prise
         
+        Vec2 const getPos() const;									// renvoie la position de la pièce
 
         //fait jet 1
         bool coupValide(const ConfigurationJeu&, Vec2 depl);		// un switch qui appelle une des fonctions coupValideXXX oÃ¹ XXX dÃ©pend du type de piÃ¨ce, voir en private

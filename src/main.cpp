@@ -1,12 +1,19 @@
 #include "Partie.h"
 #include "ConfigJeu.h"
 #include "Piece.h"
+#include "Affichage.h"
 
 #include <iostream>
 #include <fstream>
 
-using namespace std; 
+#include <SFML/Graphics.hpp>
+#include <SFML/Window.hpp>
+#include <SFML/System.hpp>
 
+#include <iostream>
+
+using namespace std; 
+using namespace sf;
 class JeuTxt
 {
 public:
@@ -69,11 +76,18 @@ int main()
 
 	Coup coup;
 
-
+	//initialisation
+	RenderWindow win(VideoMode(1000,1000),"Shogi");
+	Afficheur TABS;
+	TABS.init_sprites();
 	GAME.init();
 	IdPiece idtemp;
+
 	do {
 		//affichage des pièces
+		TABS.lier(GAME);
+		TABS.dessiner(win);
+		win.display();
 		cout<<endl<<"    0  1  2  3  4  5  6  7  8"<<endl<<endl;
 		for (int i = 0; i < 9; i++)
 		{	cout << i << "  ";
@@ -138,6 +152,7 @@ int main()
 	}
 	else cout<<"Partie terminée par erreur"<<endl;
 
+	//delete win;
 	return 0;
 }
 

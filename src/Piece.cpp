@@ -30,6 +30,10 @@ void Piece::deplacement(Vec2 dep) {
     m_pos += dep;
 }
 
+Vec2 const Piece::getPos() const {
+    return m_pos;
+}
+
 void Piece::prise() {
     m_enJeu = false;
     m_pos = Vec2(-1,-1);

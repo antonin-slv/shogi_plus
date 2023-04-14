@@ -1,7 +1,7 @@
 #ifndef _AFFICHAGE_
 #define _AFFICHAGE_
 
-#include "ConfigurationJeu.h"
+#include "ConfigJeu.h"
 #include "Piece.h"
 #include "Vec2.h"
 
@@ -19,10 +19,28 @@ using namespace std;
 using namespace sf;
 
 
-class Affichage
-{   vector<sprite> pieces_b;
-    vector<sprite> pieces_n;
+class Afficheur
+{   public :
 
-    sprite damier;
-}
-   
+    vector<Sprite> pieces_b;
+    vector<Sprite> pieces_n;
+
+    Texture pion_b;
+    Texture pion_n;
+
+    Sprite ban;
+    Texture damier;
+
+    //fonctions d'initialisation
+    Afficheur();
+    void init_sprites();
+    
+    //on récupère la configuration du jeu
+    void lier(const ConfigurationJeu& cj);
+
+    //affiche le jeu sur la fenètre (sans actualiser)
+    void dessiner(RenderWindow& fenetre);
+
+};
+
+#endif

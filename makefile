@@ -7,10 +7,10 @@ LIBSFML= -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
 
 all: $(EXEC)
 
-$(EXEC): main.o Partie.o ConfigJeu.o Piece.o Vec2.o
-	$(CC) $(FLAGS) obj/main.o obj/Partie.o obj/ConfigJeu.o obj/Piece.o obj/Vec2.o $(LIBSFML) -o $(EXEC)
+$(EXEC): main.o Partie.o ConfigJeu.o Piece.o Vec2.o Affichage.o
+	$(CC) $(FLAGS) obj/main.o obj/Partie.o obj/ConfigJeu.o obj/Piece.o obj/Affichage.o obj/Vec2.o $(LIBSFML) -o $(EXEC)
 
-affichage.o: src/affichage.cpp src/affichage.h src/Partie.h src/ConfigJeu.h src/Piece.h src/Vec2.h
+Affichage.o: src/affichage.cpp src/affichage.h src/Partie.h src/ConfigJeu.h src/Piece.h src/Vec2.h
 	$(CC) $(FLAGS) -c src/affichage.cpp $(ISFML) -o obj/affichage.o
 
 main.o: src/main.cpp src/Partie.h src/ConfigJeu.h src/Piece.h src/Vec2.h

@@ -33,12 +33,11 @@ class ConfigurationJeu
 												// identitifiants (plus pratique et moins sujet Ã  bug), mais les pointeurs auraient Ã©tÃ© possible aussi
 		
 		Couleur m_joueurSuivant;				// La couleur du joueur qui doit jouer
-
-		const Piece& getPiece(TypePiece type, Couleur col) const; 		// trouve la piÃ¨ce Ã  partir de son "nom", par exemple getPiece(FOU1, BLANC);
+	
 
 
 	public :
-
+		const Piece& getPiece(TypePiece type, Couleur col) const; 		// trouve la piÃ¨ce Ã  partir de son "nom", par exemple getPiece(FOU1, BLANC);
 		ConfigurationJeu();						// Appel init : 
 		void init();							// Place toutes les piÃ¨ces et range toutes les infos dont identifiant. Appeler au dÃ©but ou Ã  chaque nouvelle partie
 
