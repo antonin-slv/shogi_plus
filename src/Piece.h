@@ -23,7 +23,7 @@ enum TypePiece
     ROI=19,
 };
 
-enum Couleur { BLANC, NOIR };
+enum Couleur { BLANC, NOIR, UNDEFINED};
 
 class Piece
 {
@@ -58,7 +58,7 @@ class Piece
 
         //fait jet 1
         bool coupValide(const ConfigurationJeu&, Vec2 depl);		// un switch qui appelle une des fonctions coupValideXXX oÃ¹ XXX dÃ©pend du type de piÃ¨ce, voir en private
-
+        bool enJeu() const;										// renvoie vrai si la pièce est en jeu
         //fait
         void ecriture(ofstream& f);								// operator<< serait surement mieux
         void lecture(ifstream& f);	

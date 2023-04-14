@@ -74,15 +74,18 @@ int main()
 	IdPiece idtemp;
 	do {
 		//affichage des pièces
+		cout<<endl<<"    0  1  2  3  4  5  6  7  8"<<endl<<endl;
 		for (int i = 0; i < 9; i++)
-		{
+		{	cout << i << "  ";
 			for (int j = 0; j < 9; j++)
-			{
-				idtemp=GAME.getIdPiece(Vec2(j,i));
+			{	idtemp=GAME.getIdPiece(Vec2(j,i));
 				if(idtemp.type<10 && idtemp.type>=0) cout<<' '<<idtemp.type<<" ";
+				else if (idtemp.type==VIDE) cout<<"   ";
 				else cout<<idtemp.type<<" ";
+				
 			}
 			cout<<endl;
+			if (i == -1) cout<<endl;
 		}
 
 		//selection de la pièce
@@ -119,12 +122,21 @@ int main()
 			}
 			cout<<endl;
 		}
+		
 
 		//propose de quitter
 		cout<<"0 pour s'arrêter, 1 pour continuer : "<<endl;
 		cin>>continu;
 		cout<<endl;
-	} while (continu);
+	} while (continu&&!GAME.partieTerminee());
+
+	if (!continu) cout<<"Partie terminée par l'utilisateur"<<endl;
+	else if (GAME.partieTerminee())
+	{ 	if(GAME.vainqueur()==BLANC) cout<<"Partie terminée par victoire du joueur Blanc"<<endl;
+		else if(GAME.vainqueur()==NOIR) cout<<"Partie terminée par victoire du joueur Noir"<<endl;
+		else cout<<"Partie terminée par match nul"<<endl;
+	}
+	else cout<<"Partie terminée par erreur"<<endl;
 
 	return 0;
 }

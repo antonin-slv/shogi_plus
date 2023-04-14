@@ -166,6 +166,35 @@ ConfigurationJeu::ConfigurationJeu()
     m_joueurSuivant=NOIR;
 }
 
+//renvoie vrai si un roi manque
+bool ConfigurationJeu::partieTerminee() const
+{
+    if (getPiece(ROI, BLANC).enJeu()==false)
+    {   cout<<"no roi blanc"<<endl;
+        return true;
+    }
+    else if(getPiece(ROI, NOIR).enJeu()==false)
+    {   cout<<"no roi noir"<<endl;
+        return true;
+    }
+    return false;
+}
+
+//renvoie la couleur du joueur gagnant
+Couleur ConfigurationJeu::vainqueur() const
+{   if (getPiece(ROI, BLANC).enJeu())
+    {   cout<<"Roi blanc."<<endl;
+        return BLANC;
+    }
+    else if (getPiece(ROI, NOIR).enJeu())
+    {   cout <<"Roi noir."<<endl;
+        return NOIR;
+    }
+    cout<<"Partie nulle."<<endl;
+    return UNDEFINED;
+}
+
+
 void ConfigurationJeu::init()
 {   
     ConfigurationJeu();
