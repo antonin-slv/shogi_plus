@@ -14,7 +14,7 @@ using namespace std;
 class Partie
 {	private:
 		std::vector<ConfigurationJeu> m_etapes;	
-
+		int etapeActuelle;
 	public:
 		Partie();
 		

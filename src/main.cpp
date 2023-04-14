@@ -33,6 +33,30 @@ private:
 	Vec2 clicSourie(int mouseX, int mouseY);
 };
 
+void jeutxt_aff(ConfigurationJeu const & GAME)
+{	IdPiece idtemp;
+	cout<<endl<<"    0  1  2  3  4  5  6  7  8"<<endl<<endl;
+	for (int i = 0; i < 9; i++)
+	{	cout << i << "  ";
+		for (int j = 0; j < 9; j++)
+		{	idtemp=GAME.getIdPiece(Vec2(j,i));
+			if(idtemp.type<10 && idtemp.type>=0) cout<<' '<<idtemp.type<<" ";
+			else if (idtemp.type==VIDE) cout<<"   ";
+			else cout<<idtemp.type<<" ";
+		}
+		cout<<endl;
+		if (i == -1) cout<<endl;
+	}
+}
+
+void selection_piece(ConfigurationJeu const & GAME, Vec2 & pos)
+{	do {
+		cout<<endl<<"selectionner une piece : (x, y)"<<endl;
+		cin>> pos.x >> pos.y;
+
+	} while(GAME.getIdPiece(pos).type==VIDE||GAME.getIdPiece(pos).coul==UNDEFINED);
+}
+
 int main()
 {	
 	//test jeu base
@@ -48,25 +72,14 @@ int main()
 	Afficheur TABS;
 	TABS.init_sprites();
 	GAME.init();
-	IdPiece idtemp;
+	
 
 	do {
 		//affichage des pièces
 		TABS.lier(GAME);
 		TABS.dessiner(win);
 		win.display();
-		cout<<endl<<"    0  1  2  3  4  5  6  7  8"<<endl<<endl;
-		for (int i = 0; i < 9; i++)
-		{	cout << i << "  ";
-			for (int j = 0; j < 9; j++)
-			{	idtemp=GAME.getIdPiece(Vec2(j,i));
-				if(idtemp.type<10 && idtemp.type>=0) cout<<' '<<idtemp.type<<" ";
-				else if (idtemp.type==VIDE) cout<<"   ";
-				else cout<<idtemp.type<<" ";
-			}
-			cout<<endl;
-			if (i == -1) cout<<endl;
-		}
+		jeutxt_aff(GAME);
 
 		//selection de la pièce
 		if (joueur == BLANC) cout<<endl<<"Joueur Blanc (bas)"<<endl;

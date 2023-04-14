@@ -26,7 +26,6 @@ Piece::Piece( TypePiece typ, Couleur coul, const Vec2& pos)
     m_couleur = coul;
     m_pos = pos;
     m_enJeu = true;
-    m_importance = 0;
     m_importance = importance(typ, coul);
 }
 

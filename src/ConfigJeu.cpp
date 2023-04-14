@@ -194,7 +194,18 @@ Couleur ConfigurationJeu::vainqueur() const
     return UNDEFINED;
 }
 
-
+float ConfigurationJeu::points() const
+{   float points=0;
+    for (int i=0; i<=20; i++)
+    {   if (m_piecesB[i].enJeu())
+        {   points+=m_piecesB[i].m_importance;
+        }
+        if (m_piecesN[i].enJeu())
+        {   points+=m_piecesN[i].m_importance;
+        }
+    }
+    return points;
+}
 void ConfigurationJeu::init()
 {   
     ConfigurationJeu();
