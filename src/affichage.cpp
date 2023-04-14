@@ -45,7 +45,7 @@ void Afficheur::init_sprites()
             pieces_n.push_back(s_temp);
             pieces_b.push_back(Sprite(*t_temp));
         }
-        cout<<"i="<<i<<endl;  
+        cout<<"i="<<i<<endl;
     }
     
     //delete t_temp;

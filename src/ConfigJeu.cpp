@@ -274,3 +274,24 @@ void ConfigurationJeu::init()
     m_damier[4][9-1]=IdPiece(TypePiece(19), BLANC);
 }
 
+bool ConfigurationJeu::testRegression()
+{   Vec2 v1(1,2);
+	Vec2 v2(3,4);
+	v1 += v2;
+	cout << v1.x << " " << v1.y << endl;
+	
+
+	Piece P1(ROI, BLANC, Vec2(1,2));
+	Piece P2(LANCE1, NOIR, Vec2(3,4));
+	
+	ofstream f("data/test.txt");
+	cout<<P1.m_couleur<<endl;
+	P1.ecriture(f);
+	f.close();
+
+	ifstream g("data/test.txt");
+	P2.lecture(g);
+	cout<<P2.m_couleur<<endl;
+	g.close();
+    return true;
+}

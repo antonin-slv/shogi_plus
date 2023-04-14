@@ -14,19 +14,6 @@
 
 using namespace std; 
 using namespace sf;
-class JeuTxt
-{
-public:
-	JeuTxt();
-	
-	void boucle();
-private:
-	ConfigurationJeu m_cj;
-	
-	void affichage() const;
-};
-
-
 
 // --> Vec, TypePiece, Couleur, IdPiece,  Piece, ConfigrationJeu
 class JeuSDL
@@ -46,28 +33,8 @@ private:
 	Vec2 clicSourie(int mouseX, int mouseY);
 };
 
-
-
 int main()
-{	Vec2 v1(1,2);
-	Vec2 v2(3,4);
-	v1 += v2;
-	cout << v1.x << " " << v1.y << endl;
-	
-
-	Piece P1(ROI, BLANC, Vec2(1,2));
-	Piece P2(LANCE1, NOIR, Vec2(3,4));
-	
-	ofstream f("data/test.txt");
-	cout<<P1.m_couleur<<endl;
-	P1.ecriture(f);
-	f.close();
-
-	ifstream g("data/test.txt");
-	P2.lecture(g);
-	cout<<P2.m_couleur<<endl;
-	g.close();
-
+{	
 	//test jeu base
 	bool continu = true;
 	ConfigurationJeu GAME;
@@ -96,7 +63,6 @@ int main()
 				if(idtemp.type<10 && idtemp.type>=0) cout<<' '<<idtemp.type<<" ";
 				else if (idtemp.type==VIDE) cout<<"   ";
 				else cout<<idtemp.type<<" ";
-				
 			}
 			cout<<endl;
 			if (i == -1) cout<<endl;

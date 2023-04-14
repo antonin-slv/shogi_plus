@@ -2,6 +2,24 @@
 #include "ConfigJeu.h"
 #include <math.h>
 #include <iostream>
+
+
+float importance(TypePiece typ, Couleur coul)
+{   float m_importance = 0;
+    if(typ == TOUR) m_importance = 20;
+    else if(typ == FOU) m_importance = 22;
+    else if(typ == LANCE1 || typ == LANCE2)m_importance = 16;
+    else if(typ == CAVALIER1 || typ == CAVALIER2)m_importance = 18;
+    else if(typ == GENERALOR1 || typ == GENERALOR2)m_importance = 14;
+    else if(typ == GENERALARGENT1 || typ == GENERALARGENT2)m_importance = 12;
+    else if(typ == ROI)m_importance = 200;
+    else if(typ >= PION1 && typ <= PION9 )m_importance = 10;
+    
+    if(coul == NOIR) m_importance *= -1;
+
+    return m_importance;
+}
+
 Piece::Piece( TypePiece typ, Couleur coul, const Vec2& pos)
 {
     m_type = typ;
@@ -9,11 +27,12 @@ Piece::Piece( TypePiece typ, Couleur coul, const Vec2& pos)
     m_pos = pos;
     m_enJeu = true;
     m_importance = 0;
+    m_importance = importance(typ, coul);
 }
 
 Piece::Piece()
 {   m_type = VIDE;
-    m_couleur = BLANC;
+    m_couleur = UNDEFINED;
     m_pos = Vec2(-1,-1);
     m_enJeu = true;
     m_importance = 0;
@@ -24,7 +43,6 @@ IdPiece::IdPiece(int t, Couleur c)
     type = (TypePiece) t;
     coul = c;
 }
-
 
 void Piece::deplacement(Vec2 dep) {
     m_pos += dep;

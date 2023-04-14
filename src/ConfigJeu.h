@@ -57,7 +57,7 @@ class ConfigurationJeu
 		Couleur vainqueur() const;											// renvoie NOIR, BLANC. ATTENTION : valide seulement si la partie est terminÃ©e, 
 																			// sinon renvoie la couleur qui a le score le plus Ã©levÃ© (voir f ci-dessus et ci-dessous)
 		
-		float score(Couleur col) const;				// renvoie une estimation d'un score d'un joueur, calculÃ© en fonction des pièces prises
+		float points() const;				// renvoie la valeur du plateau : positif tend vers le joueur blanc, nÃ©gatif vers le joueur noir
 
 		float distance(ConfigurationJeu cj);		// renvoie un rÃ©el indiquant si les deux configurations sont proches : 0 indique indentique, un grand nombre=trÃ¨s diffÃ©rentes
 		
@@ -70,6 +70,7 @@ class ConfigurationJeu
 		
 		static void testRegression() const;
 		*/
+	bool testRegression();
 
 };
 
