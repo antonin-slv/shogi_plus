@@ -28,6 +28,16 @@ class Afficheur
     Texture pion_b;
     Texture pion_n;
 
+    Texture pion;
+    Texture tour;
+    Texture lance;
+    Texture cavalier;
+    Texture fou;
+    Texture gen_or;
+    Texture gen_arg;
+    Texture roi;
+
+
     Sprite ban;
     Texture damier;
 
