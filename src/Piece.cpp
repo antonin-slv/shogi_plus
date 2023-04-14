@@ -27,9 +27,7 @@ IdPiece::IdPiece(int t, Couleur c)
 
 
 void Piece::deplacement(Vec2 dep) {
-
     m_pos += dep;
-
 }
 
 void Piece::prise() {

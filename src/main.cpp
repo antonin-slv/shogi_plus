@@ -71,13 +71,16 @@ int main()
 
 
 	GAME.init();
+	IdPiece idtemp;
 	do {
 		//affichage des pièces
 		for (int i = 0; i < 9; i++)
 		{
 			for (int j = 0; j < 9; j++)
 			{
-				cout<<GAME.getIdPiece(Vec2(j,i)).type<<" ";
+				idtemp=GAME.getIdPiece(Vec2(j,i));
+				if(idtemp.type<10 && idtemp.type>=0) cout<<' '<<idtemp.type<<" ";
+				else cout<<idtemp.type<<" ";
 			}
 			cout<<endl;
 		}
@@ -104,7 +107,7 @@ int main()
 		cout<<GAME.getPiece(coup.pos).m_type<<" "<<GAME.getPiece(coup.pos).m_type<<endl;
 		if (GAME.jouerCoup(coup))
 		{	
-			cout<<GAME.getPiece(coup.pos).m_type<<" "<<GAME.getPiece(coup.pos).m_type<<endl;
+			//cout<<GAME.getPiece(coup.pos).m_type<<" "<<GAME.getPiece(coup.pos).m_type<<endl;
 			
 			joueur = (joueur == BLANC) ? NOIR : BLANC;
 		}
