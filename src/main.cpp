@@ -33,51 +33,14 @@ private:
 	Vec2 clicSourie(int mouseX, int mouseY);
 };
 
-void jeutxt_aff(ConfigurationJeu const & GAME)
-{	IdPiece idtemp;
-	cout<<endl<<"    0  1  2  3  4  5  6  7  8"<<endl<<endl;
-	for (int i = 0; i < 9; i++)
-	{	cout << i << "  ";
-		for (int j = 0; j < 9; j++)
-		{	idtemp=GAME.getIdPiece(Vec2(j,i));
-			if(idtemp.type<10 && idtemp.type>=0) cout<<' '<<idtemp.type<<" ";
-			else if (idtemp.type==VIDE) cout<<"   ";
-			else cout<<idtemp.type<<" ";
-		}
-		cout<<endl;
-		if (i == -1) cout<<endl;
-	}
-}
-
-void selection_piece(ConfigurationJeu const & GAME, Vec2 & pos)
-{	do {
-		cout<<endl<<"selectionner une piece : (x, y)"<<endl;
-		cin>> pos.x >> pos.y;
-	} while(GAME.getIdPiece(pos).type==VIDE||GAME.getIdPiece(pos).coul==UNDEFINED);
-}
-
 //algorithme min_max
-
-
-std::vector<Coup> CalculEnsembleCoups(ConfigurationJeu const & cj)
-{	std::vector<Coup> listeCoups;
-	for (int i=0; i<9; i++)
-	{  for (int j=0; j<9; j++)
-		{  	if (cj.getIdPiece(Vec2(i,j)).coul!=cj.joueurSuivant() && cj.getIdPiece(Vec2(i,j)).type!=VIDE)
-			{  	std::vector<Coup> listeCoupsTemp=cj.calculCoupsPossibles(Vec2(i,j));
-				listeCoups.insert(listeCoups.end(), listeCoupsTemp.begin(), listeCoupsTemp.end());
-			}
-		}
-	}
-	return listeCoups;
-}
 
 float evaluateur_branche(ConfigurationJeu cj, int n)
 {	//breakpoint de fin
 	if (n<=0 || cj.partieTerminee()) return cj.evaluer();
    	else
    	{  	//calcul des coups possibles.
-		std::vector<Coup> listeCoups=CalculEnsembleCoups(cj);
+		std::vector<Coup> listeCoups=cj.CalculEnsembleCoups();
 		//calcul des scores
 		float score=cj.evaluer();
 		ConfigurationJeu cjtemp;
@@ -105,7 +68,7 @@ float evaluateur_branche(ConfigurationJeu cj, int n)
 }
 Coup min_max(ConfigurationJeu cj, int n)
 {  	//calcul des coups possibles.
-	std::vector<Coup> listeCoups=CalculEnsembleCoups(cj);
+	std::vector<Coup> listeCoups=cj.CalculEnsembleCoups();
 	Coup rslt;
 	//calcul des scores
 	float score=cj.evaluer();
@@ -201,7 +164,7 @@ int main()
 		}
 		else
 		{ 	cout<<'('<<coup.pos.x<<','<<coup.pos.y<<") vers ("<<coup.deplacement.x+coup.pos.x<<','<<coup.deplacement.y+coup.pos.y<<')'<<" impossible"<<endl;	
-			std::vector<Coup> possibilite=CalculEnsembleCoups(GAME);
+			std::vector<Coup> possibilite=GAME.CalculEnsembleCoups();
 			for (int i=0;i<possibilite.size();++i)
 			{
 				cout<<'('<<possibilite.at(i).pos.x<<','<<possibilite.at(i).pos.y<<") vers ("<<possibilite.at(i).deplacement.x+possibilite.at(i).pos.x<<','<<possibilite.at(i).deplacement.y+possibilite.at(i).pos.y<<')'<<" prop"<<endl;			
