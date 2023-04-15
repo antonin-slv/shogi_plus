@@ -122,7 +122,7 @@ bool ConfigurationJeu::jouerCoup(const Coup& coup)
         m_joueurSuivant = (m_joueurSuivant==BLANC) ? NOIR : BLANC;
         return true;
     }
-    return false;
+    return coup.deplacement==Vec2(0,0);
 }
 
 

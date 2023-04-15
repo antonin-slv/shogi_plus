@@ -81,12 +81,16 @@ float evaluateur_branche(ConfigurationJeu cj, int n)
 		//calcul des scores
 		float score=cj.evaluer();
 		ConfigurationJeu cjtemp;
+		int i=0;
 		for (auto it = listeCoups.begin(); it != listeCoups.end(); ++it)
-		{  	//on copie le jeu
+		{  	
+			//on copie le jeu
 			cjtemp=cj;
 			//on joue chaque coup
 			cjtemp.jouerCoup(*it);
 			float scoretemp=evaluateur_branche(cjtemp, n-1);
+			scoretemp-=listeCoups.at(i++).deplacement.y/2;
+			scoretemp+=(rand()%10-5)/5;
 			//si le joueur suivant est le joueur max, on prend le max
 			if (cj.joueurSuivant()!=BLANC)
 			{	if (scoretemp>score) score=scoretemp;
@@ -107,16 +111,23 @@ Coup min_max(ConfigurationJeu cj, int n)
 	float score=cj.evaluer();
 
 	ConfigurationJeu cjtemp;
+
+	bool premier=true;
 	int i=0;
 	for (auto it = listeCoups.begin(); it != listeCoups.end(); ++it)
-	{  	if(listeCoups.at(i).deplacement==Vec2(0,0)) continue;
+	{  	
 		//on copie le jeu
 		cjtemp=cj;
 		//on joue chaque coup
 		cjtemp.jouerCoup(*it);
 		float scoretemp=evaluateur_branche(cjtemp, n);
-		scoretemp-=listeCoups.at(i).deplacement.y;
-		scoretemp+=(rand()%10-5)/2;
+
+		scoretemp-=listeCoups.at(i).deplacement.y/2;
+		scoretemp+=(rand()%10-5)/5;
+		if(premier)
+		{	premier=false;
+			score=scoretemp;
+		}
 		//si le joueur actuel est blanc, on prend le max, sinon le min
 		if (cj.joueurSuivant()==NOIR)
 		{  	if (scoretemp>=score)
@@ -125,7 +136,7 @@ Coup min_max(ConfigurationJeu cj, int n)
 			}
 		}
 		else
-		{  	if (scoretemp<score)
+		{  	if (scoretemp<=score)
 			{	score=scoretemp;
 				rslt=*it;
 			}
@@ -177,9 +188,11 @@ int main()
 			cout<<"selectionner un déplacement : (x, y)"<<endl;
 			cin>> coup.deplacement.x >> coup.deplacement.y;
 		}
-		else coup=min_max(GAME, 2);
+		else if(joueur == BLANC) coup=min_max(GAME, 1);
+		else coup=min_max(GAME,3);
+		cout<<'('<<coup.pos.x<<','<<coup.pos.y<<") vers ("<<coup.deplacement.x+coup.pos.x<<','<<coup.deplacement.y+coup.pos.y<<')'<<endl;
 		//test du coup 
-		cout<<GAME.getPiece(coup.pos).m_type<<" "<<GAME.getPiece(coup.pos).m_type<<endl;
+		//cout<<GAME.getPiece(coup.pos).m_type<<" "<<GAME.getPiece(coup.pos).m_type<<endl;
 		if (GAME.jouerCoup(coup))
 		{	
 			//cout<<GAME.getPiece(coup.pos).m_type<<" "<<GAME.getPiece(coup.pos).m_type<<endl;
