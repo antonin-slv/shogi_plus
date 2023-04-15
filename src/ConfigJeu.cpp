@@ -191,18 +191,44 @@ bool ConfigurationJeu::partieTerminee() const
     {   //cout<<"no roi noir"<<endl;
         return true;
     }
+    else
+    {   int B=0,N=0;
+        for (int i=0; i<=20; i++)
+        {   if (m_piecesB[i].enJeu() )  B++;
+            if (m_piecesN[i].enJeu())   N++;
+        }
+        if (B==1 && N==1)
+        {   //cout<<"partie nulle"<<endl;
+            return true;
+        }
+        else if (B > 2*N+1 || N > 2*B+1)
+        {   //cout<<"partie nulle"<<endl;
+            return true;
+        }
+
+    }
     return false;
 }
 
 //renvoie la couleur du joueur gagnant
 Couleur ConfigurationJeu::vainqueur() const
-{   if (getPiece(ROI, BLANC).enJeu())
+{   if (!getPiece(ROI, BLANC).enJeu())
     {   //cout<<"Roi blanc."<<endl;
+        return NOIR;
+    }
+    else if (!getPiece(ROI, NOIR).enJeu())
+    {   //cout <<"Roi noir."<<endl;
         return BLANC;
     }
-    else if (getPiece(ROI, NOIR).enJeu())
-    {   //cout <<"Roi noir."<<endl;
-        return NOIR;
+    else
+    {   int B=0,N=0;
+        for (int i=0; i<=20; i++)
+        {   if (m_piecesB[i].enJeu() )  B++;
+            if (m_piecesN[i].enJeu())   N++;
+        }
+        if (B > 2*N+1 ) return BLANC;
+        else if (N > 2*B+1 ) return NOIR;
+        cout<<"domination";
     }
     //cout<<"Partie nulle."<<endl;
     return UNDEFINED;

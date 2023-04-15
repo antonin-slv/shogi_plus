@@ -34,6 +34,45 @@ private:
 };
 
 //algorithme min_max
+struct MinMax
+{
+
+	Coup coup;
+	float score;
+	MinMax(Coup c, float s):coup(c),score(s){}
+};
+
+MinMax min_max_final(ConfigurationJeu cj, int profondeur)
+{	
+	MinMax rslt(Coup(Vec2(-1,-1),Vec2(0,0)),cj.evaluer());
+	if (profondeur>=0 && !cj.partieTerminee())
+	{	//cout<<profondeur<<" ";
+		std::vector<Coup> listeCoups=cj.CalculEnsembleCoups();
+		ConfigurationJeu cjtemp;
+		for (auto it = listeCoups.begin(); it != listeCoups.end(); ++it)
+		{	cjtemp=cj;
+			cjtemp.jouerCoup(*it);
+			MinMax MMtemp=min_max_final(cjtemp, profondeur-1);
+			MMtemp.score-=MMtemp.coup.deplacement.y/2;
+			if (cj.joueurSuivant()==BLANC)
+			{	if (MMtemp.score<=rslt.score)
+				{	rslt.score=MMtemp.score;
+					rslt.coup=*it;
+				}
+			}
+			else
+			{	if (MMtemp.score>=rslt.score)
+				{	rslt.score=MMtemp.score;
+					rslt.coup=*it;
+				}
+			}
+		}
+	}
+	return rslt;
+
+}
+
+
 
 float evaluateur_branche(ConfigurationJeu cj, int n)
 {	//breakpoint de fin
@@ -52,7 +91,7 @@ float evaluateur_branche(ConfigurationJeu cj, int n)
 			//on joue chaque coup
 			cjtemp.jouerCoup(*it);
 			float scoretemp=evaluateur_branche(cjtemp, n-1);
-			scoretemp-=listeCoups.at(i++).deplacement.y/2;
+			scoretemp-=listeCoups.at(i++).deplacement.y;
 			scoretemp+=(rand()%10-5)/5;
 			//si le joueur suivant est le joueur max, on prend le max
 			if (cj.joueurSuivant()!=BLANC)
@@ -85,7 +124,7 @@ Coup min_max(ConfigurationJeu cj, int n)
 		cjtemp.jouerCoup(*it);
 		float scoretemp=evaluateur_branche(cjtemp, n);
 
-		scoretemp-=listeCoups.at(i).deplacement.y/2;
+		scoretemp-=listeCoups.at(i).deplacement.y;
 		scoretemp+=(rand()%10-5)/5;
 		if(premier)
 		{	premier=false;
@@ -119,20 +158,22 @@ int main()
 	Couleur joueur=BLANC;
 
 	Coup coup;
-
+	sf::Clock clock;
 	//initialisation
 	RenderWindow win(VideoMode(1000,1000),"Shogi");
 	Afficheur TABS;
 	TABS.init_sprites();
 	GAME.init();
 	
-
+	float tp_B=0,tp_N=0;
 	do {
 		//affichage des pièces
 		TABS.lier(GAME);
 		TABS.dessiner(win);
 		win.display();
 		jeutxt_aff(GAME);
+
+		clock.restart();
 		if (joueur == BLANC && false)
 		{	//selection de la pièce
 			if (joueur == BLANC) cout<<endl<<"Joueur Blanc (bas)"<<endl;
@@ -151,8 +192,14 @@ int main()
 			cout<<"selectionner un déplacement : (x, y)"<<endl;
 			cin>> coup.deplacement.x >> coup.deplacement.y;
 		}
-		else if(joueur == BLANC) coup=min_max(GAME, 1);
-		else coup=min_max(GAME,3);
+		else if(joueur == BLANC)
+		{	coup=min_max(GAME, 1);
+			tp_B+=clock.restart().asSeconds();
+		}
+		else
+		{	coup=min_max_final(GAME,1).coup;
+			tp_N+=clock.restart().asSeconds();
+		}
 		cout<<'('<<coup.pos.x<<','<<coup.pos.y<<") vers ("<<coup.deplacement.x+coup.pos.x<<','<<coup.deplacement.y+coup.pos.y<<')'<<endl;
 		//test du coup 
 		//cout<<GAME.getPiece(coup.pos).m_type<<" "<<GAME.getPiece(coup.pos).m_type<<endl;
@@ -179,6 +226,11 @@ int main()
 		cout<<endl; */
 	} while (continu&&!GAME.partieTerminee());
 
+	TABS.lier(GAME);
+	TABS.dessiner(win);
+	win.display();
+	jeutxt_aff(GAME);
+
 	if (!continu) cout<<"Partie terminée par l'utilisateur"<<endl;
 	else if (GAME.partieTerminee())
 	{ 	if(GAME.vainqueur()==BLANC) cout<<"Partie terminée par victoire du joueur Blanc"<<endl;
@@ -186,6 +238,8 @@ int main()
 		else cout<<"Partie terminée par match nul"<<endl;
 	}
 	else cout<<"Partie terminée par erreur"<<endl;
+	cout<<"temps de calcul blanc : "<<tp_B<<endl;
+	cout<<"temps de calcul noir  : "<<tp_N<<endl;
 	cout<<endl<<"presser n'importe quelle touche pour sortir";
 	cin>>continu;
 	

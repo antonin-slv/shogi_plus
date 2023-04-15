@@ -8,12 +8,12 @@ float importance(TypePiece typ, Couleur coul)
 {   float m_importance = 0;
     if(typ == TOUR) m_importance = 20;
     else if(typ == FOU) m_importance = 22;
-    else if(typ == LANCE1 || typ == LANCE2)m_importance = 16;
+    else if(typ == LANCE1 || typ == LANCE2)m_importance = 10;
     else if(typ == CAVALIER1 || typ == CAVALIER2)m_importance = 18;
     else if(typ == GENERALOR1 || typ == GENERALOR2)m_importance = 14;
     else if(typ == GENERALARGENT1 || typ == GENERALARGENT2)m_importance = 12;
     else if(typ == ROI)m_importance = 200;
-    else if(typ >= PION1 && typ <= PION9 )m_importance = 10;
+    else if(typ >= PION1 && typ <= PION9 )m_importance = 8;
     
     if(coul == NOIR) m_importance *= -1;
 
