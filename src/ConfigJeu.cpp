@@ -125,6 +125,19 @@ bool ConfigurationJeu::jouerCoup(const Coup& coup)
     return coup.deplacement==Vec2(0,0);
 }
 
+std::vector<Coup> ConfigurationJeu::CalculEnsembleCoups() const
+{	std::vector<Coup> listeCoups;
+	for (int i=0; i<9; i++)
+	{  for (int j=0; j<9; j++)
+		{  	if (getIdPiece(Vec2(i,j)).coul!=joueurSuivant() && getIdPiece(Vec2(i,j)).type!=VIDE)
+			{  	std::vector<Coup> listeCoupsTemp=calculCoupsPossibles(Vec2(i,j));
+				listeCoups.insert(listeCoups.end(), listeCoupsTemp.begin(), listeCoupsTemp.end());
+			}
+		}
+	}
+	return listeCoups;
+}
+
 
 const Piece& ConfigurationJeu::getPiece(const Vec2& pos) const
 {   for (int i=0; i<=20; i++)

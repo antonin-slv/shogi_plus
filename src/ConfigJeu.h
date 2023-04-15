@@ -45,7 +45,9 @@ class ConfigurationJeu
 		//ok
 		bool coupValide(const Coup& c) const;									// indique si un dÃ©placement 'depl' d'une piÃ¨ce (repÃ©rÃ© avec sa position 'pos') est possible
 		std::vector<Coup> calculCoupsPossibles(const Vec2& pos) const;	// construit un tableau de tous les dÃ©placement possible pour une piÃ¨ce
-		
+		std::vector<Coup> CalculEnsembleCoups() const;					// construit un tableau de tous les dÃ©placement possible pour toutes les piÃ¨ces du joueur courant
+
+
 		bool jouerCoup(const Coup& c);											// joue un coup=déplace la piÃ¨ce de la case 'pos" vers 'pos+depl' si le coup est possible. Renvoie faux si le coup n'est pas valide
 		
 		//normalement ok

@@ -53,4 +53,7 @@ class Afficheur
 
 };
 
+void jeutxt_aff(ConfigurationJeu const & GAME);
+
+void selection_piece(ConfigurationJeu const & GAME, Vec2 & pos);
 #endif
