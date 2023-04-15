@@ -4,7 +4,7 @@
 #include <iostream>
 
 
-float importance(TypePiece typ, Couleur coul)
+float importance(TypePiece typ, Couleur coul, bool promue)
 {   float m_importance = 0;
     if(typ == TOUR) m_importance = 20;
     else if(typ == FOU) m_importance = 22;
@@ -26,7 +26,8 @@ Piece::Piece( TypePiece typ, Couleur coul, const Vec2& pos)
     m_couleur = coul;
     m_pos = pos;
     m_enJeu = true;
-    m_importance = importance(typ, coul);
+    m_importance = importance(typ, coul,false);
+    m_promue = false;
 }
 
 Piece::Piece()
@@ -35,6 +36,7 @@ Piece::Piece()
     m_pos = Vec2(-1,-1);
     m_enJeu = true;
     m_importance = 0;
+    m_promue = false;
 }
 
 IdPiece::IdPiece(int t, Couleur c)
@@ -102,12 +104,11 @@ bool Piece::coupValidePerm(const ConfigurationJeu& conf,const Vec2& depl)
 }
 
 bool Piece::coupValidePion(const ConfigurationJeu& conf,Vec2 depl)
-{   if (m_couleur == BLANC)
-    {   return (depl.y == -1 && depl.x == 0);
-    }
-    else
-    {   return (depl.y == 1 && depl.x == 0);
-    }   
+{   
+    if (m_promue) return coupValideGeneralOr(conf,depl);
+    else if (m_couleur == BLANC) return (depl.y == -1 && depl.x == 0);
+    else return (depl.y == 1 && depl.x == 0);
+
 }
 
 bool Piece::coupValideTour(const ConfigurationJeu& conf,Vec2 depl)
@@ -131,11 +132,14 @@ bool Piece::coupValideTour(const ConfigurationJeu& conf,Vec2 depl)
             }
         return true;
     }
+    if (m_promue) return (abs(depl.x) == 1 && abs(depl.y) == 1);
     return false;
 }
 
 bool Piece::coupValideCavalier(const ConfigurationJeu& conf,Vec2 depl)
-{   if (depl.x == 1 || depl.x == -1)
+{   
+    if (m_promue) return coupValideGeneralOr(conf,depl);
+    else if (depl.x == 1 || depl.x == -1)
     {   if (m_couleur == BLANC)
         { return depl.y == -2;
         }
@@ -162,6 +166,10 @@ bool Piece::coupValideFou(const ConfigurationJeu& conf,Vec2 depl)
         }
         return true;
     }
+    if (m_promue)
+    {   if (depl.y==0 && (depl.x == 1 || depl.x == -1)) return true;
+        if (depl.x==0 && (depl.y == 1 || depl.y == -1)) return true;
+    }
     return false;
 }
 /*
@@ -174,12 +182,11 @@ bool ConfigurationJeu::coupValideReine(const ConfigurationJeu& conf,Vec2 depl)
 }*/
 
 bool Piece::coupValideRoi(const ConfigurationJeu& conf,Vec2 depl)
-{   if (depl.x==0&&depl.y==0) return true;
-    return (abs(depl.x) <= 1 && abs(depl.y) <= 1 && (depl.x != 0 || depl.y != 0));
+{   return (abs(depl.x) <= 1 && abs(depl.y) <= 1 && (depl.x != 0 || depl.y != 0));
 }
 
 bool Piece::coupValideLance(const ConfigurationJeu& conf,Vec2 depl)
-{   
+{   if (m_promue) return coupValideGeneralOr(conf,depl);
     if (m_couleur == BLANC)
     {   
         if (depl.y < 0 && depl.x == 0)
@@ -213,7 +220,8 @@ bool Piece::coupValideGeneralOr(const ConfigurationJeu& conf,Vec2 depl)
 }
 
 bool Piece::coupValideGeneralArgent(const ConfigurationJeu& conf,Vec2 depl)
-{   if (m_couleur == BLANC)
+{   if (m_promue) return coupValideGeneralOr(conf,depl);
+    if (m_couleur == BLANC)
     {   return (depl.y == -1 && abs(depl.x) <= 1) || (depl.y == 1 && abs(depl.x) == 1);
     }
     else 

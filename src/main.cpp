@@ -77,7 +77,7 @@ int main()
 			cin>> coup.deplacement.x >> coup.deplacement.y;
 		}
 		else if(joueur == BLANC)
-		{	coup=min_max_final(GAME,1).coup;
+		{	coup=min_max(GAME,1);
 			tp_B+=clock.restart().asSeconds();
 		}
 		else

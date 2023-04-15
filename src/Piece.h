@@ -35,7 +35,7 @@ class Piece
         Vec2 m_pos;									// Position sur le damier, valide uniquement si le bool m_enJeu est vrai
         bool m_enJeu;								// Prise ou en jeu
         float m_importance;							// une estimation empirique de la valeur d'une piÃ¨ce, indÃ©pendament de sa position dans une partie
-
+        bool m_promue;								// vrai si la pièce est promue, faux sinon
 
         //fait jet 1
         bool coupValidePerm(const ConfigurationJeu& conf,const Vec2& depl);	// contrÃ´le si le dÃ©placement est possible, de manière générale
