@@ -16,12 +16,11 @@ Coup alphabeta(ConfigurationJeu cj, int profond)
 		{	cjtemp=cj;
 			cjtemp.jouerCoup(*it);
 			temp=alphabeta_in(cjtemp, profond-1, alpha, beta);
-			temp+=rand()%10/10.0-5;
 			if (temp<v)
 			{	v=temp;
 				rslt=*it;
 			}
-			if (alpha>=v) { return *it; cout<<"skip";}
+			if (alpha>=v) return *it;
 			beta=std::min(beta,v);
 		}
 	}
@@ -31,12 +30,11 @@ Coup alphabeta(ConfigurationJeu cj, int profond)
 		{	cjtemp=cj;
 			cjtemp.jouerCoup(*it);
 			temp=alphabeta_in(cjtemp, profond-1, alpha, beta);
-			temp+=rand()%10/10.0-5;
 			if (temp>v)
 			{	v=temp;
 				rslt=*it;
 			}
-			if (v>=beta) { return *it; cout<<"skip";}
+			if (v>=beta) return *it;
 			alpha=std::max(alpha,v);
 		}
 
@@ -55,10 +53,9 @@ float alphabeta_in(ConfigurationJeu cj, int profond, float alpha, float beta)
 			{	cjtemp=cj;
 				cjtemp.jouerCoup(*it);
 				v=std::min(v,alphabeta_in(cjtemp, profond-1, alpha, beta));
-				//if (alpha>=v) { return v; cout<<"."; }
+				if (alpha>=v) return v;
 				beta=std::min(beta,v);
 			}
-			
 			return v;
 		}
 		else
@@ -67,10 +64,9 @@ float alphabeta_in(ConfigurationJeu cj, int profond, float alpha, float beta)
 			{	cjtemp=cj;
 				cjtemp.jouerCoup(*it);
 				v=std::max(v,alphabeta_in(cjtemp, profond-1, alpha, beta));
-				//if (v>=beta) {return v;cout<<".";}
+				if (v>=beta) return v;
 				alpha=std::max(alpha,v);
 			}
-			
 			return v;
 		}
 	}
@@ -139,7 +135,6 @@ float evaluateur_branche(ConfigurationJeu cj, int n)
 			{	if (scoretemp<score) score=scoretemp;
 			}
 		}
-		cout<<".";
 		return score;
 	}
 }

@@ -77,13 +77,13 @@ int main()
 			cin>> coup.deplacement.x >> coup.deplacement.y;
 		}
 		else if(joueur == BLANC)
-		{	coup=min_max(GAME,1);
+		{	coup=min_max(GAME,2);
 			tp_B+=clock.restart().asSeconds();
 			//Coup coup2=min_max(GAME,2);
 			//if (coup2!=coup) cout<<"not ok"<<endl;
 		}
 		else
-		{	coup=alphabeta(GAME,1);
+		{	coup=alphabeta(GAME,3);
 			tp_N+=clock.restart().asSeconds();
 		}
 		nombre_etape++;
@@ -127,7 +127,7 @@ int main()
 	else cout<<"Partie terminée par erreur"<<endl;
 	cout<<"temps de calcul blanc : "<<tp_B<<endl;
 	cout<<"temps de calcul noir  : "<<tp_N<<endl;
-	
+	cin>>continu;
 	win.close();
 	return 0;
 }
