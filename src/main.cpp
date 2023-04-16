@@ -34,7 +34,7 @@ private:
 };
 
 int main()
-{	
+{	srand(time(NULL));
 	//test jeu base
 	bool continu = true;
 	ConfigurationJeu GAME;
@@ -48,15 +48,15 @@ int main()
 	Afficheur TABS;
 	TABS.init_sprites();
 	GAME.init();
-	
+	int nombre_etape=0;
 	float tp_B=0,tp_N=0;
 	do {
 		//affichage des pièces
 		TABS.lier(GAME);
 		TABS.dessiner(win);
 		win.display();
-		jeutxt_aff(GAME);
-
+		//jeutxt_aff(GAME);
+		cout<<"etape : "<<nombre_etape<<endl;
 		clock.restart();
 		if (joueur == BLANC && false)
 		{	//selection de la pièce
@@ -77,22 +77,22 @@ int main()
 			cin>> coup.deplacement.x >> coup.deplacement.y;
 		}
 		else if(joueur == BLANC)
-		{	coup=alphabeta(GAME,3);
+		{	coup=min_max(GAME,1);
 			tp_B+=clock.restart().asSeconds();
 			//Coup coup2=min_max(GAME,2);
 			//if (coup2!=coup) cout<<"not ok"<<endl;
 		}
 		else
-		{	coup=min_max(GAME,3);
+		{	coup=alphabeta(GAME,1);
 			tp_N+=clock.restart().asSeconds();
 		}
-		
+		nombre_etape++;
+		cout<<joueur<<'('<<coup.pos.x<<','<<coup.pos.y<<") vers ("<<coup.deplacement.x+coup.pos.x<<','<<coup.deplacement.y+coup.pos.y<<")"<<endl;
 		//test du coup 
-		//cout<<GAME.getPiece(coup.pos).m_type<<" "<<GAME.getPiece(coup.pos).m_type<<endl;
+
 		if (GAME.jouerCoup(coup))
 		{	
-			//cout<<GAME.getPiece(coup.pos).m_type<<" "<<GAME.getPiece(coup.pos).m_type<<endl;
-			
+	
 			joueur = (joueur == BLANC) ? NOIR : BLANC;
 		}
 		else
@@ -111,7 +111,7 @@ int main()
 		cin>>continu;
 		cout<<endl; */
 
-	} while (continu&&!GAME.partieTerminee());
+	} while (continu&&!GAME.partieTerminee()&&nombre_etape<250);
 
 	TABS.lier(GAME);
 	TABS.dessiner(win);
@@ -127,8 +127,6 @@ int main()
 	else cout<<"Partie terminée par erreur"<<endl;
 	cout<<"temps de calcul blanc : "<<tp_B<<endl;
 	cout<<"temps de calcul noir  : "<<tp_N<<endl;
-	cout<<endl<<"presser n'importe quelle touche pour sortir";
-	cin>>continu;
 	
 	win.close();
 	return 0;

@@ -1,8 +1,87 @@
 #include "Bot.h"
 
+
+
+Coup alphabeta(ConfigurationJeu cj, int profond)
+{
+	std::vector<Coup> listeCoups=cj.CalculEnsembleCoups();
+	ConfigurationJeu cjtemp;
+	float alpha=-100000;
+	float beta=100000;
+	float temp=0;
+	Coup rslt;
+	if (cj.joueurSuivant()==BLANC)
+	{	float v=100000;
+		for (auto it = listeCoups.begin(); it != listeCoups.end(); ++it)
+		{	cjtemp=cj;
+			cjtemp.jouerCoup(*it);
+			temp=alphabeta_in(cjtemp, profond-1, alpha, beta);
+			temp+=rand()%10/10.0-5;
+			if (temp<v)
+			{	v=temp;
+				rslt=*it;
+			}
+			if (alpha>=v) { return *it; cout<<"skip";}
+			beta=std::min(beta,v);
+		}
+	}
+	else
+	{	float v=-100000;
+		for (auto it = listeCoups.begin(); it != listeCoups.end(); ++it)
+		{	cjtemp=cj;
+			cjtemp.jouerCoup(*it);
+			temp=alphabeta_in(cjtemp, profond-1, alpha, beta);
+			temp+=rand()%10/10.0-5;
+			if (temp>v)
+			{	v=temp;
+				rslt=*it;
+			}
+			if (v>=beta) { return *it; cout<<"skip";}
+			alpha=std::max(alpha,v);
+		}
+
+	}
+	return rslt;
+}
+
+float alphabeta_in(ConfigurationJeu cj, int profond, float alpha, float beta)
+{ 	if (profond<=0 || cj.partieTerminee()) return cj.evaluer(); //on évalue la configuration
+	else
+	{	std::vector<Coup> listeCoups=cj.CalculEnsembleCoups();
+		ConfigurationJeu cjtemp;
+		if (cj.joueurSuivant()==BLANC)
+		{	float v=100000;
+			for (auto it = listeCoups.begin(); it != listeCoups.end(); ++it)
+			{	cjtemp=cj;
+				cjtemp.jouerCoup(*it);
+				v=std::min(v,alphabeta_in(cjtemp, profond-1, alpha, beta));
+				//if (alpha>=v) { return v; cout<<"."; }
+				beta=std::min(beta,v);
+			}
+			
+			return v;
+		}
+		else
+		{	float v=-100000;
+			for (auto it = listeCoups.begin(); it != listeCoups.end(); ++it)
+			{	cjtemp=cj;
+				cjtemp.jouerCoup(*it);
+				v=std::max(v,alphabeta_in(cjtemp, profond-1, alpha, beta));
+				//if (v>=beta) {return v;cout<<".";}
+				alpha=std::max(alpha,v);
+			}
+			
+			return v;
+		}
+	}
+}
+
+
 MinMax min_max_final(ConfigurationJeu cj, int profondeur)
 {	
-	MinMax rslt(Coup(Vec2(-1,-1),Vec2(0,0)),cj.evaluer());
+	MinMax rslt;
+	if (cj.joueurSuivant()==BLANC) rslt.score=100000;
+	else rslt.score=-100000;
 	if (profondeur>=0 && !cj.partieTerminee())
 	{	//cout<<profondeur<<" ";
 		std::vector<Coup> listeCoups=cj.CalculEnsembleCoups();
@@ -10,6 +89,7 @@ MinMax min_max_final(ConfigurationJeu cj, int profondeur)
 		for (auto it = listeCoups.begin(); it != listeCoups.end(); ++it)
 		{	cjtemp=cj;
 			cjtemp.jouerCoup(*it);
+
 			MinMax MMtemp=min_max_final(cjtemp, profondeur-1);
 			MMtemp.score-=MMtemp.coup.deplacement.y/2;
 			MMtemp.score+=(rand()%10-5)/3;
@@ -59,6 +139,7 @@ float evaluateur_branche(ConfigurationJeu cj, int n)
 			{	if (scoretemp<score) score=scoretemp;
 			}
 		}
+		cout<<".";
 		return score;
 	}
 }
