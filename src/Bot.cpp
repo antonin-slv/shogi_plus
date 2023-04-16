@@ -53,7 +53,7 @@ float alphabeta_in(ConfigurationJeu cj, int profond, float alpha, float beta)
 			{	cjtemp=cj;
 				cjtemp.jouerCoup(*it);
 				v=std::min(v,alphabeta_in(cjtemp, profond-1, alpha, beta));
-				if (alpha>v) return v;
+				if (alpha>=v) return v;
 				beta=std::min(beta,v);
 			}
 			return v;
@@ -64,7 +64,7 @@ float alphabeta_in(ConfigurationJeu cj, int profond, float alpha, float beta)
 			{	cjtemp=cj;
 				cjtemp.jouerCoup(*it);
 				v=std::max(v,alphabeta_in(cjtemp, profond-1, alpha, beta));
-				if (v>beta) return v;
+				if (v>=beta) return v;
 				alpha=std::max(alpha,v);
 			}
 			return v;

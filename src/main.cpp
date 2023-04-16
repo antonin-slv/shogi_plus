@@ -44,16 +44,16 @@ int main()
 	Coup coup;
 	sf::Clock clock;
 	//initialisation
-	RenderWindow win(VideoMode(1000,1000),"Shogi");
+	//RenderWindow win(VideoMode(1000,1000),"Shogi");
 	//Afficheur TABS;
 	//TABS.init_sprites();
 	int v_b=0,v_n=0;
-	for (int i=0;i<100;++i)	
+	float tp_B=0,tp_N=0;
+	for (int i=0;i<20;++i)	
 	{
 		GAME.init();
-		jeutxt_aff(GAME);
 		int nombre_etape=0;
-		float tp_B=0,tp_N=0;
+		
 		do {
 			//affichage des pièces
 			//TABS.lier(GAME);
@@ -81,13 +81,13 @@ int main()
 				cin>> coup.deplacement.x >> coup.deplacement.y;
 			}
 			else if(joueur == BLANC)
-			{	coup=min_max(GAME,0);
+			{	coup=alphabeta(GAME,2);
 				tp_B+=clock.restart().asSeconds();
 				//Coup coup2=min_max(GAME,2);
 				//if (coup2!=coup) cout<<"not ok"<<endl;
 			}
 			else
-			{	coup=alphabeta(GAME,0);
+			{	coup=alphabeta(GAME,2);
 				tp_N+=clock.restart().asSeconds();
 			}
 			nombre_etape++;
@@ -96,7 +96,6 @@ int main()
 
 			if (GAME.jouerCoup(coup))
 			{	
-		
 				joueur = (joueur == BLANC) ? NOIR : BLANC;
 			}
 			else
@@ -119,13 +118,14 @@ int main()
 		if (GAME.vainqueur()==BLANC) v_b++;
 		else if (GAME.vainqueur()==NOIR) v_n++;
 		jeutxt_aff(GAME);
+		cout<<"temps de calcul blanc : "<<tp_B<<endl;
+		cout<<"temps de calcul noir  : "<<tp_N<<endl;
 		cout<<"victoire blanc : "<<v_b<<endl;
 		cout<<"victoire noir  : "<<v_n<<endl;
 	}
 	//TABS.lier(GAME);
 	//TABS.dessiner(win);
 	//win.display();
-	jeutxt_aff(GAME);
 
 	if (!continu) cout<<"Partie terminée par l'utilisateur"<<endl;
 	else if (GAME.partieTerminee())
@@ -134,12 +134,8 @@ int main()
 		else cout<<"Partie terminée par match nul"<<endl;
 	}
 	else cout<<"Partie terminée par erreur"<<endl;
-	//cout<<"temps de calcul blanc : "<<tp_B<<endl;
-	//cout<<"temps de calcul noir  : "<<tp_N<<endl;
-	cout<<"victoire blanc : "<<v_b<<endl;
-	cout<<"victoire noir  : "<<v_n<<endl;
 	cin>>continu;
-	win.close();
+	//win.close();
 	return 0;
 }
 
