@@ -16,6 +16,7 @@ Coup alphabeta(ConfigurationJeu cj, int profond)
 		{	cjtemp=cj;
 			cjtemp.jouerCoup(*it);
 			temp=alphabeta_in(cjtemp, profond, alpha, beta);
+			temp+=rand()%10/5-1;
 			if (temp<v)
 			{	v=temp;
 				rslt=*it;

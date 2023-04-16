@@ -81,7 +81,7 @@ int main()
 				cin>> coup.deplacement.x >> coup.deplacement.y;
 			}
 			else if(joueur == BLANC)
-			{	coup=alphabeta(GAME,2);
+			{	coup=alphabeta(GAME,0);
 				tp_B+=clock.restart().asSeconds();
 				//Coup coup2=min_max(GAME,2);
 				//if (coup2!=coup) cout<<"not ok"<<endl;
