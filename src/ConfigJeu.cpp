@@ -168,20 +168,20 @@ const IdPiece& ConfigurationJeu::getIdPiece(const Vec2& pos) const
 }
 
 ConfigurationJeu::ConfigurationJeu()
-{   for (int x=0;x<9;x++)
-    {   
-        for (int y=0;y<9;y++)
-        {   m_damier[x][y]=IdPiece();
-        }
-    }
-
-    for (int i=0; i<=20; i++)
+{   for (int i=0; i<=20; i++)
     {   
         m_piecesB[i]=Piece(TypePiece(i), BLANC, Vec2(0,0));
         m_piecesN[i]=Piece(TypePiece(i), NOIR, Vec2(0,0));
     }
 
-    m_vide=Piece(VIDE, BLANC, Vec2(-1,-1));
+    m_vide=Piece(VIDE, UNDEFINED, Vec2(-1,-1));
+
+    for (int x=0;x<9;x++)
+    {   
+        for (int y=0;y<9;y++)
+        {   m_damier[x][y]=IdPiece(VIDE, UNDEFINED);
+        }
+    }
 
     m_joueurSuivant=NOIR;
 }
@@ -234,7 +234,6 @@ Couleur ConfigurationJeu::vainqueur() const
         }
         if (B > 2*N+1 ) return BLANC;
         else if (N > 2*B+1 ) return NOIR;
-        cout<<"domination";
     }
     //cout<<"Partie nulle."<<endl;
     return UNDEFINED;
@@ -258,9 +257,25 @@ Couleur ConfigurationJeu::joueurSuivant() const
 }
 
 void ConfigurationJeu::init()
-{   
-    ConfigurationJeu();
+{   //comme à l'appel du constructeur
+    for (int i=0; i<=20; i++)
+    {   
+        m_piecesB[i]=Piece(TypePiece(i), BLANC, Vec2(0,0));
+        m_piecesN[i]=Piece(TypePiece(i), NOIR, Vec2(0,0));
+    }
+
+    m_vide=Piece(VIDE, UNDEFINED, Vec2(-1,-1));
+
+    for (int x=0;x<9;x++)
+    {   
+        for (int y=0;y<9;y++)
+        {   m_damier[x][y]=IdPiece(VIDE, UNDEFINED);
+        }
+    }
+
+    m_joueurSuivant=NOIR;
     
+    //init des pièces
     for (int i=0; i<9; i++)
     {   //init Pion NOIR
         m_piecesN[i]=Piece(TypePiece(i), NOIR, Vec2(i,2));
