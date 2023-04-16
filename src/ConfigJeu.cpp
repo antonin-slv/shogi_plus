@@ -8,6 +8,12 @@ Coup::Coup(const Vec2& p, const Vec2& d)
     pos=p;
     deplacement=d;
 }
+
+bool Coup::operator!=(const Coup& c) const
+{   
+    return (pos!=c.pos || deplacement!=c.deplacement);
+}
+
 //privée
 const Piece& ConfigurationJeu::getPiece(TypePiece type, Couleur col) const
 {   if (col==BLANC)

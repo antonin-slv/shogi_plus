@@ -14,7 +14,7 @@ struct Coup
 	Vec2 pos;
 	Vec2 deplacement;
 	Coup(const Vec2& p=Vec2(0,0), const Vec2& d=Vec2(0,0));
-
+	bool operator!=(const Coup& c) const;
 };
 
 class ConfigurationJeu

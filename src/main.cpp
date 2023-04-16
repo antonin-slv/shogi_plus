@@ -77,14 +77,16 @@ int main()
 			cin>> coup.deplacement.x >> coup.deplacement.y;
 		}
 		else if(joueur == BLANC)
-		{	coup=min_max(GAME,1);
+		{	coup=alphabeta(GAME,3);
 			tp_B+=clock.restart().asSeconds();
+			//Coup coup2=min_max(GAME,2);
+			//if (coup2!=coup) cout<<"not ok"<<endl;
 		}
 		else
-		{	coup=min_max(GAME,1);
+		{	coup=min_max(GAME,3);
 			tp_N+=clock.restart().asSeconds();
 		}
-		cout<<'('<<coup.pos.x<<','<<coup.pos.y<<") vers ("<<coup.deplacement.x+coup.pos.x<<','<<coup.deplacement.y+coup.pos.y<<')'<<endl;
+		
 		//test du coup 
 		//cout<<GAME.getPiece(coup.pos).m_type<<" "<<GAME.getPiece(coup.pos).m_type<<endl;
 		if (GAME.jouerCoup(coup))
