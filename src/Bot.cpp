@@ -15,7 +15,7 @@ Coup alphabeta(ConfigurationJeu cj, int profond)
 		for (auto it = listeCoups.begin(); it != listeCoups.end(); ++it)
 		{	cjtemp=cj;
 			cjtemp.jouerCoup(*it);
-			temp=alphabeta_in(cjtemp, profond-1, alpha, beta);
+			temp=alphabeta_in(cjtemp, profond, alpha, beta);
 			if (temp<v)
 			{	v=temp;
 				rslt=*it;
@@ -29,7 +29,7 @@ Coup alphabeta(ConfigurationJeu cj, int profond)
 		for (auto it = listeCoups.begin(); it != listeCoups.end(); ++it)
 		{	cjtemp=cj;
 			cjtemp.jouerCoup(*it);
-			temp=alphabeta_in(cjtemp, profond-1, alpha, beta);
+			temp=alphabeta_in(cjtemp, profond, alpha, beta);
 			if (temp>v)
 			{	v=temp;
 				rslt=*it;
@@ -53,7 +53,7 @@ float alphabeta_in(ConfigurationJeu cj, int profond, float alpha, float beta)
 			{	cjtemp=cj;
 				cjtemp.jouerCoup(*it);
 				v=std::min(v,alphabeta_in(cjtemp, profond-1, alpha, beta));
-				if (alpha>=v) return v;
+				if (alpha>v) return v;
 				beta=std::min(beta,v);
 			}
 			return v;
@@ -64,7 +64,7 @@ float alphabeta_in(ConfigurationJeu cj, int profond, float alpha, float beta)
 			{	cjtemp=cj;
 				cjtemp.jouerCoup(*it);
 				v=std::max(v,alphabeta_in(cjtemp, profond-1, alpha, beta));
-				if (v>=beta) return v;
+				if (v>beta) return v;
 				alpha=std::max(alpha,v);
 			}
 			return v;

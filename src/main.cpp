@@ -48,7 +48,7 @@ int main()
 	//Afficheur TABS;
 	//TABS.init_sprites();
 	int v_b=0,v_n=0;
-	for (int i=0;i<20;++i)	
+	for (int i=0;i<100;++i)	
 	{
 		GAME.init();
 		jeutxt_aff(GAME);
@@ -81,13 +81,13 @@ int main()
 				cin>> coup.deplacement.x >> coup.deplacement.y;
 			}
 			else if(joueur == BLANC)
-			{	coup=min_max(GAME,1);
+			{	coup=min_max(GAME,0);
 				tp_B+=clock.restart().asSeconds();
 				//Coup coup2=min_max(GAME,2);
 				//if (coup2!=coup) cout<<"not ok"<<endl;
 			}
 			else
-			{	coup=alphabeta(GAME,1);
+			{	coup=alphabeta(GAME,0);
 				tp_N+=clock.restart().asSeconds();
 			}
 			nombre_etape++;
