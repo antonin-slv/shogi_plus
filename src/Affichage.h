@@ -1,5 +1,5 @@
-#ifndef _AFFICHAGE_
-#define _AFFICHAGE_
+#ifndef _Affichage_
+#define _Affichage_
 
 #include "ConfigJeu.h"
 #include "Piece.h"

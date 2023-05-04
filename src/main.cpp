@@ -2,7 +2,7 @@
 #include "ConfigJeu.h"
 #include "Piece.h"
 #include "Affichage.h"
-#include "bot.h"
+#include "Bot.h"
 #include <iostream>
 #include <fstream>
 
@@ -29,7 +29,7 @@ private:
 	Image m_pieces_blanc[TYPEPIECE_MAX];
 	Image m_pieces_noir[TYPEPIECE_MAX];
 	*/
-	void affichage() const;
+	void Affichage() const;
 	Vec2 clicSourie(int mouseX, int mouseY);
 };
 
@@ -55,7 +55,7 @@ int main()
 		int nombre_etape=0;
 		
 		do {
-			//affichage des pièces
+			//Affichage des pièces
 			//TABS.lier(GAME);
 			//TABS.dessiner(win);
 			//win.display();
@@ -68,7 +68,7 @@ int main()
 				else cout<<endl<<"Joueur Noir (haut)"<<endl;
 				selection_piece(GAME, coup.pos);
 
-				//cacul et affichage des déplacements possibles
+				//cacul et Affichage des déplacements possibles
 				listeCoups=GAME.calculCoupsPossibles(coup.pos);
 				cout<<"deplacment possibles :"<<endl;
 				for (auto it = listeCoups.begin(); it != listeCoups.end(); ++it)
@@ -152,7 +152,7 @@ private:
 	
 	Widget m_ihm;
 	
-	void affichage() const;
+	void Affichage() const;
 };
 */
 
