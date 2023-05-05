@@ -7,20 +7,22 @@ LIBSFML= -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
 
 all: $(EXEC)
 
-$(EXEC): main.o Partie.o ConfigJeu.o Piece.o Vec2.o Affichage.o Bot.o
-	$(CC) $(FLAGS) obj/main.o obj/Partie.o obj/ConfigJeu.o obj/Piece.o obj/Affichage.o obj/Vec2.o obj/Bot.o $(LIBSFML) -o $(EXEC)
+$(EXEC): main.o Partie.o ConfigJeu.o Piece.o Vec2.o Affichage.o Bot.o Menu.o
+	$(CC) $(FLAGS) obj/main.o obj/Partie.o obj/ConfigJeu.o obj/Piece.o obj/Affichage.o obj/Vec2.o obj/Bot.o obj/Menu.o  $(LIBSFML) -o $(EXEC)
 
-main.o: src/main.cpp src/Partie.h src/ConfigJeu.h src/Piece.h src/Vec2.h src/Affichage.h src/Bot.h
+main.o: src/main.cpp src/Partie.h src/ConfigJeu.h src/Piece.h src/Vec2.h src/Affichage.h src/Bot.h src/Partie.h src/Menu.h
 	$(CC) $(FLAGS) -c src/main.cpp $(ISFML) -o obj/main.o
 
+Partie.o: src/Partie.cpp src/Partie.h src/ConfigJeu.h src/Piece.h src/Vec2.h src/Affichage.h src/Bot.h
+	$(CC) $(FLAGS) -c src/Partie.cpp $(ISML) -o obj/Partie.o
+
+Menu.o : src/Menu.cpp src/Menu.h
+	$(CC) $(FLAGS) -c src/Menu.cpp $(ISFML) -o obj/Menu.o
 Affichage.o: src/Affichage.cpp src/Affichage.h src/Partie.h src/ConfigJeu.h src/Piece.h src/Vec2.h
 	$(CC) $(FLAGS) -c src/Affichage.cpp $(ISFML) -o obj/Affichage.o
 
 Bot.o: src/Bot.cpp src/Bot.h src/Partie.h src/ConfigJeu.h src/Piece.h src/Vec2.h
 	$(CC) $(FLAGS) -c src/Bot.cpp -o obj/Bot.o
-
-Partie.o: src/Partie.cpp src/Partie.h src/ConfigJeu.h src/Piece.h src/Vec2.h
-	$(CC) $(FLAGS) -c src/Partie.cpp -o obj/Partie.o
 
 ConfigJeu.o: src/ConfigJeu.cpp src/ConfigJeu.h src/Piece.h src/Vec2.h
 	$(CC) $(FLAGS) -c src/ConfigJeu.cpp -o obj/ConfigJeu.o

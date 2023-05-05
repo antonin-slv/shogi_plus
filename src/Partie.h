@@ -1,22 +1,33 @@
 #ifndef _PARTIE_H_
 #define _PARTIE_H_
 
-#include "Vec2.h"
-#include "Piece.h"
 #include "ConfigJeu.h"
-
-#include <vector>
+#include "Piece.h"
+#include "Affichage.h"
+#include "Bot.h"
+#include "Menu.h"
+#include <iostream>
 #include <fstream>
+
+#include <SFML/Graphics.hpp>
+#include <SFML/Window.hpp>
+#include <SFML/System.hpp>
+
 #include <iostream>
 
 using namespace std;
 
-class Partie
+class Partie : public ConfigurationJeu
 {	private:
 		std::vector<ConfigurationJeu> m_etapes;	
 		int etapeActuelle;
 	public:
+		ConfigurationJeu GAME;
 		Partie();
+
+		void boucle_Jeu(Afficheur& TABS, RenderWindow& win,Parametre & param);
+
+
 		
 		int nbEtape() const;
 		const ConfigurationJeu& getIemeEtape(int ) const;

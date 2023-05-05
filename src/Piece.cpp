@@ -108,7 +108,6 @@ bool Piece::coupValidePion(const ConfigurationJeu& conf,Vec2 depl)
     if (m_promue) return coupValideGeneralOr(conf,depl);
     else if (m_couleur == BLANC) return (depl.y == -1 && depl.x == 0);
     else return (depl.y == 1 && depl.x == 0);
-
 }
 
 bool Piece::coupValideTour(const ConfigurationJeu& conf,Vec2 depl)
