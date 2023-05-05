@@ -17,18 +17,36 @@
 
 using namespace std;
 
-class Partie : public ConfigurationJeu
+struct Stats
+{
+	int nbParties;
+	int nbVictoires_Blanc;
+	int nbDefaites_Blancs;
+	int nbNuls;//après 250 coups (sauf si changés)
+	int nbForfait_Blanc;
+	int nbForfait_Noir;
+
+	//les temps de jeu/de calcul
+	float temps_Blanc;
+	float temps_Noir;
+};
+
+class Partie
 {	private:
 		std::vector<ConfigurationJeu> m_etapes;	
 		int etapeActuelle;
+		Stats statistiques;
 	public:
 		ConfigurationJeu GAME;
 		Partie();
 
-		void boucle_Jeu(Afficheur& TABS, RenderWindow& win,Parametre & param);
+		Stats & boucle_Jeu(Afficheur& TABS, RenderWindow& win,Parametre & param);
 
 
 		
+
+
+		/*
 		int nbEtape() const;
 		const ConfigurationJeu& getIemeEtape(int ) const;
 		void ajouterEtape(const ConfigurationJeu& cj);
@@ -39,7 +57,7 @@ class Partie : public ConfigurationJeu
 		void ecriture(ofstream& f);
 		void lecture(ofstream& f);
 		// OU
-		/*
+		
 		ostream& operator<<(ostream& , const Partie& p) ;
 		istream& operator<<(istream& , const Partie& p) ;
 		*/

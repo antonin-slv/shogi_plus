@@ -51,9 +51,11 @@ class Afficheur
     //affiche le jeu sur la fenètre (sans actualiser)
     void dessiner(RenderWindow& fenetre);
 
+    void selection_coup_SFML(RenderWindow & win,ConfigurationJeu const & GAME, Coup & coup);
+
 };
 
 void jeutxt_aff(ConfigurationJeu const & GAME);
 
-void selection_piece(ConfigurationJeu const & GAME, Vec2 & pos);
+void selection_coup_TXT(ConfigurationJeu const & GAME, Coup & coup);
 #endif

@@ -63,10 +63,10 @@ class ConfigurationJeu
 		
 		float evaluer() const;				// renvoie la valeur du plateau : positif tend vers le joueur blanc, nÃ©gatif vers le joueur noir
 
-		float distance(ConfigurationJeu cj);		// renvoie un rÃ©el indiquant si les deux configurations sont proches : 0 indique indentique, un grand nombre=trÃ¨s diffÃ©rentes
+		//float distance(ConfigurationJeu cj);		// renvoie un rÃ©el indiquant si les deux configurations sont proches : 0 indique indentique, un grand nombre=trÃ¨s diffÃ©rentes
 		
-		void ecriture(ofstream& f);
-		void lecture(ofstream& f);
+		//void ecriture(ofstream& f);
+		//void lecture(ofstream& f);
 		// OU
 		/*
 		ostream& operator<<(ostream& , const ConfigurationJeu& p) ;

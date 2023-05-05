@@ -25,7 +25,7 @@ const Piece& ConfigurationJeu::getPiece(TypePiece type, Couleur col) const
             }
         }
     }
-    else {   
+    else if (col==NOIR){   
         for (int i=0; i<=20; i++)
         {   
             if (m_piecesN[i].m_type==type)
@@ -164,7 +164,8 @@ const Piece& ConfigurationJeu::getPiece(const IdPiece& id) const
 }
 
 const IdPiece& ConfigurationJeu::getIdPiece(const Vec2& pos) const
-{   return m_damier[pos.x][pos.y];
+{   
+    return m_damier[pos.x][pos.y];
 }
 
 ConfigurationJeu::ConfigurationJeu()

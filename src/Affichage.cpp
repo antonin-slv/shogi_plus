@@ -16,8 +16,6 @@ Afficheur::Afficheur()
     damier.loadFromFile("data/img/plateau.png");
 }
 
-
-
 void Afficheur::init_sprites()
 {   ban.setTexture(damier);
     ban.setOrigin(ban.getScale().x/2, ban.getScale().y/2);
@@ -83,9 +81,67 @@ void jeutxt_aff(ConfigurationJeu const & GAME)
 	}
 }
 
-void selection_piece(ConfigurationJeu const & GAME, Vec2 & pos)
+void selection_coup_TXT(ConfigurationJeu const & GAME, Coup & coup)
 {	do {
 		cout<<endl<<"selectionner une piece : (x, y)"<<endl;
-		cin>> pos.x >> pos.y;
-	} while(GAME.getIdPiece(pos).type==VIDE||GAME.getIdPiece(pos).coul==UNDEFINED);
+		cin>> coup.pos.x >> coup.pos.y;
+	} while(GAME.getIdPiece(coup.pos).type==VIDE||GAME.getIdPiece(coup.pos).coul==UNDEFINED);
+    vector<Coup> listeCoups;
+    listeCoups=GAME.calculCoupsPossibles(coup.pos);
+    //cacul et Affichage des déplacements possibles
+    listeCoups=GAME.calculCoupsPossibles(coup.pos);
+    cout<<"deplacment possibles :"<<endl;
+    for (auto it = listeCoups.begin(); it != listeCoups.end(); ++it)
+    {
+        cout<<it->deplacement.x<<" "<<it->deplacement.y<<endl;
+    }
+
+    //selection du déplacement
+    cout<<"selectionner un déplacement : (x, y)"<<endl;
+    cin>> coup.deplacement.x >> coup.deplacement.y;
+}
+
+void Afficheur::selection_coup_SFML(RenderWindow & win,ConfigurationJeu const & GAME, Coup & coup){
+    bool continu=true;
+    Piece piece;
+    Coup coup_prec=coup;
+    
+    Vec2 div(damier.getSize().x/9,damier.getSize().y/9);//taille d'une case
+    do {
+
+        Event event;
+        while (win.pollEvent(event))
+        {   if (event.type == Event::Closed) {
+                continu=false;   
+            }
+        }
+        //on récupère la position de la souris
+        Vector2i pos_souris = Mouse::getPosition();
+        //on map la position au damier
+        coup.pos.x = pos_souris.x/div.x;
+        coup.pos.y = pos_souris.y/div.y;
+        
+        dessiner(win);
+
+        //rectangle de selection
+        RectangleShape rectangle(Vector2f(div.x, div.y));
+        rectangle.setFillColor(Color(200, 150, 255, 0));
+        rectangle.setOutlineThickness(2);
+        rectangle.setOutlineColor(Color(180, 120, 255, 255));
+        rectangle.setPosition(coup.pos.x*div.x, coup.pos.y*div.y);
+        win.draw(rectangle);
+        win.display();
+        if (coup.pos.x<0||coup.pos.x>8||coup.pos.y<0||coup.pos.y>8) piece=Piece();
+        else
+        {   
+            if (coup_prec.pos!=coup.pos)
+            {   cout<<"x :"<<coup.pos.x<<" y :"<<coup.pos.y<<endl;
+                coup_prec=coup;
+                piece= GAME.getPiece(coup.pos);
+                if (piece.m_couleur==UNDEFINED||piece.m_type==VIDE) piece=Piece();
+                
+            }
+
+        }
+    }while (piece.m_couleur==UNDEFINED||piece.m_type==VIDE||continu);   
 }
