@@ -36,8 +36,9 @@ class Afficheur
     Texture gen_or;
     Texture gen_arg;
     Texture roi;
+    Texture amelioration_text;
 
-
+    Sprite amelioration_sprite;
     Sprite ban;
     Texture damier;
     sf::Font font;
@@ -46,12 +47,9 @@ class Afficheur
     //fonctions d'initialisation
     Afficheur();
     void init_sprites();
-    
-    //on récupère la configuration du jeu
-    void lier(const ConfigurationJeu& cj);
 
-    //affiche le jeu sur la fenètre (sans actualiser)
-    void dessiner(RenderWindow& fenetre);
+    //affiche le jeu sur la fenètre (sans actualiser, ni clear)
+    void dessiner(RenderWindow& fenetre,const ConfigurationJeu& cj);
 
     void selection_coup_SFML(RenderWindow & win,ConfigurationJeu const & GAME, Coup & coup);
 

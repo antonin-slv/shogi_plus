@@ -28,8 +28,8 @@ Stats & Partie::boucle_Jeu(Afficheur& TABS, RenderWindow& win,Parametre & param)
         
         do {
             //Affichage des pièces
-            TABS.lier(GAME);
-            TABS.dessiner(win);
+            win.clear();
+            TABS.dessiner(win,GAME);
             win.display();
             //jeutxt_aff(GAME);
             //cout<<"etape : "<<nombre_etape<<endl;

@@ -19,6 +19,8 @@ Afficheur::Afficheur()
     text_temp.setFont(font);
     cout<<"Afficheur créé"<<endl;
 
+    amelioration_text.loadFromFile("data/img/amelioration.png");
+    amelioration_sprite.setTexture(amelioration_text);
 }
 
 void Afficheur::init_sprites()
@@ -54,20 +56,32 @@ void Afficheur::init_sprites()
     //delete t_temp;
 }
 
-void Afficheur::lier(const ConfigurationJeu& cj)
-{   for(int i=0; i<20; i++)
-    {   pieces_b[i].setPosition(cj.getPiece((TypePiece) i, BLANC).getPos().x*95+10, cj.getPiece((TypePiece) i, BLANC).getPos().y*100+5);
-        pieces_n[i].setPosition(cj.getPiece((TypePiece) i, NOIR).getPos().x*95+10, cj.getPiece((TypePiece) i, NOIR).getPos().y*100+5);
-    }
-}
-
-void Afficheur::dessiner(RenderWindow& fenetre)
-{   fenetre.clear();
+void Afficheur::dessiner(RenderWindow& fenetre, const ConfigurationJeu& cj)
+{   
     fenetre.draw(ban);
+    
+    //on lie les sprites aux pièces et on affiche une aura si la pièce est améliorée
     for(int i=0; i<20; i++)
-    {   fenetre.draw(pieces_b[i]);
+    {   Piece p_temp = cj.getPiece((TypePiece) i, BLANC);
+        Vec2 pos = p_temp.getPos();
+        pieces_b[i].setPosition(pos.x*95+10, pos.y*100+5);
+        //pieces_b[i].setOrigin(pieces_b[i].getScale().x/2, pieces_b[i].getScale().y/2);
+        if (p_temp.estPromue()) {
+            amelioration_sprite.setPosition(pos.x*95, pos.y*100);
+            fenetre.draw(amelioration_sprite);
+        }
+        fenetre.draw(pieces_b[i]);
+        p_temp = cj.getPiece((TypePiece) i, NOIR);
+        pos = p_temp.getPos();
+        pieces_n[i].setPosition(pos.x*95+10, pos.y*100+5);
+        //affichage de l'aura + sprite
+        if (p_temp.estPromue()) {
+            amelioration_sprite.setPosition(pos.x*95, pos.y*100);
+            fenetre.draw(amelioration_sprite);
+        }
         fenetre.draw(pieces_n[i]);
     }
+
 }
 
 void jeutxt_aff(ConfigurationJeu const & GAME)
@@ -193,18 +207,16 @@ void Afficheur::selection_coup_SFML(RenderWindow & win,ConfigurationJeu const & 
             else if (piece_selectionne) {
                 coup.deplacement=case_souris-coup.pos;
                 //on vérifie si le déplacement est possible
-                for (auto it = listeCoups.begin(); it != listeCoups.end(); ++it) {
-                    if (it->deplacement==coup.deplacement) {
-                        return;//si le déplacement est possible, on sort de la fonction avec le coup
-                    }
-                }
+                if (GAME.coupValide(coup))    return;
+                
                 //si le déplacement n'est pas possible, on continue sans rien faire
                 piece_selectionne=false;
                 listeCoups.clear();
                 rect_select.setPosition(Vector2f(-100,-100));
             }
         }
-        dessiner(win);
+        win.clear();
+        dessiner(win,GAME);
         //indiquer qu'on promeut
         if (coup.promotion) {
             text_temp.setString("coup + promotion");
@@ -228,7 +240,6 @@ void Afficheur::selection_coup_SFML(RenderWindow & win,ConfigurationJeu const & 
             }
         }
         win.draw(text_temp);
-
         win.draw(rect_select);
         win.display();
     } while (piece.m_couleur==UNDEFINED||piece.m_type==VIDE||continu);   

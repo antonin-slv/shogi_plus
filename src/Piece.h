@@ -61,6 +61,7 @@ class Piece
         //fait jet 1
         bool coupValide(const ConfigurationJeu&, Vec2 depl);		// un switch qui appelle une des fonctions coupValideXXX oÃ¹ XXX dÃ©pend du type de piÃ¨ce, voir en private
         bool enJeu() const;										// renvoie vrai si la pièce est en jeu
+        bool estPromue() const {return m_promue;}								// renvoie vrai si la pièce est promue
         //fait
         void ecriture(ofstream& f);								// operator<< serait surement mieux
         void lecture(ifstream& f);	

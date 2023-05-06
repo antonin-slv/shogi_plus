@@ -12,8 +12,9 @@ Coup alphabeta(ConfigurationJeu cj, int profond)
 	Coup rslt;
 	if (cj.joueurSuivant()==BLANC)
 	{	float v=100000;
-		for (auto it = listeCoups.begin(); it != listeCoups.end(); ++it)
-		{	cjtemp=cj;
+		for (int i=(int)listeCoups.size()-1; (i>=0 && i <listeCoups.size()); i--)
+		{	auto it=listeCoups.begin()+i;
+			cjtemp=cj;
 			cjtemp.jouerCoup(*it);
 			temp=alphabeta_in(cjtemp, profond, alpha, beta);
 			temp+=rand()%10/5-1;
@@ -27,8 +28,9 @@ Coup alphabeta(ConfigurationJeu cj, int profond)
 	}
 	else
 	{	float v=-100000;
-		for (auto it = listeCoups.begin(); it != listeCoups.end(); ++it)
-		{	cjtemp=cj;
+		for (int i=(int)listeCoups.size()-1; (i>=0 && i <listeCoups.size()); i--)
+		{	auto it=listeCoups.begin()+i;
+			cjtemp=cj;
 			cjtemp.jouerCoup(*it);
 			temp=alphabeta_in(cjtemp, profond, alpha, beta);
 			if (temp>v)
@@ -50,8 +52,9 @@ float alphabeta_in(ConfigurationJeu cj, int profond, float alpha, float beta)
 		ConfigurationJeu cjtemp;
 		if (cj.joueurSuivant()==BLANC)
 		{	float v=100000;
-			for (auto it = listeCoups.begin(); it != listeCoups.end(); ++it)
-			{	cjtemp=cj;
+			for (int i=(int)listeCoups.size()-1; (i>=0 && i <listeCoups.size()); i--)
+			{	auto it=listeCoups.begin()+i;
+				cjtemp=cj;
 				cjtemp.jouerCoup(*it);
 				v=std::min(v,alphabeta_in(cjtemp, profond-1, alpha, beta));
 				if (alpha>=v) return v;
@@ -61,8 +64,9 @@ float alphabeta_in(ConfigurationJeu cj, int profond, float alpha, float beta)
 		}
 		else
 		{	float v=-100000;
-			for (auto it = listeCoups.begin(); it != listeCoups.end(); ++it)
-			{	cjtemp=cj;
+			for (int i=(int)listeCoups.size()-1; (i>=0 && i <listeCoups.size()); i--)
+			{	auto it=listeCoups.begin()+i;
+				cjtemp=cj;
 				cjtemp.jouerCoup(*it);
 				v=std::max(v,alphabeta_in(cjtemp, profond-1, alpha, beta));
 				if (v>=beta) return v;
