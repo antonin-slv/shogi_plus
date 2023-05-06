@@ -62,7 +62,7 @@ Stats & Partie::boucle_Jeu(Afficheur& TABS, RenderWindow& win,Parametre & param)
             {	
                 joueur = (joueur == BLANC) ? NOIR : BLANC;
             }
-            else
+            else // montre les possibilités
             { 	cout<<'('<<coup.pos.x<<','<<coup.pos.y<<") vers ("<<coup.deplacement.x+coup.pos.x<<','<<coup.deplacement.y+coup.pos.y<<')'<<" impossible"<<endl;	
                 std::vector<Coup> possibilite=GAME.CalculEnsembleCoups();
                 for (int i=0;i<possibilite.size();++i)
@@ -72,12 +72,6 @@ Stats & Partie::boucle_Jeu(Afficheur& TABS, RenderWindow& win,Parametre & param)
                 }
                 continu=false;
             }
-            /*
-            //propose de quitter
-            cout<<"0 pour s'arrêter, 1 pour continuer : "<<endl;
-            cin>>continu;
-            cout<<endl; */
-
         } while (continu&&!GAME.partieTerminee()&&nombre_etape<250);
         if (GAME.vainqueur()==BLANC) victoire_b++;
         else if (GAME.vainqueur()==NOIR) victoire_n++;

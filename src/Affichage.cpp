@@ -103,10 +103,28 @@ void selection_coup_TXT(ConfigurationJeu const & GAME, Coup & coup)
 
 void Afficheur::selection_coup_SFML(RenderWindow & win,ConfigurationJeu const & GAME, Coup & coup){
     bool continu=true;
+
+    bool piece_selectionne=false;
+
     Piece piece;
-    Coup coup_prec=coup;
+    Coup coup_temp;
+    coup_temp.pos.x=-1;
     
     Vec2 div(damier.getSize().x/9,damier.getSize().y/9);//taille d'une case
+    //rectangle autour de la case sélectionné
+    RectangleShape rect_select(Vector2f(div.x, div.y));
+    rect_select.setFillColor(Color(200, 150, 255, 0));
+    rect_select.setOutlineThickness(2);
+    rect_select.setOutlineColor(Color(180, 120, 255, 255));
+
+    //rectangle autour des cases possibles
+    RectangleShape rect_poss(Vector2f(div.x, div.y));
+    rect_poss.setOutlineColor(Color(50,100,255));
+    rect_poss.setOutlineThickness(2);
+    rect_poss.setFillColor(Color(0,0,0,50));
+
+    vector<Coup> listeCoups;//liste des coups possibles si une pièce est sélectionné
+    Clock last_click;//dernier click de souris
     do {
 
         Event event;
@@ -114,34 +132,76 @@ void Afficheur::selection_coup_SFML(RenderWindow & win,ConfigurationJeu const & 
         {   if (event.type == Event::Closed) {
                 continu=false;   
             }
-        }
-        //on récupère la position de la souris
-        Vector2i pos_souris = Mouse::getPosition();
-        //on map la position au damier
-        coup.pos.x = pos_souris.x/div.x;
-        coup.pos.y = pos_souris.y/div.y;
-        
-        dessiner(win);
-
-        //rectangle de selection
-        RectangleShape rectangle(Vector2f(div.x, div.y));
-        rectangle.setFillColor(Color(200, 150, 255, 0));
-        rectangle.setOutlineThickness(2);
-        rectangle.setOutlineColor(Color(180, 120, 255, 255));
-        rectangle.setPosition(coup.pos.x*div.x, coup.pos.y*div.y);
-        win.draw(rectangle);
-        win.display();
-        if (coup.pos.x<0||coup.pos.x>8||coup.pos.y<0||coup.pos.y>8) piece=Piece();
-        else
-        {   
-            if (coup_prec.pos!=coup.pos)
-            {   cout<<"x :"<<coup.pos.x<<" y :"<<coup.pos.y<<endl;
-                coup_prec=coup;
-                piece= GAME.getPiece(coup.pos);
-                if (piece.m_couleur==UNDEFINED||piece.m_type==VIDE) piece=Piece();
-                
+            //annule la selection en appuyant sur echap
+            if (event.type == Event::KeyPressed && event.key.code == Keyboard::Escape) {
+                piece_selectionne=false;
             }
-
         }
-    }while (piece.m_couleur==UNDEFINED||piece.m_type==VIDE||continu);   
+
+
+        //quand on clique sur une case
+        if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+            //on récupère la position de la souris
+            Vector2i pos_souris = Mouse::getPosition();
+            Vec2 case_souris(pos_souris.x/div.x, pos_souris.y/div.y);//case de la souris
+
+
+            if (last_click.getElapsedTime().asMilliseconds()<100) continue;//si le dernier click est trop récent, on ne fait rien
+            last_click.restart();
+            cout<<"case souris : "<<case_souris.x<<" "<<case_souris.y<<endl;
+            
+            //si on clique hors du  terrain :
+            if (case_souris.x<0 || case_souris.x>8 || case_souris.y<0 || case_souris.y>8) {
+                piece_selectionne=false;//on annule la selection
+                listeCoups.clear();
+                continue;
+            }
+            piece= GAME.getPiece(case_souris);//la pièce sur laquelle on clique.
+            //si on clique sur une de nos pièces
+            if (piece.m_couleur== ((GAME.joueurSuivant()==BLANC) ? NOIR : BLANC)) {
+                //on sélectionne cette pièce à la place de l'ancienne
+                piece_selectionne=false;
+                listeCoups.clear();
+            }
+            
+            if(!piece_selectionne) {//si on doit sélectionner une pièce
+                if (piece.m_couleur==UNDEFINED||piece.m_type==VIDE) {//si la case est vide ou n'existe pas
+                    piece=Piece();
+                    rect_select.setPosition(Vector2f(-2,-2));
+                    listeCoups.clear();
+                }
+                else { // si la case contient une pièce
+                    piece_selectionne=true;
+                    coup.pos=case_souris;
+                    //mise a jour du rectangle de selection
+                    rect_select.setPosition(coup.pos.x*div.x, coup.pos.y*div.y);
+                    //calcul et Affichage des déplacements possibles
+                    listeCoups=GAME.calculCoupsPossibles(coup.pos);
+                }
+            }
+            else if (piece_selectionne) {
+                
+                coup.deplacement=case_souris-coup.pos;
+                //on vérifie si le déplacement est possible
+                for (auto it = listeCoups.begin(); it != listeCoups.end(); ++it) {
+                    if (it->deplacement==coup.deplacement) {
+                        return;//si le déplacement est possible, on sort de la fonction avec le coup
+                    }
+                }
+                //si le déplacement n'est pas possible, on continue sans rien faire
+                piece_selectionne=false;
+                listeCoups.clear();
+                rect_select.setPosition(Vector2f(-100,-100));
+            }
+        }
+        dessiner(win);
+        //affichage des déplacements possibles
+        for (auto it = listeCoups.begin(); it != listeCoups.end(); ++it)
+        {
+            rect_poss.setPosition((coup.pos.x+it->deplacement.x)*div.x, (coup.pos.y+it->deplacement.y)*div.y);
+            win.draw(rect_poss);
+        }
+        win.draw(rect_select);
+        win.display();
+    } while (piece.m_couleur==UNDEFINED||piece.m_type==VIDE||continu);   
 }

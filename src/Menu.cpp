@@ -90,7 +90,7 @@ bool Menu::boucleMenuJouer(sf::RenderWindow & win) {
     initTexteCentre(win, deux, 500);
     initTexteCentre(win, echap, 600);
     m_param.blanc_bot = false;
-    m_param.prof_noir = 2;
+    m_param.prof_noir = 3;
     do {
         Event event;
         while(win.pollEvent(event)) {
