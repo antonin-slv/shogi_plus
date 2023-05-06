@@ -53,6 +53,7 @@ class Piece
         Piece();
         Piece( TypePiece typ, Couleur coul, const Vec2& pos);	// Normalement ici, il n'y aura jamis VIDE dans le type
         void deplacement(Vec2 dep);								// dÃ©place la piÃ¨ce du vecteur 'dep' : ne fait aucun contrôle du damier
+        void promotion();										// transforme la piÃ¨ce en une autre piÃ¨ce ^^
         void prise();											// change la piÃ¨ce Ã  prise
         
         Vec2 const getPos() const;									// renvoie la position de la pièce

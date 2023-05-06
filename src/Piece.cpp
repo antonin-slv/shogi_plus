@@ -6,15 +6,22 @@
 
 float importance(TypePiece typ, Couleur coul, bool promue)
 {   float m_importance = 0;
-    if(typ == TOUR) m_importance = 20;
-    else if(typ == FOU) m_importance = 22;
+    if(typ == ROI)m_importance = 1000;
+    else if(typ == GENERALOR1 || typ == GENERALOR2)m_importance = 20;
+    else if(typ == TOUR) {
+        if (promue) m_importance = 30;
+        else m_importance = 25;
+    }
+    else if(typ == FOU) {
+        if (promue) m_importance = 27;
+        else m_importance = 22;
+    }
+    else if (promue) m_importance = 20;//pion/lance/cavalier/gen arg promu == gen OR
     else if(typ == LANCE1 || typ == LANCE2)m_importance = 10;
-    else if(typ == CAVALIER1 || typ == CAVALIER2)m_importance = 18;
-    else if(typ == GENERALOR1 || typ == GENERALOR2)m_importance = 14;
-    else if(typ == GENERALARGENT1 || typ == GENERALARGENT2)m_importance = 12;
-    else if(typ == ROI)m_importance = 200;
+    else if(typ == CAVALIER1 || typ == CAVALIER2)m_importance = 15;
+    else if(typ == GENERALARGENT1 || typ == GENERALARGENT2)m_importance = 18;
     else if(typ >= PION1 && typ <= PION9 )m_importance = 8;
-    
+
     if(coul == NOIR) m_importance *= -1;
 
     return m_importance;
@@ -34,7 +41,7 @@ Piece::Piece()
 {   m_type = VIDE;
     m_couleur = UNDEFINED;
     m_pos = Vec2(-1,-1);
-    m_enJeu = true;
+    m_enJeu = false;
     m_importance = 0;
     m_promue = false;
 }
@@ -49,6 +56,11 @@ void Piece::deplacement(Vec2 dep) {
     m_pos += dep;
 }
 
+void Piece::promotion() {
+    m_promue = true;
+    m_importance = importance(m_type, m_couleur, true);
+}
+
 Vec2 const Piece::getPos() const {
     return m_pos;
 }
@@ -56,6 +68,8 @@ Vec2 const Piece::getPos() const {
 void Piece::prise() {
     m_enJeu = false;
     m_pos = Vec2(-1,-1);
+    m_importance = 0;
+    m_promue = false;
 }
 
 bool Piece::enJeu() const {

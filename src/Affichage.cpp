@@ -14,6 +14,11 @@ Afficheur::Afficheur()
     roi.loadFromFile("data/img/roi.png");
 
     damier.loadFromFile("data/img/plateau.png");
+
+    font.loadFromFile("data/Consolas.ttf");
+    text_temp.setFont(font);
+    cout<<"Afficheur créé"<<endl;
+
 }
 
 void Afficheur::init_sprites()
@@ -107,8 +112,6 @@ void Afficheur::selection_coup_SFML(RenderWindow & win,ConfigurationJeu const & 
     bool piece_selectionne=false;
 
     Piece piece;
-    Coup coup_temp;
-    coup_temp.pos.x=-1;
     
     Vec2 div(damier.getSize().x/9,damier.getSize().y/9);//taille d'une case
     //rectangle autour de la case sélectionné
@@ -123,6 +126,12 @@ void Afficheur::selection_coup_SFML(RenderWindow & win,ConfigurationJeu const & 
     rect_poss.setOutlineThickness(2);
     rect_poss.setFillColor(Color(0,0,0,50));
 
+    text_temp.setCharacterSize(50);
+    text_temp.setFillColor(Color::White);
+    text_temp.setOrigin(0,0);
+    text_temp.setPosition(0,0);
+
+
     vector<Coup> listeCoups;//liste des coups possibles si une pièce est sélectionné
     Clock last_click;//dernier click de souris
     do {
@@ -136,6 +145,9 @@ void Afficheur::selection_coup_SFML(RenderWindow & win,ConfigurationJeu const & 
             if (event.type == Event::KeyPressed && event.key.code == Keyboard::Escape) {
                 piece_selectionne=false;
             }
+            if (event.type == Event::KeyPressed && event.key.code == Keyboard::Enter) {
+                coup.promotion=!coup.promotion;
+            }
         }
 
 
@@ -148,7 +160,6 @@ void Afficheur::selection_coup_SFML(RenderWindow & win,ConfigurationJeu const & 
 
             if (last_click.getElapsedTime().asMilliseconds()<100) continue;//si le dernier click est trop récent, on ne fait rien
             last_click.restart();
-            cout<<"case souris : "<<case_souris.x<<" "<<case_souris.y<<endl;
             
             //si on clique hors du  terrain :
             if (case_souris.x<0 || case_souris.x>8 || case_souris.y<0 || case_souris.y>8) {
@@ -180,7 +191,6 @@ void Afficheur::selection_coup_SFML(RenderWindow & win,ConfigurationJeu const & 
                 }
             }
             else if (piece_selectionne) {
-                
                 coup.deplacement=case_souris-coup.pos;
                 //on vérifie si le déplacement est possible
                 for (auto it = listeCoups.begin(); it != listeCoups.end(); ++it) {
@@ -195,12 +205,30 @@ void Afficheur::selection_coup_SFML(RenderWindow & win,ConfigurationJeu const & 
             }
         }
         dessiner(win);
-        //affichage des déplacements possibles
-        for (auto it = listeCoups.begin(); it != listeCoups.end(); ++it)
-        {
-            rect_poss.setPosition((coup.pos.x+it->deplacement.x)*div.x, (coup.pos.y+it->deplacement.y)*div.y);
-            win.draw(rect_poss);
+        //indiquer qu'on promeut
+        if (coup.promotion) {
+            text_temp.setString("coup + promotion");
+            text_temp.setPosition(ban.getLocalBounds().width,10);
+            //affichage des déplacements possibles
+            for (auto it = listeCoups.begin(); it != listeCoups.end(); ++it)
+            {   if (!it->promotion) continue;
+                rect_poss.setPosition((coup.pos.x+it->deplacement.x)*div.x, (coup.pos.y+it->deplacement.y)*div.y);
+                win.draw(rect_poss);
+            }
         }
+        else {
+            text_temp.setString("Entrer pour promouvoir en bougeant");
+            text_temp.setPosition(ban.getLocalBounds().width,10);
+         
+            //affichage des déplacements possibles
+            for (auto it = listeCoups.begin(); it != listeCoups.end(); ++it) {   
+                if (it->promotion) continue;
+                rect_poss.setPosition((coup.pos.x+it->deplacement.x)*div.x, (coup.pos.y+it->deplacement.y)*div.y);
+                win.draw(rect_poss);
+            }
+        }
+        win.draw(text_temp);
+
         win.draw(rect_select);
         win.display();
     } while (piece.m_couleur==UNDEFINED||piece.m_type==VIDE||continu);   

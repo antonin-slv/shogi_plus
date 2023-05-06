@@ -40,6 +40,8 @@ class Afficheur
 
     Sprite ban;
     Texture damier;
+    sf::Font font;
+    sf::Text text_temp;
 
     //fonctions d'initialisation
     Afficheur();

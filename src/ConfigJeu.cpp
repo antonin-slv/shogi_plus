@@ -3,10 +3,11 @@
 
 #include "Piece.h"
 
-Coup::Coup(const Vec2& p, const Vec2& d)
+Coup::Coup(const Vec2& p, const Vec2& d,bool pionPromu)
 {   
     pos=p;
     deplacement=d;
+    promotion=pionPromu;
 }
 
 bool Coup::operator!=(const Coup& c) const
@@ -52,9 +53,19 @@ bool ConfigurationJeu::coupValide(const Coup& coup) const
     if (Id.coul == m_joueurSuivant) return false;
     if (Id.type == VIDE) return false;
 
+    //validation de la promotion
+    if (coup.promotion) {
+        if (Id.type == ROI || Id.type == GENERALOR1 || Id.type == GENERALOR2) return false;
+        if (m_joueurSuivant == BLANC) { //si c'est le joueur noir, sur les 3 dernières lignes
+            if (coup.pos.y < 6 && coup.pos.y+coup.deplacement.y < 6) return false;
+        }
+        else {
+            if (coup.pos.y > 2 && coup.pos.y+coup.deplacement.y > 2) return false;
+        }
+    }
+
     //validation du déplacement
     Piece piece = getPiece(Id);
-    ////cout<<"la pièce est ; type :"<<piece.m_type<<" ,col :"<<piece.m_couleur<<" ,en ("<<piece.m_pos.x<<','<<piece.m_pos.y<<")"<<endl;
     return piece.coupValide(*this, coup.deplacement);
 }
 
@@ -62,17 +73,14 @@ std::vector<Coup> ConfigurationJeu::calculCoupsPossibles(const Vec2& pos) const
 {  std::vector<Coup> coups;
     Coup coup= Coup(pos, Vec2(0,0));
     
-    if (getIdPiece(pos).coul == m_joueurSuivant ||getIdPiece(pos).type == VIDE)
-    {   //cout<<"mauvaise couleur"<<endl;
-           cout<<"taille :"<<coups.size()<<endl;
-           return coups;
-    }
+    if (getIdPiece(pos).coul == m_joueurSuivant ||getIdPiece(pos).type == VIDE) return coups;
     for (int x=0; x<9; x++)
     {   for (int y=0; y<9; y++)
         {   coup.deplacement=Vec2(x,y)-coup.pos;
-            if (coupValide(coup))
-            {   coups.push_back(coup);
-            }
+            coup.promotion=false;
+            if (coupValide(coup)) coups.push_back(coup);
+            coup.promotion=true;
+            if (coupValide(coup)) coups.push_back(coup);
         }
     }
     //cout<<"c_test";
@@ -98,6 +106,7 @@ bool ConfigurationJeu::jouerCoup(const Coup& coup)
             }
             // on déplace la pièce
             m_piecesN[i].deplacement(coup.deplacement);
+            if (coup.promotion) m_piecesN[i].promotion();
 
             // on met à jour le damier
             m_damier[coup.pos.x+coup.deplacement.x][coup.pos.y+coup.deplacement.y]=IdPiece(m_piecesN[i].m_type,m_piecesN[i].m_couleur);
@@ -119,6 +128,7 @@ bool ConfigurationJeu::jouerCoup(const Coup& coup)
 
             // on déplace la pièce
             m_piecesB[i].deplacement(coup.deplacement);
+            if (coup.promotion) m_piecesB[i].promotion();
 
             // on met à jour le damier
             m_damier[coup.pos.x+coup.deplacement.x][coup.pos.y+coup.deplacement.y]=IdPiece(m_piecesB[i].m_type,m_piecesB[i].m_couleur);
@@ -135,8 +145,9 @@ std::vector<Coup> ConfigurationJeu::CalculEnsembleCoups() const
 {	std::vector<Coup> listeCoups;
 	for (int i=0; i<9; i++)
 	{  for (int j=0; j<9; j++)
-		{  	if (getIdPiece(Vec2(i,j)).coul!=joueurSuivant() && getIdPiece(Vec2(i,j)).type!=VIDE)
-			{  	std::vector<Coup> listeCoupsTemp=calculCoupsPossibles(Vec2(i,j));
+		{  	Piece piece = getPiece(Vec2(i,j));
+            if (piece.m_couleur!=joueurSuivant() && piece.m_type!=VIDE) {
+              	std::vector<Coup> listeCoupsTemp=calculCoupsPossibles(Vec2(i,j));
 				listeCoups.insert(listeCoups.end(), listeCoupsTemp.begin(), listeCoupsTemp.end());
 			}
 		}
@@ -230,7 +241,7 @@ Couleur ConfigurationJeu::vainqueur() const
     else
     {   int B=0,N=0;
         for (int i=0; i<=20; i++)
-        {   if (m_piecesB[i].enJeu() )  B++;
+        {   if (m_piecesB[i].enJeu())   B++;
             if (m_piecesN[i].enJeu())   N++;
         }
         if (B > 2*N+1 ) return BLANC;
