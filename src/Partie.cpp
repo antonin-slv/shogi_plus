@@ -39,19 +39,14 @@ Stats & Partie::boucle_Jeu(Afficheur& TABS, RenderWindow& win,Parametre & param)
                     coup=alphabeta(GAME,param.prof_blanc);
                 }
                 else {            
-                    /*
                     //selection de la pièce
-                    if (joueur == BLANC) cout<<endl<<"Joueur Blanc (bas)"<<endl;
-                    else cout<<endl<<"Joueur Noir (haut)"<<endl;
-                    selection_piece(GAME, coup.pos);*/
                     TABS.selection_coup_SFML(win,GAME, coup);
                 }
                 temps_B+=clock.restart().asSeconds();
             }
             else
             {	if (param.noir_bot) coup=alphabeta(GAME,param.prof_noir);
-                else {
-                }
+                else { TABS.selection_coup_SFML(win,GAME, coup); }
                 temps_N+=clock.restart().asSeconds();
             }
             nombre_etape++;
