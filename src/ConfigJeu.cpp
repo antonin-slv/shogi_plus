@@ -363,8 +363,42 @@ void ConfigurationJeu::init()
     m_damier[4][9-1]=IdPiece(TypePiece(19), BLANC);
 }
 
-void init2(){
-    
+void ConfigurationJeu:: init2()
+{   //comme à l'appel du constructeur
+    for (int i=0; i<=20; i++)
+    {   
+        m_piecesB[i]=Piece(TypePiece(i), BLANC, Vec2(0,0));
+        m_piecesN[i]=Piece(TypePiece(i), NOIR, Vec2(0,0));
+    }
+
+    m_vide=Piece(VIDE, UNDEFINED, Vec2(-1,-1));
+
+    for (int x=0;x<9;x++)
+    {   
+        for (int y=0;y<9;y++)
+        {   m_damier[x][y]=IdPiece(VIDE, UNDEFINED);
+        }
+    }
+
+    m_joueurSuivant=NOIR;
+
+    //init des pièces 
+    srand(time(NULL));
+    int x,y;
+
+    for (int i=0; i<=20; i++)
+    {   
+        do
+        {   x=rand()%9;
+            y=rand()%3;
+        } while (m_damier[x][y].type!=VIDE);
+        m_piecesB[i]=Piece(TypePiece(i), BLANC, Vec2(8-x,8-y));
+        m_piecesN[i]=Piece(TypePiece(i), NOIR, Vec2(x,y));
+        m_damier[8-x][8-y]=IdPiece(TypePiece(i), BLANC);
+        m_damier[x][y]=IdPiece(TypePiece(i), NOIR);
+    }
+
+
 }
 
 bool ConfigurationJeu::testRegression()
