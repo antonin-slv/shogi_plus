@@ -51,8 +51,8 @@ class Partie
 		const ConfigurationJeu& getIemeEtape(int ) const;
 		void ajouterEtape(const ConfigurationJeu& cj);
 
-		Coup coupJouerAEtapeN(int n);				// renvoie le coup jouer Ã  l'Ã©tape N de la partie. n doit Ãªtre plus petit strictement que le nombre d'Ã©tape.
-		void crop(int debut, int fin);				// coupe tous les coups avant debut et aprÃ¨s fin
+		Coup coupJouerAEtapeN(int n);				// renvoie le coup jouer à l'étape N de la partie. n doit Ãªtre plus petit strictement que le nombre d'étape.
+		void crop(int debut, int fin);				// coupe tous les coups avant debut et après fin
 		
 		void ecriture(ofstream& f);
 		void lecture(ofstream& f);
@@ -64,7 +64,7 @@ class Partie
 
 		
 		//static void testRegression() const;
-		// les N Ã©tapes d'une partie. Entre 2 Ã©tapes il s'est passÃ© un "Coup", mais on stocke la configuration en entier. Stocker les coups auraient Ã©tÃ© possible aussi.
+		// les N étapes d'une partie. Entre 2 étapes il s'est passé un "Coup", mais on stocke la configuration en entier. Stocker les coups auraient été possible aussi.
 };
 
 

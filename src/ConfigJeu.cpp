@@ -36,7 +36,7 @@ const Piece& ConfigurationJeu::getPiece(TypePiece type, Couleur col) const
         }
     }
 
-    return m_vide; // si on arrive ici, c'est qu'on a pas trouvÃ© la piÃ¨ce
+    return m_vide; // si on arrive ici, c'est qu'on a pas trouvé la pièce
 }
 
 //publique

@@ -29,16 +29,16 @@ class Piece
 {
     //private:
     public :
-        TypePiece m_type;							// type de la piÃ¨ce(un enum=un int, qui sert Ã©galement pour accÃ¨der Ã  la case du tableau de piÃ¨ces blanche 
+        TypePiece m_type;							// type de la pièce(un enum=un int, qui sert également pour accéder à la case du tableau de pièces blanche 
                                                     // ou noir de ConfigurationJeu
         Couleur m_couleur;							// BLANC ou NOIR 
         Vec2 m_pos;									// Position sur le damier, valide uniquement si le bool m_enJeu est vrai
         bool m_enJeu;								// Prise ou en jeu
-        float m_importance;							// une estimation empirique de la valeur d'une piÃ¨ce, indÃ©pendament de sa position dans une partie
+        float m_importance;							// une estimation empirique de la valeur d'une pièce, indépendament de sa position dans une partie
         bool m_promue;								// vrai si la pièce est promue, faux sinon
 
         //fait jet 1
-        bool coupValidePerm(const ConfigurationJeu& conf,const Vec2& depl);	// contrÃ´le si le dÃ©placement est possible, de manière générale
+        bool coupValidePerm(const ConfigurationJeu& conf,const Vec2& depl);	// contrÃ´le si le déplacement est possible, de manière générale
         
         bool coupValidePion(const ConfigurationJeu&, Vec2 depl);
         bool coupValideRoi(const ConfigurationJeu&, Vec2 depl);		
@@ -52,14 +52,14 @@ class Piece
     public:
         Piece();
         Piece( TypePiece typ, Couleur coul, const Vec2& pos);	// Normalement ici, il n'y aura jamis VIDE dans le type
-        void deplacement(Vec2 dep);								// dÃ©place la piÃ¨ce du vecteur 'dep' : ne fait aucun contrôle du damier
-        void promotion();										// transforme la piÃ¨ce en une autre piÃ¨ce ^^
-        void prise();											// change la piÃ¨ce Ã  prise
+        void deplacement(Vec2 dep);								// déplace la pièce du vecteur 'dep' : ne fait aucun contrôle du damier
+        void promotion();										// transforme la pièce en une autre pièce ^^
+        void prise();											// change la pièce à prise
         
         Vec2 const getPos() const;									// renvoie la position de la pièce
 
         //fait jet 1
-        bool coupValide(const ConfigurationJeu&, Vec2 depl);		// un switch qui appelle une des fonctions coupValideXXX oÃ¹ XXX dÃ©pend du type de piÃ¨ce, voir en private
+        bool coupValide(const ConfigurationJeu&, Vec2 depl);		// un switch qui appelle une des fonctions coupValideXXX oÃ¹ XXX dépend du type de pièce, voir en private
         bool enJeu() const;										// renvoie vrai si la pièce est en jeu
         bool estPromue() const {return m_promue;}								// renvoie vrai si la pièce est promue
         //fait
