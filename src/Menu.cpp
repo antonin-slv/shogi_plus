@@ -32,7 +32,8 @@ Parametre& Menu::boucleMenuPrincipal(sf::RenderWindow & win) {
     initTexteCentre(win, simuler, 500);
     initTexteCentre(win, quitter, 600);
     
-    do {   
+    do { 
+        m_param.mode = 0;
         //affichage
         win.clear(Color::Black);
         win.draw(titre);
@@ -82,13 +83,15 @@ bool Menu::boucleMenuJouer(sf::RenderWindow & win) {
     Text info("Appuyez sur", font, 50);
     Text un("1 pour jouer contre un ami", font, 50);
     Text deux("2 pour jouer contre l'ordinateur", font, 50);
+    Text trois ("3 pour jouer à la variante", font, 50);
     Text echap("Echap pour retourner au menu Principal", font, 50);
     //on les centres
     initTexteCentre(win, titre, 100);
     initTexteCentre(win, info, 300);
     initTexteCentre(win, un, 400);
     initTexteCentre(win, deux, 500);
-    initTexteCentre(win, echap, 600);
+    initTexteCentre(win, trois, 600);
+    initTexteCentre(win, echap, 700);
     m_param.blanc_bot = false;
     m_param.prof_noir = 3;
     do {
@@ -112,6 +115,12 @@ bool Menu::boucleMenuJouer(sf::RenderWindow & win) {
                 else if (code == sf::Keyboard::Num2 || code == sf::Keyboard::Numpad2) {
                     m_param.blanc_bot = false;
                     m_param.noir_bot = true;
+                    return false;
+                }
+                else if (code == sf::Keyboard::Num3 || code == sf::Keyboard::Numpad3) {
+                    m_param.blanc_bot = false;
+                    m_param.noir_bot = true;
+                    m_param.mode = 1;
                     return false;
                 }
             }

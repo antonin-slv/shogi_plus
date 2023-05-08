@@ -23,7 +23,8 @@ Stats & Partie::boucle_Jeu(Afficheur& TABS, RenderWindow& win,Parametre & param)
     float temps_B=0,temps_N=0;
     for (int i=0;i<1;++i)	
     {
-        GAME.init();
+        if (param.mode==1) GAME.init2();
+        else GAME.init();
         int nombre_etape=0;
         
         do {

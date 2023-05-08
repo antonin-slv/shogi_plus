@@ -42,6 +42,7 @@ class ConfigurationJeu
 		const Piece& getPiece(TypePiece type, Couleur col) const; 		// trouve la pièce à partir de son "nom", par exemple getPiece(FOU1, BLANC);
 		ConfigurationJeu();						// Appel init : 
 		void init();							// Place toutes les pièces et range toutes les infos dont identifiant. Appeler au début ou à chaque nouvelle partie
+		void init2();						// Place toutes les pièces et range toutes les infos dont identifiant. Appeler au début ou à chaque nouvelle partie pour la variante
 
 		//ok
 		bool coupValide(const Coup& c) const;									// indique si un déplacement 'depl' d'une pièce (repéré avec sa position 'pos') est possible

@@ -363,6 +363,10 @@ void ConfigurationJeu::init()
     m_damier[4][9-1]=IdPiece(TypePiece(19), BLANC);
 }
 
+void init2(){
+    
+}
+
 bool ConfigurationJeu::testRegression()
 {   Vec2 v1(1,2);
 	Vec2 v2(3,4);
@@ -384,3 +388,4 @@ bool ConfigurationJeu::testRegression()
 	g.close();
     return true;
 }
+

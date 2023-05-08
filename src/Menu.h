@@ -20,6 +20,7 @@ struct Parametre {
     int algo_blanc;//code de l'algo
     int algo_noir;
     bool quit;//true si on quitte le jeu
+    int mode=0; //0:shogi 1:variante  
 };
 
 class Menu {
