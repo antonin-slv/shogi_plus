@@ -132,6 +132,7 @@ bool Menu::boucleMenuJouer(sf::RenderWindow & win) {
         win.draw(info);
         win.draw(un);
         win.draw(deux);
+        win.draw(trois);
         win.draw(echap);
         win.display();
 
