@@ -33,10 +33,11 @@ struct Stats
 
 class Partie
 {	private:
-		std::vector<ConfigurationJeu> m_etapes;	
-		int etapeActuelle;
-		Stats statistiques;
+		//std::vector<ConfigurationJeu> m_etapes;	
+		//int etapeActuelle;
+		
 	public:
+		Stats statistiques;
 		ConfigurationJeu GAME;
 		Partie();
 

@@ -3,7 +3,7 @@
 
 Partie :: Partie()
 {
-    etapeActuelle = 0;
+
 }
 
 
