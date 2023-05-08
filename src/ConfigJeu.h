@@ -8,7 +8,7 @@
 #include <vector>
 
 
-// un coup=dÃ©place la piÃ¨ce de la case 'pos" vers 'pos+depl'
+// un coup = déplace la pièce de la case 'pos" vers 'pos+depl'
 struct Coup
 {
 	Vec2 pos;
@@ -22,49 +22,49 @@ class ConfigurationJeu
 {	
 	private:
 
-		// Avec juste ces 2 tableaux, on peut tout faire mais pour trouver une piÃ¨ces Ã  partir d'une position 
+		// Avec juste ces 2 tableaux, on peut tout faire mais pour trouver une pièces à partir d'une position 
 		// il faut parcourir les 2 tableaux de pièces. Pas optimal mais ca marche.	
 		// Surement qu'un tableau de 40 pièces serait un peu plus optimal, ici
-		Piece m_piecesB[20];						// toutes les piÃ¨ces blanches
-		Piece m_piecesN[20];						// toutes les piÃ¨ces noires
-		Piece m_vide;								// un piÃ¨ce vide (correspond Ã  une case vide)
+		Piece m_piecesB[20];						// toutes les pièces blanches
+		Piece m_piecesN[20];						// toutes les pièces noires
+		Piece m_vide;								// un pièce vide (correspond à une case vide)
 		// IMPORTANT : il faut ajouter un tableau comme ceci, qui fait double emploi avec les 2 tableaux de 2x16 pieces,
-		// mais selon l'algo parfois on a besoin d'avoir la piÃ¨ce et parfois on a besoin du damier !
-		IdPiece m_damier[9][9];					// le damier, chaque case sera soit un TypePiece associÃ© Ã  une couleur
-												// remarque : dans ce code j'Ã©vite les pointeur et travaille avec des 
-												// identitifiants (plus pratique et moins sujet Ã  bug), mais les pointeurs auraient Ã©tÃ© possible aussi
+		// mais selon l'algo parfois on a besoin d'avoir la pièce et parfois on a besoin du damier !
+		IdPiece m_damier[9][9];					// le damier, chaque case sera soit un TypePiece associé à une couleur
+												// remarque : dans ce code j'évite les pointeur et travaille avec des 
+												// identitifiants (plus pratique et moins sujet à bug), mais les pointeurs auraient été possible aussi
 		
 		Couleur m_joueurSuivant;				// La couleur du joueur qui doit jouer
 	
 
 
 	public :
-		const Piece& getPiece(TypePiece type, Couleur col) const; 		// trouve la piÃ¨ce Ã  partir de son "nom", par exemple getPiece(FOU1, BLANC);
+		const Piece& getPiece(TypePiece type, Couleur col) const; 		// trouve la pièce à partir de son "nom", par exemple getPiece(FOU1, BLANC);
 		ConfigurationJeu();						// Appel init : 
-		void init();							// Place toutes les piÃ¨ces et range toutes les infos dont identifiant. Appeler au dÃ©but ou Ã  chaque nouvelle partie
+		void init();							// Place toutes les pièces et range toutes les infos dont identifiant. Appeler au début ou à chaque nouvelle partie
 
 		//ok
-		bool coupValide(const Coup& c) const;									// indique si un dÃ©placement 'depl' d'une piÃ¨ce (repÃ©rÃ© avec sa position 'pos') est possible
-		std::vector<Coup> calculCoupsPossibles(const Vec2& pos) const;	// construit un tableau de tous les dÃ©placement possible pour une piÃ¨ce
-		std::vector<Coup> CalculEnsembleCoups() const;					// construit un tableau de tous les dÃ©placement possible pour toutes les piÃ¨ces du joueur courant
+		bool coupValide(const Coup& c) const;									// indique si un déplacement 'depl' d'une pièce (repéré avec sa position 'pos') est possible
+		std::vector<Coup> calculCoupsPossibles(const Vec2& pos) const;	// construit un tableau de tous les déplacement possible pour une pièce
+		std::vector<Coup> CalculEnsembleCoups() const;					// construit un tableau de tous les déplacement possible pour toutes les pièces du joueur courant
 
 
-		bool jouerCoup(const Coup& c);											// joue un coup=déplace la piÃ¨ce de la case 'pos" vers 'pos+depl' si le coup est possible. Renvoie faux si le coup n'est pas valide
+		bool jouerCoup(const Coup& c);											// joue un coup=déplace la pièce de la case 'pos" vers 'pos+depl' si le coup est possible. Renvoie faux si le coup n'est pas valide
 		
 		//normalement ok
 		const Piece& getPiece(const Vec2& pos) const;							// trouve la pièce à  partir de sa position.
 		const Piece& getPiece(const IdPiece& id) const;						// trouve la pièce à  partir d'identifiant
-		const IdPiece& getIdPiece(const Vec2& pos) const;							// trouve l'ID de la piÃ¨ce Ã  partir de sa position.
+		const IdPiece& getIdPiece(const Vec2& pos) const;							// trouve l'ID de la pièce à partir de sa position.
 		
 
 		Couleur joueurSuivant() const;											// renvoie la couleur du joueur qui jouera au tour prochain
 		bool partieTerminee() const;										// renvoie vrai si un joueur a gagné
-		Couleur vainqueur() const;											// renvoie NOIR, BLANC. ATTENTION : valide seulement si la partie est terminÃ©e, 
-																			// sinon renvoie la couleur qui a le score le plus Ã©levÃ© (voir f ci-dessus et ci-dessous)
+		Couleur vainqueur() const;											// renvoie NOIR, BLANC. ATTENTION : valide seulement si la partie est terminée, 
+																			// sinon renvoie la couleur qui a le score le plus élevé (voir f ci-dessus et ci-dessous)
 		
-		float evaluer() const;				// renvoie la valeur du plateau : positif tend vers le joueur blanc, nÃ©gatif vers le joueur noir
+		float evaluer() const;				// renvoie la valeur du plateau : positif tend vers le joueur blanc, négatif vers le joueur noir
 
-		//float distance(ConfigurationJeu cj);		// renvoie un rÃ©el indiquant si les deux configurations sont proches : 0 indique indentique, un grand nombre=trÃ¨s diffÃ©rentes
+		//float distance(ConfigurationJeu cj);		// renvoie un réel indiquant si les deux configurations sont proches : 0 indique indentique, un grand nombre=très différentes
 		
 		//void ecriture(ofstream& f);
 		//void lecture(ofstream& f);
