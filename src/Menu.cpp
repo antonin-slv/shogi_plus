@@ -6,8 +6,8 @@ Menu::Menu()
     m_param.noir_bot = true;
     m_param.prof_blanc = 2;
     m_param.prof_noir = 2;
-    m_param.algo_blanc = 0;
-    m_param.algo_noir = 0;
+    m_param.algo_blanc = 1;
+    m_param.algo_noir = 1;
     m_param.quit = false;
 
     font.loadFromFile("data/Consolas.ttf");
@@ -60,7 +60,7 @@ Parametre& Menu::boucleMenuPrincipal(sf::RenderWindow & win) {
                     break;
                 }
                 if (code == sf::Keyboard::Num1 || code == sf::Keyboard::Numpad1) {
-                    //on vide les évènements
+                    //on vide les evènements
                     while(win.pollEvent(event));
                     continuer = boucleMenuJouer(win);
                     break;
@@ -83,7 +83,7 @@ bool Menu::boucleMenuJouer(sf::RenderWindow & win) {
     Text info("Appuyez sur", font, 50);
     Text un("1 pour jouer contre un ami", font, 50);
     Text deux("2 pour jouer contre l'ordinateur", font, 50);
-    Text trois ("3 pour jouer à la variante", font, 50);
+    Text trois ("3 pour jouer a la variante", font, 50);
     Text echap("Echap pour retourner au menu Principal", font, 50);
     //on les centres
     initTexteCentre(win, titre, 100);
@@ -94,6 +94,7 @@ bool Menu::boucleMenuJouer(sf::RenderWindow & win) {
     initTexteCentre(win, echap, 700);
     m_param.blanc_bot = false;
     m_param.prof_noir = 3;
+    m_param.mode = 1;
     do {
         Event event;
         while(win.pollEvent(event)) {
@@ -120,7 +121,6 @@ bool Menu::boucleMenuJouer(sf::RenderWindow & win) {
                 else if (code == sf::Keyboard::Num3 || code == sf::Keyboard::Numpad3) {
                     m_param.blanc_bot = false;
                     m_param.noir_bot = true;
-                    m_param.mode = 1;
                     return false;
                 }
             }
@@ -142,13 +142,13 @@ bool Menu::boucleMenuJouer(sf::RenderWindow & win) {
 bool Menu::boucleMenuSimulation(sf::RenderWindow & win) {
 
     //textes du menu
-    Text titre("Paramétrage Ordinateurs", font, 100);
+    Text titre("Parametrage Ordinateurs", font, 100);
     Text info("Appuyez sur", font, 50);
     Text min_max_blanc("1 : blanc utilise le MIN_MAX", font, 50);
     Text alphabeta_blanc("2 : blanc utilise l'ALPHA_BETA", font, 50);
     Text min_max_noir("3 : noir utilise le MIN_MAX", font, 50);
     Text alphabeta_noir("4 : noir utilise l'ALPHA_BETA", font, 50);
-    Text Lancer("Entrée pour lancer la simulation", font, 50);
+    Text Lancer("Entree pour lancer la simulation", font, 50);
     Text echap("Echap pour retourner au menu Principal", font, 50);
     //on les centres
     initTexteCentre(win, titre, 100);
@@ -163,8 +163,8 @@ bool Menu::boucleMenuSimulation(sf::RenderWindow & win) {
     //on initialise les paramètres
     m_param.blanc_bot = true;
     m_param.noir_bot = true;
-    m_param.prof_blanc = 2;//2 par défaut : jouable
-    m_param.prof_noir = 2;
+    m_param.prof_blanc = 3;//2 par defaut : jouable
+    m_param.prof_noir = 3;
     do {
         Event event;
         while (win.pollEvent(event)) {
@@ -190,7 +190,7 @@ bool Menu::boucleMenuSimulation(sf::RenderWindow & win) {
                     m_param.algo_noir = 1;
                 }
                 else if (code == sf::Keyboard::Enter) {
-                    cout<<"Entrée"<<endl;
+                    cout<<"Entree"<<endl;
                     return false;
                 }
             }

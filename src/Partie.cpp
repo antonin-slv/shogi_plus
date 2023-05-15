@@ -37,7 +37,8 @@ Stats & Partie::boucle_Jeu(Afficheur& TABS, RenderWindow& win,Parametre & param)
             clock.restart();
             if (joueur == BLANC) {
                 if (param.blanc_bot) {
-                    coup=alphabeta(GAME,param.prof_blanc);
+                    if (param.algo_blanc!=0) coup=alphabeta(GAME,param.prof_blanc);
+                    else coup=min_max(GAME,param.prof_blanc);
                 }
                 else {            
                     //selection de la pièce
@@ -46,7 +47,10 @@ Stats & Partie::boucle_Jeu(Afficheur& TABS, RenderWindow& win,Parametre & param)
                 temps_B+=clock.restart().asSeconds();
             }
             else
-            {	if (param.noir_bot) coup=alphabeta(GAME,param.prof_noir);
+            {	if (param.noir_bot) {
+                    if (param.algo_noir!=0) coup=alphabeta(GAME,param.prof_noir);
+                    else coup=min_max(GAME,param.prof_noir);
+                }
                 else { TABS.selection_coup_SFML(win,GAME, coup); }
                 temps_N+=clock.restart().asSeconds();
             }

@@ -44,9 +44,6 @@ class Partie
 		Stats & boucle_Jeu(Afficheur& TABS, RenderWindow& win,Parametre & param);
 
 
-		
-
-
 		/*
 		int nbEtape() const;
 		const ConfigurationJeu& getIemeEtape(int ) const;

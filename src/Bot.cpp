@@ -16,7 +16,7 @@ Coup alphabeta(ConfigurationJeu cj, int profond)
 		{	auto it=listeCoups.begin()+i;
 			cjtemp=cj;
 			cjtemp.jouerCoup(*it);
-			temp=alphabeta_in(cjtemp, profond, alpha, beta);
+			temp=alphabeta_in(cjtemp, profond-1, alpha, beta);
 			temp+=rand()%10/5-1;
 			if (temp<v)
 			{	v=temp;
@@ -32,7 +32,7 @@ Coup alphabeta(ConfigurationJeu cj, int profond)
 		{	auto it=listeCoups.begin()+i;
 			cjtemp=cj;
 			cjtemp.jouerCoup(*it);
-			temp=alphabeta_in(cjtemp, profond, alpha, beta);
+			temp=alphabeta_in(cjtemp, profond-1, alpha, beta);
 			if (temp>v)
 			{	v=temp;
 				rslt=*it;
@@ -64,7 +64,7 @@ float alphabeta_in(ConfigurationJeu cj, int profond, float alpha, float beta)
 		}
 		else
 		{	float v=-100000;
-			for (int i=(int)listeCoups.size()-1; (i>=0 && i <listeCoups.size()); i--)
+			for (int i=(int)listeCoups.size()-1; (i>=0 && i <(int)listeCoups.size()); i--)
 			{	auto it=listeCoups.begin()+i;
 				cjtemp=cj;
 				cjtemp.jouerCoup(*it);
@@ -160,7 +160,7 @@ Coup min_max(ConfigurationJeu cj, int n)
 		cjtemp=cj;
 		//on joue chaque coup
 		cjtemp.jouerCoup(*it);
-		float scoretemp=evaluateur_branche(cjtemp, n);
+		float scoretemp=evaluateur_branche(cjtemp, n-1);
 
 		scoretemp-=listeCoups.at(i).deplacement.y;
 		scoretemp+=(rand()%10-5)/3;
